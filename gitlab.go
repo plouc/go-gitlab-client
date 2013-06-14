@@ -64,7 +64,7 @@ func NewGitlab(baseUrl string, apiPath string, token string) *Gitlab {
 }
 
 func (g *Gitlab) buildAndExecRequest(method string, url string) []byte {
-	
+
 	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
 		panic("Error while building gitlab request")
@@ -92,9 +92,11 @@ func (g *Gitlab) Projects() []*Project {
 		fmt.Println("%s", err)
 	}
 
+	/*
 	for _, project := range projects {
 		fmt.Println("%+v", project)
 	}
+	*/
 
 	return projects
 }
