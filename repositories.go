@@ -23,6 +23,16 @@ Get a list of repository branches from a project, sorted by name alphabetically.
 Parameters
 
     id The ID of a project
+
+Usage
+	
+	branches, err := gitlab.RepoBranches("your_projet_id")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	for _, branch := range branches {
+		fmt.Printf("%+v\n", branch)
+	}
 */
 func (g *Gitlab) RepoBranches(id string) ([]*Branch, error) {
 	url := strings.Replace(repo_url_branches, ":id", id, -1)
@@ -68,6 +78,16 @@ Get a list of repository tags from a project, sorted by name in reverse alphabet
 Parameters
 
     id The ID of a project
+
+Usage
+	
+	tags, err := gitlab.RepoTags("your_projet_id")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	for _, tag := range tags {
+		fmt.Printf("%+v\n", tag)
+	}
 */
 func (g *Gitlab) RepoTags(id string) ([]*Tag, error) {
 	url := strings.Replace(repo_url_tags, ":id", id, -1)
@@ -97,6 +117,16 @@ Parameters
 
     id      The ID of a project
 	refName The name of a repository branch or tag or if not given the default branch
+
+Usage
+	
+	commits, err := gitlab.RepoCommits("your_projet_id")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	for _, commit := range commits {
+		fmt.Printf("%+v\n", commit)
+	}
 */
 func (g *Gitlab) RepoCommits(id string) ([]*Commit, error) {
 
