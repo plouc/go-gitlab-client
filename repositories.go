@@ -16,12 +16,11 @@ const (
 )
 
 /*
-List repository branches
 Get a list of repository branches from a project, sorted by name alphabetically.
 
     GET /projects/:id/repository/branches
 
-Parameters:
+Parameters
 
     id The ID of a project
 */
@@ -45,12 +44,11 @@ func (g *Gitlab) RepoBranches(id string) ([]*Branch, error) {
 }
 
 /*
-Get single repository branch
 Get a single project repository branch.
 
     GET /projects/:id/repository/branches/:branch
 
-Parameters:
+Parameters
 
     id     The ID of a project
     branch The name of the branch
@@ -63,12 +61,11 @@ func (g *Gitlab) RepoBranch(id string, refName string) {
 }
 
 /*
-List project repository tags
 Get a list of repository tags from a project, sorted by name in reverse alphabetical order.
     
     GET /projects/:id/repository/tags
 
-Parameters:
+Parameters
 
     id The ID of a project
 */
@@ -92,15 +89,14 @@ func (g *Gitlab) RepoTags(id string) ([]*Tag, error) {
 }
 
 /*
-List repository commits
 Get a list of repository commits in a project.
 
     GET /projects/:id/repository/commits
 
-Parameters:
+Parameters
 
     id      The ID of a project
-	   refName The name of a repository branch or tag or if not given the default branch
+	refName The name of a repository branch or tag or if not given the default branch
 */
 func (g *Gitlab) RepoCommits(id string) ([]*Commit, error) {
 

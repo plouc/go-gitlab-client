@@ -33,7 +33,6 @@ type Project struct {
 }
 
 /*
-List projects
 Get a list of projects owned by the authenticated user.
 */
 func (g *Gitlab) Projects() ([]*Project, error) {
@@ -55,7 +54,6 @@ func (g *Gitlab) Projects() ([]*Project, error) {
 }
 
 /*
-Get single project
 Get a specific project, identified by project ID or NAME,
 which is owned by the authentication user.
 Currently namespaced projects cannot be retrieved by name.
@@ -78,7 +76,6 @@ func (g *Gitlab) Project(id string) (*Project, error) {
 }
 
 /*
-List branches
 Lists all branches of a project.
 */
 func (g *Gitlab) ProjectBranches(id string) ([]*Branch, error) {
@@ -100,7 +97,6 @@ func (g *Gitlab) ProjectBranches(id string) ([]*Branch, error) {
 }
 
 /*
-List project hooks
 Get list of project hooks.
 */
 func (g *Gitlab) ProjectHooks(id string) ([]*Hook, error) {
