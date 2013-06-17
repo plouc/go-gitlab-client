@@ -2,17 +2,20 @@
 package gogitlab
 
 import (
-	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
+	"errors"
 )
 
 type Gitlab struct {
-	BaseUrl string
-	ApiPath string
-	Token   string
-	Client  *http.Client
+	BaseUrl      string
+	ApiPath      string
+	RepoFeedPath string
+	Token        string
+	Client       *http.Client
 }
 
 type Owner struct {
@@ -34,22 +37,82 @@ type Namespace struct {
 	Updated_At  string
 }
 
-type Project struct {
-	Id                     int
-	Name                   string
-	description            string
-	Default_Branch         string
-	Owner                  *Owner
-	Public                 bool
-	Path                   string
-	Path_With_Namespace    string
-	Issues_enabled         bool
-	Merge_Requests_Enabled bool
-	Wall_Enabled           bool
-	Wiki_Enabled           bool
-	Created_At             string
-	Namespace              *Namespace
+type Branch struct {
+	Name      string        `json:"name,omitempty"`
+	Protected bool          `json:"protected,omitempty"`
+	Commit    *BranchCommit `json:"commit,omitempty"`
 }
+
+type Tag struct {
+	Name      string        `json:"name,omitempty"`
+	Protected bool          `json:"protected,omitempty"`
+	Commit    *BranchCommit `json:"commit,omitempty"`
+}
+
+type BranchCommit struct {
+	Id               string  `json:"id,omitempty"`
+	Tree             string  `json:"tree,omitempty"`
+	AuthoredDateRaw  string  `json:"authored_date,omitempty"`
+	CommittedDateRaw string  `json:"committed_date,omitempty"`
+	Message          string  `json:"message,omitempty"`
+	Author           *Person `json:"author,omitempty"`
+	Committer        *Person `json:"committer,omitempty"`
+	/*
+	"parents": [
+	  {"id": "9b0c4b08e7890337fc8111e66f809c8bbec467a9"},
+      {"id": "3ac634dca850cab70ab14b43ad6073d1e0a7827f"}
+    ]
+    */
+}
+
+type Commit struct {
+	Id           string
+    Short_Id     string
+    Title        string
+    Author_Name  string
+    Author_Email string
+    Created_At   string
+    CreatedAt    time.Time
+}
+
+type Hook struct {
+	Id           int    `json:"id,omitempty"`
+	Url          string `json:"url,omitempty"`
+	CreatedAtRaw string `json:"created_at,omitempty"`
+}
+
+type ActivityFeed struct {
+	XMLName xml.Name      `xml:"http://www.w3.org/2005/Atom feed"`
+	Title   string        `xml:"title"`
+	Id      string        `xml:"id"`
+	Link    []Link        `xml:"link"`
+	Updated time.Time     `xml:"updated,attr"`
+	Entry   []*FeedCommit `xml:"entry"`
+}
+
+type FeedCommit struct {
+	Id      string    `xml:"id"`
+	Title   string    `xml:"title"`
+	Link    []Link    `xml:"link"`
+	Updated time.Time `xml:"updated"`
+	Author  Person    `xml:"author"`
+	Summary string    `xml:"summary"`
+	//<media:thumbnail width="40" height="40" url="https://secure.gravatar.com/avatar/7070eab7c6206530d3b7820362227fec?s=40&amp;d=mm"/>
+}
+
+type Link struct {
+	Rel  string `xml:"rel,attr,omitempty"`
+	Href string `xml:"href,attr"`
+}
+
+type Person struct {
+	Name  string `xml:"name"`
+	Email string `xml:"email"`
+}
+
+const (
+	dateLayout = "2006-01-02T15:04:05-07:00"
+)
 
 func NewGitlab(baseUrl string, apiPath string, token string) *Gitlab {
 
@@ -63,7 +126,7 @@ func NewGitlab(baseUrl string, apiPath string, token string) *Gitlab {
 	}
 }
 
-func (g *Gitlab) buildAndExecRequest(method string, url string) []byte {
+func (g *Gitlab) buildAndExecRequest(method string, url string) ([]byte, error) {
 
 	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
@@ -76,27 +139,28 @@ func (g *Gitlab) buildAndExecRequest(method string, url string) []byte {
 	if err != nil {
 		fmt.Printf("%s", err)
 	}
-	//fmt.Println(string(contents))
 
-	return contents
+	if (resp.StatusCode >= 400) {
+		err = errors.New("*Gitlab.buildAndExecRequest failed: " + resp.Status)
+	}
+
+	return contents, err
 }
 
-func (g *Gitlab) Projects() []*Project {
+func (g *Gitlab) RepoActivityFeed(feedPath string) ActivityFeed {
 
-	url := g.BaseUrl + g.ApiPath + "/projects?private_token=" + g.Token
-	contents := g.buildAndExecRequest("GET", url)
+	url := g.BaseUrl + g.RepoFeedPath + "?private_token=" + g.Token
 
-	var projects []*Project
-	err := json.Unmarshal(contents, &projects)
+	contents, err := g.buildAndExecRequest("GET", url)
 	if err != nil {
 		fmt.Println("%s", err)
 	}
 
-	/*
-	for _, project := range projects {
-		fmt.Println("%+v", project)
+	var activity ActivityFeed
+	err = xml.Unmarshal(contents, &activity)
+	if err != nil {
+		fmt.Println("%s", err)
 	}
-	*/
 
-	return projects
+	return activity
 }
