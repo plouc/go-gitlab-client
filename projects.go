@@ -32,10 +32,10 @@ type Project struct {
 	Namespace            *Namespace `json:"namespace,omitempty"`
 }
 
-/**
- * List projects
- * Get a list of projects owned by the authenticated user.
- */
+/*
+List projects
+Get a list of projects owned by the authenticated user.
+*/
 func (g *Gitlab) Projects() ([]*Project, error) {
 	
 	url := g.BaseUrl + g.ApiPath + projects_url + "?private_token=" + g.Token
@@ -54,12 +54,12 @@ func (g *Gitlab) Projects() ([]*Project, error) {
 	return projects, err
 }
 
-/**
- * Get single project
- * Get a specific project, identified by project ID or NAME,
- * which is owned by the authentication user.
- * Currently namespaced projects cannot be retrieved by name.
- */
+/*
+Get single project
+Get a specific project, identified by project ID or NAME,
+which is owned by the authentication user.
+Currently namespaced projects cannot be retrieved by name.
+*/
 func (g *Gitlab) Project(id string) (*Project, error) {
 
 	url := strings.Replace(project_url, ":id", id, -1)
@@ -77,10 +77,10 @@ func (g *Gitlab) Project(id string) (*Project, error) {
 	return project, err
 }
 
-/**
- * List branches
- * Lists all branches of a project.
- */
+/*
+List branches
+Lists all branches of a project.
+*/
 func (g *Gitlab) ProjectBranches(id string) ([]*Branch, error) {
 
 	url := strings.Replace(project_url_branches, ":id", id, -1)
@@ -100,9 +100,9 @@ func (g *Gitlab) ProjectBranches(id string) ([]*Branch, error) {
 }
 
 /*
- * List project hooks
- * Get list of project hooks.
- */
+List project hooks
+Get list of project hooks.
+*/
 func (g *Gitlab) ProjectHooks(id string) ([]*Hook, error) {
 
 	url := strings.Replace(project_url_hooks, ":id", id, -1)
