@@ -1,3 +1,4 @@
+// Package hook implement a simple client handler to consume gitlab hook API.
 package hookci
 
 import (
@@ -37,20 +38,7 @@ type Hook struct {
 	NbCommit int64       `json:"total_commits_count,omitempty"`
 }
 
-func StringToHook(s string) (Hook, error) {
-	h := Hook{}
-	e := json.Unmarshal([]byte(s), &h)
-	return h, e
-}
-
-func HookToString(h *Hook) (string, error) {
-	s, e := json.Marshal(h)
-	if e != nil {
-		return "", e
-	}
-	return string(s), e
-}
-
+// Make async service. And Unbuffered
 type GitlabHook struct {
 	C   chan Hook
 	req string
@@ -64,6 +52,7 @@ func New(req string) (*GitlabHook, chan Hook) {
 	return gh, gh.C
 }
 
+// Make a mico-serve for handling a gitlab request.
 func (h GitlabHook) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	if strings.Contains(r.RequestURI, h.req) && r.Method == "POST" {
 		hook := Hook{}
