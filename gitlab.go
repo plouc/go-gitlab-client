@@ -10,6 +10,10 @@ import (
 	"errors"
 )
 
+const (
+	dasboard_feed_path = "/dashboard.atom"
+)
+
 type Gitlab struct {
 	BaseUrl      string
 	ApiPath      string
@@ -82,32 +86,31 @@ type Hook struct {
 }
 
 type ActivityFeed struct {
-	XMLName xml.Name      `xml:"http://www.w3.org/2005/Atom feed"`
-	Title   string        `xml:"title"`
-	Id      string        `xml:"id"`
-	Link    []Link        `xml:"link"`
-	Updated time.Time     `xml:"updated,attr"`
-	Entry   []*FeedCommit `xml:"entry"`
+	Title   string        `xml:"title"json:"title"`
+	Id      string        `xml:"id"json:"id"`
+	Link    []Link        `xml:"link"json:"link"`
+	Updated time.Time     `xml:"updated,attr"json:"updated"`
+	Entry   []*FeedCommit `xml:"entry"json:"entries"`
 }
 
 type FeedCommit struct {
-	Id      string    `xml:"id"`
-	Title   string    `xml:"title"`
-	Link    []Link    `xml:"link"`
-	Updated time.Time `xml:"updated"`
-	Author  Person    `xml:"author"`
-	Summary string    `xml:"summary"`
+	Id      string    `xml:"id"json:"id"`
+	Title   string    `xml:"title"json:"title"`
+	Link    []Link    `xml:"link"json:"link"`
+	Updated time.Time `xml:"updated"json:"updated"`
+	Author  Person    `xml:"author"json:"author"`
+	Summary string    `xml:"summary"json:"summary"`
 	//<media:thumbnail width="40" height="40" url="https://secure.gravatar.com/avatar/7070eab7c6206530d3b7820362227fec?s=40&amp;d=mm"/>
 }
 
 type Link struct {
-	Rel  string `xml:"rel,attr,omitempty"`
-	Href string `xml:"href,attr"`
+	Rel  string `xml:"rel,attr,omitempty"json:"rel"`
+	Href string `xml:"href,attr"json:"href"`
 }
 
 type Person struct {
-	Name  string `xml:"name"`
-	Email string `xml:"email"`
+	Name  string `xml:"name"json:"name"`
+	Email string `xml:"email"json:"email"`
 }
 
 const (
@@ -145,6 +148,25 @@ func (g *Gitlab) buildAndExecRequest(method string, url string) ([]byte, error) 
 	}
 
 	return contents, err
+}
+
+func (g *Gitlab) Activity() (ActivityFeed, error) {
+
+	url := g.BaseUrl + dasboard_feed_path + "?private_token=" + g.Token
+	fmt.Println(url)
+
+	contents, err := g.buildAndExecRequest("GET", url)
+	if err != nil {
+		fmt.Println("%s", err)
+	}
+
+	var activity ActivityFeed
+	err = xml.Unmarshal(contents, &activity)
+	if err != nil {
+		fmt.Println("%s", err)
+	}
+
+	return activity, err
 }
 
 func (g *Gitlab) RepoActivityFeed(feedPath string) ActivityFeed {
