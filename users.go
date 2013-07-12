@@ -22,9 +22,9 @@ type User struct {
     LinkedIn      string `json:"linkedin,omitempty"`
     Twitter       string `json:"twitter,omitempty"`
     ExternUid     string `json:"extern_uid,omitempty"`
-    Provider      string `json:"provider_name,omitempty"`
+    Provider      string `json:"provider,omitempty"`
     ThemeId       int    `json:"theme_id,omitempty"`
-    ColorSchemeId int    `json:"theme_id,color_scheme_id"`
+    ColorSchemeId int    `json:"color_scheme_id,color_scheme_id"`
 }
 
 /*
