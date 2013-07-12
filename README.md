@@ -1,9 +1,9 @@
 go-gitlab-client
 ================
 
+go-gitlab-client is a simple client to consume gitlab API.
 [![Build Status](https://travis-ci.org/plouc/go-gitlab-client.png?branch=master)](https://travis-ci.org/plouc/go-gitlab-client)
 
-go-gitlab-client is a simple client to consume gitlab API.
 
 ##features
 
