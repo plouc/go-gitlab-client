@@ -1,14 +1,35 @@
 package main
 
 import (
+	"os"
 	"flag"
 	"fmt"
 	"time"
 	"github.com/plouc/go-gitlab-client"
+	"io/ioutil"
+	"encoding/json"
 )
+
+type Config struct {
+	Host    string `json:"host"`
+	ApiPath string `json:"api_path"`
+	Token   string `json:"token"`
+}
 
 func main() {
 	help := flag.Bool("help", false, "Show usage")
+
+	file, e := ioutil.ReadFile("../config.json")
+    if e != nil {
+        fmt.Printf("Config file error: %v\n", e)
+        os.Exit(1)
+    }
+
+    var config Config
+    json.Unmarshal(file, &config)
+    fmt.Printf("Results: %+v\n", config)
+
+    gitlab := gogitlab.NewGitlab(config.Host, config.ApiPath, config.Token)
 
 	var method string
 	flag.StringVar(&method, "m", "", "Specify method to retrieve repositories, available methods:\n" +
@@ -20,9 +41,6 @@ func main() {
 	var id string
 	flag.StringVar(&id, "id", "", "Specify repository id")
 
-	var token string
-	flag.StringVar(&token, "t", "", "Specify gitlab token")
-
 	flag.Usage = func() {
 		fmt.Printf("Usage:\n")
 		flag.PrintDefaults()
@@ -33,8 +51,6 @@ func main() {
 		flag.Usage()
 		return
 	}
-
-	gitlab := gogitlab.NewGitlab("https://gitlab.fullsix.com", "/api/v3", "/digiposte/socle-php/commits/develop-v7.atom", token)
 
 	startedAt := time.Now()
 	defer func() {
