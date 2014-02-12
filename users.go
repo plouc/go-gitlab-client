@@ -49,7 +49,7 @@ func (g *Gitlab) User(id string) (*User, error) {
 	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
 	fmt.Println(url)
 
-	contents, err := g.buildAndExecRequest("GET", url)
+	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err != nil {
 		fmt.Println("%s", err)
 	}

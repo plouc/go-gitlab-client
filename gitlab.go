@@ -110,9 +110,17 @@ func NewGitlab(baseUrl string, apiPath string, token string) *Gitlab {
 	}
 }
 
-func (g *Gitlab) buildAndExecRequest(method string, url string) ([]byte, error) {
+func (g *Gitlab) buildAndExecRequest(method string, url string, body []byte) ([]byte, error) {
 
-	req, err := http.NewRequest(method, url, nil)
+	var req *http.Request
+	var err error
+
+	if body != nil {
+		reader := bytes.NewReader(body)
+		req, err = http.NewRequest(method, url, reader)
+	} else {
+		req, err = http.NewRequest(method, url, nil)
+	}
 	if err != nil {
 		panic("Error while building gitlab request")
 	}

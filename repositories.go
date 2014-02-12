@@ -39,7 +39,7 @@ func (g *Gitlab) RepoBranches(id string) ([]*Branch, error) {
 	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
 	fmt.Println(url)
 
-	contents, err := g.buildAndExecRequest("GET", url)
+	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err != nil {
 		fmt.Println("%s", err)
 	}
@@ -94,7 +94,7 @@ func (g *Gitlab) RepoTags(id string) ([]*Tag, error) {
 	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
 	fmt.Println(url)
 
-	contents, err := g.buildAndExecRequest("GET", url)
+	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err != nil {
 		fmt.Println("%s", err)
 	}
@@ -137,16 +137,16 @@ func (g *Gitlab) RepoCommits(id string) ([]*Commit, error) {
 	var err error
 	var commits []*Commit
 
-	contents, err := g.buildAndExecRequest("GET", url)
+	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err != nil {
 		return commits, err
 	}
-		
+
 	err = json.Unmarshal(contents, &commits)
 	if err == nil {
 		for _, commit := range commits {
 			t, _ := time.Parse(dateLayout, commit.Created_At)
-   			commit.CreatedAt = t
+			commit.CreatedAt = t
 		}
 	}
 
