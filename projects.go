@@ -1,9 +1,9 @@
 package gogitlab
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
-	"encoding/json"
 )
 
 const (

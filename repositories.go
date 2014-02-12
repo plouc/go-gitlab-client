@@ -1,9 +1,9 @@
 package gogitlab
 
 import (
-	"strings"
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"strings"
 	"time"
 )
 
@@ -25,7 +25,7 @@ Parameters
     id The ID of a project
 
 Usage
-	
+
 	branches, err := gitlab.RepoBranches("your_projet_id")
 	if err != nil {
 		fmt.Println(err.Error())
@@ -72,7 +72,7 @@ func (g *Gitlab) RepoBranch(id string, refName string) {
 
 /*
 Get a list of repository tags from a project, sorted by name in reverse alphabetical order.
-    
+
     GET /projects/:id/repository/tags
 
 Parameters
@@ -80,7 +80,7 @@ Parameters
     id The ID of a project
 
 Usage
-	
+
 	tags, err := gitlab.RepoTags("your_projet_id")
 	if err != nil {
 		fmt.Println(err.Error())
@@ -119,7 +119,7 @@ Parameters
 	refName The name of a repository branch or tag or if not given the default branch
 
 Usage
-	
+
 	commits, err := gitlab.RepoCommits("your_projet_id")
 	if err != nil {
 		fmt.Println(err.Error())

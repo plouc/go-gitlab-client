@@ -60,4 +60,3 @@ func (g *Gitlab) RepoActivityFeed(feedPath string) ActivityFeed {
 
 	return activity
 }
-

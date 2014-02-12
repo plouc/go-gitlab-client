@@ -2,11 +2,12 @@
 package gogitlab
 
 import (
+	"bytes"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"time"
-	"errors"
 )
 
 const (
@@ -61,21 +62,21 @@ type BranchCommit struct {
 	Author           *Person `json:"author,omitempty"`
 	Committer        *Person `json:"committer,omitempty"`
 	/*
-	"parents": [
-	  {"id": "9b0c4b08e7890337fc8111e66f809c8bbec467a9"},
-      {"id": "3ac634dca850cab70ab14b43ad6073d1e0a7827f"}
-    ]
-    */
+			"parents": [
+			  {"id": "9b0c4b08e7890337fc8111e66f809c8bbec467a9"},
+		      {"id": "3ac634dca850cab70ab14b43ad6073d1e0a7827f"}
+		    ]
+	*/
 }
 
 type Commit struct {
 	Id           string
-    Short_Id     string
-    Title        string
-    Author_Name  string
-    Author_Email string
-    Created_At   string
-    CreatedAt    time.Time
+	Short_Id     string
+	Title        string
+	Author_Name  string
+	Author_Email string
+	Created_At   string
+	CreatedAt    time.Time
 }
 
 type Hook struct {
@@ -132,7 +133,7 @@ func (g *Gitlab) buildAndExecRequest(method string, url string, body []byte) ([]
 		fmt.Printf("%s", err)
 	}
 
-	if (resp.StatusCode >= 400) {
+	if resp.StatusCode >= 400 {
 		err = errors.New("*Gitlab.buildAndExecRequest failed: " + resp.Status)
 	}
 

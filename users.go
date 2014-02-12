@@ -1,9 +1,9 @@
 package gogitlab
 
 import (
-	"strings"
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"strings"
 )
 
 const (
@@ -11,20 +11,20 @@ const (
 )
 
 type User struct {
-    Id            int    `json:"id,omitempty"`
-    Username      string `json:"username,omitempty"`
-    Email         string `json:"email,omitempty"`
-    Name          string `json:"name,omitempty"`
-    State         string `json:"state,omitempty"`
-    CreatedAt     string `json:"created_at,omitempty"`
-    Bio           string `json:"bio,omitempty"`
-    Skype         string `json:"skype,omitempty"`
-    LinkedIn      string `json:"linkedin,omitempty"`
-    Twitter       string `json:"twitter,omitempty"`
-    ExternUid     string `json:"extern_uid,omitempty"`
-    Provider      string `json:"provider,omitempty"`
-    ThemeId       int    `json:"theme_id,omitempty"`
-    ColorSchemeId int    `json:"color_scheme_id,color_scheme_id"`
+	Id            int    `json:"id,omitempty"`
+	Username      string `json:"username,omitempty"`
+	Email         string `json:"email,omitempty"`
+	Name          string `json:"name,omitempty"`
+	State         string `json:"state,omitempty"`
+	CreatedAt     string `json:"created_at,omitempty"`
+	Bio           string `json:"bio,omitempty"`
+	Skype         string `json:"skype,omitempty"`
+	LinkedIn      string `json:"linkedin,omitempty"`
+	Twitter       string `json:"twitter,omitempty"`
+	ExternUid     string `json:"extern_uid,omitempty"`
+	Provider      string `json:"provider,omitempty"`
+	ThemeId       int    `json:"theme_id,omitempty"`
+	ColorSchemeId int    `json:"color_scheme_id,color_scheme_id"`
 }
 
 /*
@@ -37,7 +37,7 @@ Parameters
     id The ID of a user
 
 Usage
-	
+
 	user, err := gitlab.User("your_user_id")
 	if err != nil {
 		fmt.Println(err.Error())
