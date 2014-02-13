@@ -1,9 +1,9 @@
 package gogitlab
 
 import (
-	"strings"
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"strings"
 	"time"
 )
 
@@ -25,7 +25,7 @@ Parameters
     id The ID of a project
 
 Usage
-	
+
 	branches, err := gitlab.RepoBranches("your_projet_id")
 	if err != nil {
 		fmt.Println(err.Error())
@@ -39,7 +39,7 @@ func (g *Gitlab) RepoBranches(id string) ([]*Branch, error) {
 	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
 	fmt.Println(url)
 
-	contents, err := g.buildAndExecRequest("GET", url)
+	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err != nil {
 		fmt.Println("%s", err)
 	}
@@ -72,7 +72,7 @@ func (g *Gitlab) RepoBranch(id string, refName string) {
 
 /*
 Get a list of repository tags from a project, sorted by name in reverse alphabetical order.
-    
+
     GET /projects/:id/repository/tags
 
 Parameters
@@ -80,7 +80,7 @@ Parameters
     id The ID of a project
 
 Usage
-	
+
 	tags, err := gitlab.RepoTags("your_projet_id")
 	if err != nil {
 		fmt.Println(err.Error())
@@ -94,7 +94,7 @@ func (g *Gitlab) RepoTags(id string) ([]*Tag, error) {
 	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
 	fmt.Println(url)
 
-	contents, err := g.buildAndExecRequest("GET", url)
+	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err != nil {
 		fmt.Println("%s", err)
 	}
@@ -119,7 +119,7 @@ Parameters
 	refName The name of a repository branch or tag or if not given the default branch
 
 Usage
-	
+
 	commits, err := gitlab.RepoCommits("your_projet_id")
 	if err != nil {
 		fmt.Println(err.Error())
@@ -137,16 +137,16 @@ func (g *Gitlab) RepoCommits(id string) ([]*Commit, error) {
 	var err error
 	var commits []*Commit
 
-	contents, err := g.buildAndExecRequest("GET", url)
+	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err != nil {
 		return commits, err
 	}
-		
+
 	err = json.Unmarshal(contents, &commits)
 	if err == nil {
 		for _, commit := range commits {
 			t, _ := time.Parse(dateLayout, commit.Created_At)
-   			commit.CreatedAt = t
+			commit.CreatedAt = t
 		}
 	}
 

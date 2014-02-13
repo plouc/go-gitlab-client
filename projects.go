@@ -1,9 +1,9 @@
 package gogitlab
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
-	"encoding/json"
 )
 
 const (
@@ -36,10 +36,10 @@ type Project struct {
 Get a list of projects owned by the authenticated user.
 */
 func (g *Gitlab) Projects() ([]*Project, error) {
-	
+
 	url := g.BaseUrl + g.ApiPath + projects_url + "?private_token=" + g.Token
 
-	contents, err := g.buildAndExecRequest("GET", url)
+	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err != nil {
 		fmt.Println("%s", err)
 	}
@@ -66,8 +66,8 @@ func (g *Gitlab) Project(id string) (*Project, error) {
 	var err error
 	var project *Project
 
-	contents, err := g.buildAndExecRequest("GET", url)
-		
+	contents, err := g.buildAndExecRequest("GET", url, nil)
+
 	if err == nil {
 		err = json.Unmarshal(contents, &project)
 	}
@@ -86,11 +86,11 @@ func (g *Gitlab) ProjectBranches(id string) ([]*Branch, error) {
 	var err error
 	var branches []*Branch
 
-	contents, err := g.buildAndExecRequest("GET", url)
+	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err != nil {
 		return branches, err
 	}
-		
+
 	err = json.Unmarshal(contents, &branches)
 
 	return branches, err
@@ -107,11 +107,11 @@ func (g *Gitlab) ProjectHooks(id string) ([]*Hook, error) {
 	var err error
 	var hooks []*Hook
 
-	contents, err := g.buildAndExecRequest("GET", url)
+	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err != nil {
 		return hooks, err
 	}
-		
+
 	err = json.Unmarshal(contents, &hooks)
 
 	return hooks, err

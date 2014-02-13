@@ -2,11 +2,12 @@
 package gogitlab
 
 import (
+	"bytes"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"time"
-	"errors"
 )
 
 const (
@@ -61,21 +62,21 @@ type BranchCommit struct {
 	Author           *Person `json:"author,omitempty"`
 	Committer        *Person `json:"committer,omitempty"`
 	/*
-	"parents": [
-	  {"id": "9b0c4b08e7890337fc8111e66f809c8bbec467a9"},
-      {"id": "3ac634dca850cab70ab14b43ad6073d1e0a7827f"}
-    ]
-    */
+			"parents": [
+			  {"id": "9b0c4b08e7890337fc8111e66f809c8bbec467a9"},
+		      {"id": "3ac634dca850cab70ab14b43ad6073d1e0a7827f"}
+		    ]
+	*/
 }
 
 type Commit struct {
 	Id           string
-    Short_Id     string
-    Title        string
-    Author_Name  string
-    Author_Email string
-    Created_At   string
-    CreatedAt    time.Time
+	Short_Id     string
+	Title        string
+	Author_Name  string
+	Author_Email string
+	Created_At   string
+	CreatedAt    time.Time
 }
 
 type Hook struct {
@@ -94,6 +95,13 @@ type Person struct {
 	Email string `xml:"email"json:"email"`
 }
 
+type DeployKey struct {
+	Id           int    `json:"id,omitempty"`
+	Title        string `json:"title,omitempty"`
+	Key          string `json:"key,omitempty"`
+	CreatedAtRaw string `json:"created_at,omitempty"`
+}
+
 const (
 	dateLayout = "2006-01-02T15:04:05-07:00"
 )
@@ -110,9 +118,17 @@ func NewGitlab(baseUrl string, apiPath string, token string) *Gitlab {
 	}
 }
 
-func (g *Gitlab) buildAndExecRequest(method string, url string) ([]byte, error) {
+func (g *Gitlab) buildAndExecRequest(method string, url string, body []byte) ([]byte, error) {
 
-	req, err := http.NewRequest(method, url, nil)
+	var req *http.Request
+	var err error
+
+	if body != nil {
+		reader := bytes.NewReader(body)
+		req, err = http.NewRequest(method, url, reader)
+	} else {
+		req, err = http.NewRequest(method, url, nil)
+	}
 	if err != nil {
 		panic("Error while building gitlab request")
 	}
@@ -124,7 +140,7 @@ func (g *Gitlab) buildAndExecRequest(method string, url string) ([]byte, error) 
 		fmt.Printf("%s", err)
 	}
 
-	if (resp.StatusCode >= 400) {
+	if resp.StatusCode >= 400 {
 		err = errors.New("*Gitlab.buildAndExecRequest failed: " + resp.Status)
 	}
 

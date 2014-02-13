@@ -29,7 +29,7 @@ func (g *Gitlab) Activity() (ActivityFeed, error) {
 	url := g.BaseUrl + dasboard_feed_path + "?private_token=" + g.Token
 	fmt.Println(url)
 
-	contents, err := g.buildAndExecRequest("GET", url)
+	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err != nil {
 		fmt.Println("%s", err)
 	}
@@ -47,7 +47,7 @@ func (g *Gitlab) RepoActivityFeed(feedPath string) ActivityFeed {
 
 	url := g.BaseUrl + g.RepoFeedPath + "?private_token=" + g.Token
 
-	contents, err := g.buildAndExecRequest("GET", url)
+	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err != nil {
 		fmt.Println("%s", err)
 	}
@@ -60,4 +60,3 @@ func (g *Gitlab) RepoActivityFeed(feedPath string) ActivityFeed {
 
 	return activity
 }
-
