@@ -2,6 +2,7 @@ package gogitlab
 
 import (
 	"encoding/json"
+	"net/url"
 	"strings"
 )
 
@@ -58,20 +59,20 @@ func (g *Gitlab) ProjectDeployKey(id, key_id string) (*DeployKey, error) {
 /*
 Add deploy key to project
 */
-func (g *Gitlab) AddProjectDeployKey(id string, deployKey DeployKey) error {
+func (g *Gitlab) AddProjectDeployKey(id, title, key string) error {
 
-	url := strings.Replace(project_url_deploy_keys, ":id", id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
+	path := strings.Replace(project_url_deploy_keys, ":id", id, -1)
+	path = g.BaseUrl + g.ApiPath + path + "?private_token=" + g.Token
 
 	var err error
-	var body []byte
 
-	body, err = json.Marshal(deployKey)
-	if err != nil {
-		return err
-	}
+	v := url.Values{}
+	v.Set("title", title)
+	v.Set("key", key)
 
-	_, err = g.buildAndExecRequest("POST", url, body)
+	body := v.Encode()
+
+	_, err = g.buildAndExecRequest("POST", path, []byte(body))
 
 	return err
 }
