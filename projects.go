@@ -11,7 +11,6 @@ const (
 	project_url          = "/projects/:id"                     // Get a specific project, identified by project ID or NAME
 	project_url_events   = "/projects/:id/events"              // Get project events
 	project_url_branches = "/projects/:id/repository/branches" // Lists all branches of a project
-	project_url_hooks    = "/projects/:id/hooks"               // Get list of project hooks
 )
 
 // A gitlab project
@@ -94,25 +93,4 @@ func (g *Gitlab) ProjectBranches(id string) ([]*Branch, error) {
 	err = json.Unmarshal(contents, &branches)
 
 	return branches, err
-}
-
-/*
-Get list of project hooks.
-*/
-func (g *Gitlab) ProjectHooks(id string) ([]*Hook, error) {
-
-	url := strings.Replace(project_url_hooks, ":id", id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
-
-	var err error
-	var hooks []*Hook
-
-	contents, err := g.buildAndExecRequest("GET", url, nil)
-	if err != nil {
-		return hooks, err
-	}
-
-	err = json.Unmarshal(contents, &hooks)
-
-	return hooks, err
 }
