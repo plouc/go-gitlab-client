@@ -3,7 +3,6 @@ package gogitlab
 import (
 	"encoding/json"
 	"net/url"
-	"strings"
 )
 
 const (
@@ -25,18 +24,14 @@ Parameters:
 */
 func (g *Gitlab) ProjectDeployKeys(id string) ([]*DeployKey, error) {
 
-	url := strings.Replace(project_url_deploy_keys, ":id", id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
+	url := g.ResourceUrl(project_url_deploy_keys, map[string]string{ ":id": id })
 
-	var err error
 	var deployKeys []*DeployKey
 
 	contents, err := g.buildAndExecRequest("GET", url, nil)
-	if err != nil {
-		return deployKeys, err
+	if err == nil {
+		err = json.Unmarshal(contents, &deployKeys)
 	}
-
-	err = json.Unmarshal(contents, &deployKeys)
 
 	return deployKeys, err
 }
@@ -54,19 +49,17 @@ Parameters:
 */
 func (g *Gitlab) ProjectDeployKey(id, key_id string) (*DeployKey, error) {
 
-	url := strings.Replace(project_url_deploy_key, ":id", id, -1)
-	url = strings.Replace(url, ":key_id", key_id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
+	url := g.ResourceUrl(project_url_deploy_key, map[string]string{
+		":id":     id,
+		":key_id": key_id,
+	})
 
-	var err error
 	var deployKey *DeployKey
 
 	contents, err := g.buildAndExecRequest("GET", url, nil)
-	if err != nil {
-		return deployKey, err
+	if err == nil {
+		err = json.Unmarshal(contents, &deployKey)
 	}
-
-	err = json.Unmarshal(contents, &deployKey)
 
 	return deployKey, err
 }
@@ -85,8 +78,7 @@ Parameters:
 */
 func (g *Gitlab) AddProjectDeployKey(id, title, key string) error {
 
-	path := strings.Replace(project_url_deploy_keys, ":id", id, -1)
-	path = g.BaseUrl + g.ApiPath + path + "?private_token=" + g.Token
+	path := g.ResourceUrl(project_url_deploy_keys, map[string]string{ ":id": id })
 
 	var err error
 
@@ -114,9 +106,10 @@ Parameters:
 */
 func (g *Gitlab) RemoveProjectDeployKey(id, key_id string) error {
 
-	url := strings.Replace(project_url_deploy_key, ":id", id, -1)
-	url = strings.Replace(url, ":key_id", key_id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
+	url := g.ResourceUrl(project_url_deploy_key, map[string]string{
+		":id":     id,
+		":key_id": key_id,
+	})
 
 	var err error
 

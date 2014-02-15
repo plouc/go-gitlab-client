@@ -59,6 +59,8 @@ func main() {
 
 	switch method {
 	case "branches":
+		fmt.Println("Fetching repository branches…")
+
 		branches, err := gitlab.RepoBranches(id)
 		if err != nil {
 			fmt.Println(err.Error())
@@ -69,6 +71,8 @@ func main() {
 		}
 	case "branch":
 	case "tags":
+		fmt.Println("Fetching repository tags…")
+
 		tags, err := gitlab.RepoTags(id)
 		if err != nil {
 			fmt.Println(err.Error())
@@ -78,6 +82,8 @@ func main() {
 			fmt.Printf("> %s\n", tag.Name)
 		}
 	case "commits":
+		fmt.Println("Fetching repository commits…")
+
 		commits, err := gitlab.RepoCommits(id)
 		if err != nil {
 			fmt.Println(err.Error())

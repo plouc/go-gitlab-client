@@ -3,7 +3,6 @@ package gogitlab
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
 	"time"
 )
 
@@ -36,19 +35,14 @@ Usage:
 	}
 */
 func (g *Gitlab) RepoBranches(id string) ([]*Branch, error) {
-	url := strings.Replace(repo_url_branches, ":id", id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
-	fmt.Println(url)
 
-	contents, err := g.buildAndExecRequest("GET", url, nil)
-	if err != nil {
-		fmt.Println("%s", err)
-	}
+	url := g.ResourceUrl(repo_url_branches, map[string]string{ ":id": id })
 
 	var branches []*Branch
-	err = json.Unmarshal(contents, &branches)
-	if err != nil {
-		fmt.Println("%s", err)
+
+	contents, err := g.buildAndExecRequest("GET", url, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, &branches)
 	}
 
 	return branches, err
@@ -66,10 +60,14 @@ Parameters:
 
 */
 func (g *Gitlab) RepoBranch(id string, refName string) {
-	url := strings.Replace(repo_url_branch, ":id", id, -1)
-	url = strings.Replace(url, ":branch", refName, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
+
+	url := g.ResourceUrl(repo_url_branch, map[string]string{
+		":id":     id,
+		":branch": refName,
+	})
 	fmt.Println(url)
+
+	// @todo
 }
 
 /*
@@ -92,19 +90,14 @@ Usage:
 	}
 */
 func (g *Gitlab) RepoTags(id string) ([]*Tag, error) {
-	url := strings.Replace(repo_url_tags, ":id", id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
-	fmt.Println(url)
 
-	contents, err := g.buildAndExecRequest("GET", url, nil)
-	if err != nil {
-		fmt.Println("%s", err)
-	}
+	url := g.ResourceUrl(repo_url_tags, map[string]string{ ":id": id })
 
 	var tags []*Tag
-	err = json.Unmarshal(contents, &tags)
-	if err != nil {
-		fmt.Println("%s", err)
+
+	contents, err := g.buildAndExecRequest("GET", url, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, &tags)
 	}
 
 	return tags, err
@@ -132,23 +125,18 @@ Usage:
 */
 func (g *Gitlab) RepoCommits(id string) ([]*Commit, error) {
 
-	url := strings.Replace(repo_url_commits, ":id", id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
-	fmt.Println(url)
+	url := g.ResourceUrl(repo_url_commits, map[string]string{ ":id": id })
 
-	var err error
 	var commits []*Commit
 
 	contents, err := g.buildAndExecRequest("GET", url, nil)
-	if err != nil {
-		return commits, err
-	}
-
-	err = json.Unmarshal(contents, &commits)
 	if err == nil {
-		for _, commit := range commits {
-			t, _ := time.Parse(dateLayout, commit.Created_At)
-			commit.CreatedAt = t
+		err = json.Unmarshal(contents, &commits)
+		if err == nil {
+			for _, commit := range commits {
+				t, _ := time.Parse(dateLayout, commit.Created_At)
+				commit.CreatedAt = t
+			}
 		}
 	}
 
@@ -160,18 +148,18 @@ Get Raw file content
 */
 func (g *Gitlab) RepoRawFile(id, sha, filepath string) ([]byte, error) {
 
-	url := strings.Replace(repo_url_raw_file, ":id", id, -1)
-	url = strings.Replace(url, ":sha", sha, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token + "&filepath=" + filepath
+	url := g.ResourceUrl(repo_url_raw_file, map[string]string{
+		":id":  id,
+		":sha": sha,
+	})
+	url += "&filepath=" + filepath
 
 	var raw []byte
 
 	contents, err := g.buildAndExecRequest("GET", url, nil)
-	if err != nil {
-		return contents, err
+	if err == nil {
+		err = json.Unmarshal(contents, raw)
 	}
-
-	err = json.Unmarshal(contents, raw)
 
 	return raw, err
 }

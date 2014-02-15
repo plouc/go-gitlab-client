@@ -35,8 +35,8 @@ func main() {
 	var method string
 	flag.StringVar(&method, "m", "", "Specify method to retrieve projects infos, available methods:\n" +
 									   "  > -m projects\n" +
-									   "  > -m project-id PROJECT_ID\n" +
-									   "  > -m hooks -id PROJECT_ID\n" +
+									   "  > -m project  -id PROJECT_ID\n" +
+									   "  > -m hooks    -id PROJECT_ID\n" +
 									   "  > -m branches -id PROJECT_ID")
 
 	var id string
@@ -60,6 +60,8 @@ func main() {
 
 	switch method {
 	case "projects":
+		fmt.Println("Fetching projects…")
+
 		projects, err := gitlab.Projects()
 		if err != nil {
 			fmt.Println(err.Error())
@@ -70,6 +72,8 @@ func main() {
 			fmt.Printf("> %6d | %s\n", project.Id, project.Name)
 		}
 	case "project":
+		fmt.Println("Fetching project…")
+
 		if id == "" {
 			flag.Usage()
 			return
@@ -99,6 +103,8 @@ func main() {
 		fmt.Printf(format, "created at",             project.CreatedAtRaw)
 		//fmt.Printf(format, "namespace",           project.Namespace)
 	case "branches":
+		fmt.Println("Fetching project branches…")
+
 		if id == "" {
 			flag.Usage()
 			return
@@ -114,6 +120,8 @@ func main() {
 			fmt.Printf("> %s\n", branch.Name)
 		}
 	case "hooks":
+		fmt.Println("Fetching project hooks…")
+
 		if id == "" {
 			flag.Usage()
 			return

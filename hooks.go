@@ -3,7 +3,6 @@ package gogitlab
 import (
 	"encoding/json"
 	"net/url"
-	"strings"
 )
 
 const (
@@ -23,8 +22,7 @@ Parameters:
 */
 func (g *Gitlab) ProjectHooks(id string) ([]*Hook, error) {
 
-	url := strings.Replace(project_url_hooks, ":id", id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
+	url := g.ResourceUrl(project_url_hooks, map[string]string{ ":id": id })
 
 	var err error
 	var hooks []*Hook
@@ -52,9 +50,10 @@ Parameters:
 */
 func (g *Gitlab) ProjectHook(id, hook_id string) (*Hook, error) {
 
-	url := strings.Replace(project_url_hook, ":id", id, -1)
-	url = strings.Replace(url, ":hook_id", hook_id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
+	url := g.ResourceUrl(project_url_hook, map[string]string{
+		":id":      id,
+		":hook_id": hook_id,
+	})
 
 	var err error
 	var hook *Hook
@@ -85,13 +84,12 @@ Parameters:
 */
 func (g *Gitlab) AddProjectHook(id, hook_url string, push_events, issues_events, merge_requests_events bool) error {
 
-	path := strings.Replace(project_url_hooks, ":id", id, -1)
-	path = g.BaseUrl + g.ApiPath + path + "?private_token=" + g.Token
+	url := g.ResourceUrl(project_url_hooks, map[string]string{ ":id": id })
 
 	var err error
 
 	body := buildHookQuery(hook_url, push_events, issues_events, merge_requests_events)
-	_, err = g.buildAndExecRequest("POST", path, []byte(body))
+	_, err = g.buildAndExecRequest("POST", url, []byte(body))
 
 	return err
 }
@@ -113,14 +111,15 @@ Parameters:
 */
 func (g *Gitlab) EditProjectHook(id, hook_id, hook_url string, push_events, issues_events, merge_requests_events bool) error {
 
-	path := strings.Replace(project_url_hook, ":id", id, -1)
-	path = strings.Replace(path, ":hook_id", hook_id, -1)
-	path = g.BaseUrl + g.ApiPath + path + "?private_token=" + g.Token
+	url := g.ResourceUrl(project_url_hook, map[string]string{
+		":id":      id,
+		":hook_id": hook_id,
+	})
 
 	var err error
 
 	body := buildHookQuery(hook_url, push_events, issues_events, merge_requests_events)
-	_, err = g.buildAndExecRequest("PUT", path, []byte(body))
+	_, err = g.buildAndExecRequest("PUT", url, []byte(body))
 
 	return err
 }
@@ -138,9 +137,10 @@ Parameters:
 */
 func (g *Gitlab) RemoveProjectHook(id, hook_id string) error {
 
-	url := strings.Replace(project_url_hook, ":id", id, -1)
-	url = strings.Replace(url, ":hook_id", hook_id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
+	url := g.ResourceUrl(project_url_hook, map[string]string{
+		":id":      id,
+		":hook_id": hook_id,
+	})
 
 	var err error
 

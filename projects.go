@@ -2,8 +2,6 @@ package gogitlab
 
 import (
 	"encoding/json"
-	"fmt"
-	"strings"
 )
 
 const (
@@ -36,17 +34,13 @@ Get a list of projects owned by the authenticated user.
 */
 func (g *Gitlab) Projects() ([]*Project, error) {
 
-	url := g.BaseUrl + g.ApiPath + projects_url + "?private_token=" + g.Token
-
-	contents, err := g.buildAndExecRequest("GET", url, nil)
-	if err != nil {
-		fmt.Println("%s", err)
-	}
+	url := g.ResourceUrl(projects_url, nil)
 
 	var projects []*Project
-	err = json.Unmarshal(contents, &projects)
-	if err != nil {
-		fmt.Println("%s", err)
+
+	contents, err := g.buildAndExecRequest("GET", url, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, &projects)
 	}
 
 	return projects, err
@@ -59,14 +53,11 @@ Currently namespaced projects cannot be retrieved by name.
 */
 func (g *Gitlab) Project(id string) (*Project, error) {
 
-	url := strings.Replace(project_url, ":id", id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
+	url := g.ResourceUrl(project_url, map[string]string{ ":id": id })
 
-	var err error
 	var project *Project
 
 	contents, err := g.buildAndExecRequest("GET", url, nil)
-
 	if err == nil {
 		err = json.Unmarshal(contents, &project)
 	}
@@ -79,18 +70,14 @@ Lists all branches of a project.
 */
 func (g *Gitlab) ProjectBranches(id string) ([]*Branch, error) {
 
-	url := strings.Replace(project_url_branches, ":id", id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
+	url := g.ResourceUrl(project_url_branches, map[string]string{ ":id": id })
 
-	var err error
 	var branches []*Branch
 
 	contents, err := g.buildAndExecRequest("GET", url, nil)
-	if err != nil {
-		return branches, err
+	if err == nil {
+		err = json.Unmarshal(contents, &branches)
 	}
-
-	err = json.Unmarshal(contents, &branches)
 
 	return branches, err
 }
