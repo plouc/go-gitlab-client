@@ -7,7 +7,7 @@ import (
 
 const (
 	// ID
-	project_url_deploy_keys = "/projects/:id/keys"        // Get list of project deploy keys
+	project_url_deploy_keys = "/projects/:id/keys" // Get list of project deploy keys
 	// PROJECT ID AND KEY ID
 	project_url_deploy_key = "/projects/:id/keys/:key_id" // Get single project deploy key
 )
@@ -24,7 +24,7 @@ Parameters:
 */
 func (g *Gitlab) ProjectDeployKeys(id string) ([]*DeployKey, error) {
 
-	url := g.ResourceUrl(project_url_deploy_keys, map[string]string{ ":id": id })
+	url := g.ResourceUrl(project_url_deploy_keys, map[string]string{":id": id})
 
 	var deployKeys []*DeployKey
 
@@ -78,7 +78,7 @@ Parameters:
 */
 func (g *Gitlab) AddProjectDeployKey(id, title, key string) error {
 
-	path := g.ResourceUrl(project_url_deploy_keys, map[string]string{ ":id": id })
+	path := g.ResourceUrl(project_url_deploy_keys, map[string]string{":id": id})
 
 	var err error
 

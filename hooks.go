@@ -22,7 +22,7 @@ Parameters:
 */
 func (g *Gitlab) ProjectHooks(id string) ([]*Hook, error) {
 
-	url := g.ResourceUrl(project_url_hooks, map[string]string{ ":id": id })
+	url := g.ResourceUrl(project_url_hooks, map[string]string{":id": id})
 
 	var err error
 	var hooks []*Hook
@@ -84,7 +84,7 @@ Parameters:
 */
 func (g *Gitlab) AddProjectHook(id, hook_url string, push_events, issues_events, merge_requests_events bool) error {
 
-	url := g.ResourceUrl(project_url_hooks, map[string]string{ ":id": id })
+	url := g.ResourceUrl(project_url_hooks, map[string]string{":id": id})
 
 	var err error
 

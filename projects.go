@@ -56,7 +56,7 @@ Currently namespaced projects cannot be retrieved by name.
 */
 func (g *Gitlab) Project(id string) (*Project, error) {
 
-	url := g.ResourceUrl(project_url, map[string]string{ ":id": id })
+	url := g.ResourceUrl(project_url, map[string]string{":id": id})
 
 	var project *Project
 
@@ -73,7 +73,7 @@ Lists all branches of a project.
 */
 func (g *Gitlab) ProjectBranches(id string) ([]*Branch, error) {
 
-	url := g.ResourceUrl(project_url_branches, map[string]string{ ":id": id })
+	url := g.ResourceUrl(project_url_branches, map[string]string{":id": id})
 
 	var branches []*Branch
 
@@ -86,7 +86,7 @@ func (g *Gitlab) ProjectBranches(id string) ([]*Branch, error) {
 }
 
 func (g *Gitlab) ProjectMembers(id string) ([]*Member, error) {
-	url := g.ResourceUrl(project_url_members, map[string]string{ ":id": id })
+	url := g.ResourceUrl(project_url_members, map[string]string{":id": id})
 
 	var members []*Member
 

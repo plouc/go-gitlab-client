@@ -44,7 +44,7 @@ Usage:
 */
 func (g *Gitlab) User(id string) (*User, error) {
 
-	url := g.ResourceUrl(user_url, map[string]string{ ":id": id })
+	url := g.ResourceUrl(user_url, map[string]string{":id": id})
 
 	user := new(User)
 

@@ -36,7 +36,7 @@ Usage:
 */
 func (g *Gitlab) RepoBranches(id string) ([]*Branch, error) {
 
-	url := g.ResourceUrl(repo_url_branches, map[string]string{ ":id": id })
+	url := g.ResourceUrl(repo_url_branches, map[string]string{":id": id})
 
 	var branches []*Branch
 
@@ -91,7 +91,7 @@ Usage:
 */
 func (g *Gitlab) RepoTags(id string) ([]*Tag, error) {
 
-	url := g.ResourceUrl(repo_url_tags, map[string]string{ ":id": id })
+	url := g.ResourceUrl(repo_url_tags, map[string]string{":id": id})
 
 	var tags []*Tag
 
@@ -125,7 +125,7 @@ Usage:
 */
 func (g *Gitlab) RepoCommits(id string) ([]*Commit, error) {
 
-	url := g.ResourceUrl(repo_url_commits, map[string]string{ ":id": id })
+	url := g.ResourceUrl(repo_url_commits, map[string]string{":id": id})
 
 	var commits []*Commit
 
