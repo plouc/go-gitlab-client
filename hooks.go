@@ -13,6 +13,13 @@ const (
 
 /*
 Get list of project hooks.
+
+    GET /projects/:id/hooks
+
+Parameters:
+
+    id The ID of a project
+
 */
 func (g *Gitlab) ProjectHooks(id string) ([]*Hook, error) {
 
@@ -33,7 +40,15 @@ func (g *Gitlab) ProjectHooks(id string) ([]*Hook, error) {
 }
 
 /*
-Get single project hook
+Get single project hook.
+
+    GET /projects/:id/hooks/:hook_id
+
+Parameters:
+
+    id      The ID of a project
+    hook_id The ID of a hook
+
 */
 func (g *Gitlab) ProjectHook(id, hook_id string) (*Hook, error) {
 
@@ -55,7 +70,18 @@ func (g *Gitlab) ProjectHook(id, hook_id string) (*Hook, error) {
 }
 
 /*
-Add new project hook
+Add new project hook.
+
+    POST /projects/:id/hooks
+
+Parameters:
+
+    id                    The ID or NAMESPACE/PROJECT_NAME of a project
+    hook_url              The hook URL
+    push_events           Trigger hook on push events
+    issues_events         Trigger hook on issues events
+    merge_requests_events Trigger hook on merge_requests events
+
 */
 func (g *Gitlab) AddProjectHook(id, hook_url string, push_events, issues_events, merge_requests_events bool) error {
 
@@ -71,7 +97,19 @@ func (g *Gitlab) AddProjectHook(id, hook_url string, push_events, issues_events,
 }
 
 /*
-Edit existing project hook
+Edit existing project hook.
+
+    PUT /projects/:id/hooks/:hook_id
+
+Parameters:
+
+    id                    The ID or NAMESPACE/PROJECT_NAME of a project
+    hook_id               The ID of a project hook
+    hook_url              The hook URL
+    push_events           Trigger hook on push events
+    issues_events         Trigger hook on issues events
+    merge_requests_events Trigger hook on merge_requests events
+
 */
 func (g *Gitlab) EditProjectHook(id, hook_id, hook_url string, push_events, issues_events, merge_requests_events bool) error {
 
@@ -88,7 +126,15 @@ func (g *Gitlab) EditProjectHook(id, hook_id, hook_url string, push_events, issu
 }
 
 /*
-Remove hook from project
+Remove hook from project.
+
+    DELETE /projects/:id/hooks/:hook_id
+
+Parameters:
+
+    id      The ID or NAMESPACE/PROJECT_NAME of a project
+    hook_id The ID of hook to delete
+
 */
 func (g *Gitlab) RemoveProjectHook(id, hook_id string) error {
 

@@ -8,13 +8,20 @@ import (
 
 const (
 	// ID
-	project_url_deploy_keys = "/projects/:id/keys" // Get list of project deploy keys
+	project_url_deploy_keys = "/projects/:id/keys"        // Get list of project deploy keys
 	// PROJECT ID AND KEY ID
 	project_url_deploy_key = "/projects/:id/keys/:key_id" // Get single project deploy key
 )
 
 /*
-Get list of project deploy keys
+Get list of project deploy keys.
+
+    GET /projects/:id/keys
+
+Parameters:
+
+    id The ID of a project
+
 */
 func (g *Gitlab) ProjectDeployKeys(id string) ([]*DeployKey, error) {
 
@@ -35,7 +42,15 @@ func (g *Gitlab) ProjectDeployKeys(id string) ([]*DeployKey, error) {
 }
 
 /*
-Get single project deploy key
+Get single project deploy key.
+
+    GET /projects/:id/keys/:key_id
+
+Parameters:
+
+    id     The ID of a project
+    key_id The ID of a key
+
 */
 func (g *Gitlab) ProjectDeployKey(id, key_id string) (*DeployKey, error) {
 
@@ -57,7 +72,16 @@ func (g *Gitlab) ProjectDeployKey(id, key_id string) (*DeployKey, error) {
 }
 
 /*
-Add deploy key to project
+Add deploy key to project.
+
+    POST /projects/:id/keys
+
+Parameters:
+
+    id    The ID of a project
+    title The key title
+    key   The key value
+
 */
 func (g *Gitlab) AddProjectDeployKey(id, title, key string) error {
 
@@ -79,6 +103,14 @@ func (g *Gitlab) AddProjectDeployKey(id, title, key string) error {
 
 /*
 Remove deploy key from project
+
+    DELETE /projects/:id/keys/:key_id
+
+Parameters:
+
+    id     The ID of a project
+    key_id The ID of a key
+
 */
 func (g *Gitlab) RemoveProjectDeployKey(id, key_id string) error {
 

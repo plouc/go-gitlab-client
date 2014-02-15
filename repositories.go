@@ -21,11 +21,11 @@ Get a list of repository branches from a project, sorted by name alphabetically.
 
     GET /projects/:id/repository/branches
 
-Parameters
+Parameters:
 
     id The ID of a project
 
-Usage
+Usage:
 
 	branches, err := gitlab.RepoBranches("your_projet_id")
 	if err != nil {
@@ -59,10 +59,11 @@ Get a single project repository branch.
 
     GET /projects/:id/repository/branches/:branch
 
-Parameters
+Parameters:
 
     id     The ID of a project
     branch The name of the branch
+
 */
 func (g *Gitlab) RepoBranch(id string, refName string) {
 	url := strings.Replace(repo_url_branch, ":id", id, -1)
@@ -76,11 +77,11 @@ Get a list of repository tags from a project, sorted by name in reverse alphabet
 
     GET /projects/:id/repository/tags
 
-Parameters
+Parameters:
 
     id The ID of a project
 
-Usage
+Usage:
 
 	tags, err := gitlab.RepoTags("your_projet_id")
 	if err != nil {
@@ -114,12 +115,12 @@ Get a list of repository commits in a project.
 
     GET /projects/:id/repository/commits
 
-Parameters
+Parameters:
 
     id      The ID of a project
 	refName The name of a repository branch or tag or if not given the default branch
 
-Usage
+Usage:
 
 	commits, err := gitlab.RepoCommits("your_projet_id")
 	if err != nil {
