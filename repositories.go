@@ -13,6 +13,7 @@ const (
 	repo_url_tags     = "/projects/:id/repository/tags"             // List project repository tags
 	repo_url_commits  = "/projects/:id/repository/commits"          // List repository commits
 	repo_url_tree     = "/projects/:id/repository/tree"             // List repository tree
+	repo_url_raw_file = "/projects/:id/repository/blobs/:sha"       // Get raw file content for specific commit/branch
 )
 
 /*
@@ -151,4 +152,25 @@ func (g *Gitlab) RepoCommits(id string) ([]*Commit, error) {
 	}
 
 	return commits, err
+}
+
+/*
+Get Raw file content
+*/
+func (g *Gitlab) RepoRawFile(id, sha, filepath string) ([]byte, error) {
+
+	url := strings.Replace(repo_url_raw_file, ":id", id, -1)
+	url = strings.Replace(url, ":sha", sha, -1)
+	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token + "&filepath=" + filepath
+
+	var raw []byte
+
+	contents, err := g.buildAndExecRequest("GET", url, nil)
+	if err != nil {
+		return contents, err
+	}
+
+	err = json.Unmarshal(contents, raw)
+
+	return raw, err
 }
