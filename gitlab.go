@@ -23,13 +23,14 @@ type Gitlab struct {
 	Client       *http.Client
 }
 
-type Owner struct {
-	Id         int
-	Username   string
-	Email      string
-	Name       string
-	State      string
-	Created_At string
+type Member struct {
+	Id        int
+	Username  string
+	Email     string
+	Name      string
+	State     string
+	CreatedAt string `json:"created_at,omitempty"`
+	// AccessLevel int
 }
 
 type Namespace struct {

@@ -37,7 +37,8 @@ func main() {
 									   "  > -m projects\n" +
 									   "  > -m project  -id PROJECT_ID\n" +
 									   "  > -m hooks    -id PROJECT_ID\n" +
-									   "  > -m branches -id PROJECT_ID")
+									   "  > -m branches -id PROJECT_ID\n" +
+									   "  > -m team     -id PROJECT_ID")
 
 	var id string
 	flag.StringVar(&id, "id", "", "Specify repository id")
@@ -71,6 +72,7 @@ func main() {
 		for _, project := range projects {
 			fmt.Printf("> %6d | %s\n", project.Id, project.Name)
 		}
+
 	case "project":
 		fmt.Println("Fetching project…")
 
@@ -102,6 +104,7 @@ func main() {
 		fmt.Printf(format, "wiki enabled",           strconv.FormatBool(project.WikiEnabled))
 		fmt.Printf(format, "created at",             project.CreatedAtRaw)
 		//fmt.Printf(format, "namespace",           project.Namespace)
+
 	case "branches":
 		fmt.Println("Fetching project branches…")
 
@@ -119,6 +122,7 @@ func main() {
 		for _, branch := range branches {
 			fmt.Printf("> %s\n", branch.Name)
 		}
+
 	case "hooks":
 		fmt.Println("Fetching project hooks…")
 
@@ -136,5 +140,23 @@ func main() {
 		for _, hook := range hooks {
 			fmt.Printf("> [%d] %s, created on %s\n", hook.Id, hook.Url, hook.CreatedAtRaw)
 		}
+
+	case "team":
+		fmt.Println("Fetching project team members…")
+
+		if id == "" {
+			flag.Usage()
+			return
+		}
+
+		members, err := gitlab.ProjectMembers(id)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+	for _, member := range members {
+		fmt.Printf("> [%d] %s (%s) since %s\n", member.Id, member.Username, member.Name, member.CreatedAt)
+	}
 	}
 }
