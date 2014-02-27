@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -22,13 +23,14 @@ type Gitlab struct {
 	Client       *http.Client
 }
 
-type Owner struct {
-	Id         int
-	Username   string
-	Email      string
-	Name       string
-	State      string
-	Created_At string
+type Member struct {
+	Id        int
+	Username  string
+	Email     string
+	Name      string
+	State     string
+	CreatedAt string `json:"created_at,omitempty"`
+	// AccessLevel int
 }
 
 type Namespace struct {
@@ -106,7 +108,7 @@ const (
 	dateLayout = "2006-01-02T15:04:05-07:00"
 )
 
-func NewGitlab(baseUrl string, apiPath string, token string) *Gitlab {
+func NewGitlab(baseUrl, apiPath, token string) *Gitlab {
 
 	client := &http.Client{}
 
@@ -118,7 +120,20 @@ func NewGitlab(baseUrl string, apiPath string, token string) *Gitlab {
 	}
 }
 
-func (g *Gitlab) buildAndExecRequest(method string, url string, body []byte) ([]byte, error) {
+func (g *Gitlab) ResourceUrl(url string, params map[string]string) string {
+
+	if params != nil {
+		for key, val := range params {
+			url = strings.Replace(url, key, val, -1)
+		}
+	}
+
+	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
+
+	return url
+}
+
+func (g *Gitlab) buildAndExecRequest(method, url string, body []byte) ([]byte, error) {
 
 	var req *http.Request
 	var err error

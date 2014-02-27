@@ -3,7 +3,6 @@ package gogitlab
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
 	"time"
 )
 
@@ -13,6 +12,7 @@ const (
 	repo_url_tags     = "/projects/:id/repository/tags"             // List project repository tags
 	repo_url_commits  = "/projects/:id/repository/commits"          // List repository commits
 	repo_url_tree     = "/projects/:id/repository/tree"             // List repository tree
+	repo_url_raw_file = "/projects/:id/repository/blobs/:sha"       // Get raw file content for specific commit/branch
 )
 
 /*
@@ -20,11 +20,11 @@ Get a list of repository branches from a project, sorted by name alphabetically.
 
     GET /projects/:id/repository/branches
 
-Parameters
+Parameters:
 
     id The ID of a project
 
-Usage
+Usage:
 
 	branches, err := gitlab.RepoBranches("your_projet_id")
 	if err != nil {
@@ -35,19 +35,14 @@ Usage
 	}
 */
 func (g *Gitlab) RepoBranches(id string) ([]*Branch, error) {
-	url := strings.Replace(repo_url_branches, ":id", id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
-	fmt.Println(url)
 
-	contents, err := g.buildAndExecRequest("GET", url, nil)
-	if err != nil {
-		fmt.Println("%s", err)
-	}
+	url := g.ResourceUrl(repo_url_branches, map[string]string{":id": id})
 
 	var branches []*Branch
-	err = json.Unmarshal(contents, &branches)
-	if err != nil {
-		fmt.Println("%s", err)
+
+	contents, err := g.buildAndExecRequest("GET", url, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, &branches)
 	}
 
 	return branches, err
@@ -58,16 +53,21 @@ Get a single project repository branch.
 
     GET /projects/:id/repository/branches/:branch
 
-Parameters
+Parameters:
 
     id     The ID of a project
     branch The name of the branch
+
 */
 func (g *Gitlab) RepoBranch(id string, refName string) {
-	url := strings.Replace(repo_url_branch, ":id", id, -1)
-	url = strings.Replace(url, ":branch", refName, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
+
+	url := g.ResourceUrl(repo_url_branch, map[string]string{
+		":id":     id,
+		":branch": refName,
+	})
 	fmt.Println(url)
+
+	// @todo
 }
 
 /*
@@ -75,11 +75,11 @@ Get a list of repository tags from a project, sorted by name in reverse alphabet
 
     GET /projects/:id/repository/tags
 
-Parameters
+Parameters:
 
     id The ID of a project
 
-Usage
+Usage:
 
 	tags, err := gitlab.RepoTags("your_projet_id")
 	if err != nil {
@@ -90,19 +90,14 @@ Usage
 	}
 */
 func (g *Gitlab) RepoTags(id string) ([]*Tag, error) {
-	url := strings.Replace(repo_url_tags, ":id", id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
-	fmt.Println(url)
 
-	contents, err := g.buildAndExecRequest("GET", url, nil)
-	if err != nil {
-		fmt.Println("%s", err)
-	}
+	url := g.ResourceUrl(repo_url_tags, map[string]string{":id": id})
 
 	var tags []*Tag
-	err = json.Unmarshal(contents, &tags)
-	if err != nil {
-		fmt.Println("%s", err)
+
+	contents, err := g.buildAndExecRequest("GET", url, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, &tags)
 	}
 
 	return tags, err
@@ -113,12 +108,12 @@ Get a list of repository commits in a project.
 
     GET /projects/:id/repository/commits
 
-Parameters
+Parameters:
 
     id      The ID of a project
 	refName The name of a repository branch or tag or if not given the default branch
 
-Usage
+Usage:
 
 	commits, err := gitlab.RepoCommits("your_projet_id")
 	if err != nil {
@@ -130,25 +125,41 @@ Usage
 */
 func (g *Gitlab) RepoCommits(id string) ([]*Commit, error) {
 
-	url := strings.Replace(repo_url_commits, ":id", id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
-	fmt.Println(url)
+	url := g.ResourceUrl(repo_url_commits, map[string]string{":id": id})
 
-	var err error
 	var commits []*Commit
 
 	contents, err := g.buildAndExecRequest("GET", url, nil)
-	if err != nil {
-		return commits, err
-	}
-
-	err = json.Unmarshal(contents, &commits)
 	if err == nil {
-		for _, commit := range commits {
-			t, _ := time.Parse(dateLayout, commit.Created_At)
-			commit.CreatedAt = t
+		err = json.Unmarshal(contents, &commits)
+		if err == nil {
+			for _, commit := range commits {
+				t, _ := time.Parse(dateLayout, commit.Created_At)
+				commit.CreatedAt = t
+			}
 		}
 	}
 
 	return commits, err
+}
+
+/*
+Get Raw file content
+*/
+func (g *Gitlab) RepoRawFile(id, sha, filepath string) ([]byte, error) {
+
+	url := g.ResourceUrl(repo_url_raw_file, map[string]string{
+		":id":  id,
+		":sha": sha,
+	})
+	url += "&filepath=" + filepath
+
+	var raw []byte
+
+	contents, err := g.buildAndExecRequest("GET", url, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, raw)
+	}
+
+	return raw, err
 }

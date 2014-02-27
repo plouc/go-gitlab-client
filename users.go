@@ -2,8 +2,6 @@ package gogitlab
 
 import (
 	"encoding/json"
-	"fmt"
-	"strings"
 )
 
 const (
@@ -32,11 +30,11 @@ Get a single user.
 
     GET /users/:id
 
-Parameters
+Parameters:
 
     id The ID of a user
 
-Usage
+Usage:
 
 	user, err := gitlab.User("your_user_id")
 	if err != nil {
@@ -45,19 +43,14 @@ Usage
 	fmt.Printf("%+v\n", user)
 */
 func (g *Gitlab) User(id string) (*User, error) {
-	url := strings.Replace(user_url, ":id", id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
-	fmt.Println(url)
 
-	contents, err := g.buildAndExecRequest("GET", url, nil)
-	if err != nil {
-		fmt.Println("%s", err)
-	}
+	url := g.ResourceUrl(user_url, map[string]string{":id": id})
 
 	user := new(User)
-	err = json.Unmarshal(contents, &user)
-	if err != nil {
-		fmt.Println("%s", err)
+
+	contents, err := g.buildAndExecRequest("GET", url, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, &user)
 	}
 
 	return user, err

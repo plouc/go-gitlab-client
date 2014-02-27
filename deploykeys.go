@@ -2,7 +2,7 @@ package gogitlab
 
 import (
 	"encoding/json"
-	"strings"
+	"net/url"
 )
 
 const (
@@ -13,77 +13,103 @@ const (
 )
 
 /*
-Get list of project deploy keys
+Get list of project deploy keys.
+
+    GET /projects/:id/keys
+
+Parameters:
+
+    id The ID of a project
+
 */
 func (g *Gitlab) ProjectDeployKeys(id string) ([]*DeployKey, error) {
 
-	url := strings.Replace(project_url_deploy_keys, ":id", id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
+	url := g.ResourceUrl(project_url_deploy_keys, map[string]string{":id": id})
 
-	var err error
 	var deployKeys []*DeployKey
 
 	contents, err := g.buildAndExecRequest("GET", url, nil)
-	if err != nil {
-		return deployKeys, err
+	if err == nil {
+		err = json.Unmarshal(contents, &deployKeys)
 	}
-
-	err = json.Unmarshal(contents, &deployKeys)
 
 	return deployKeys, err
 }
 
 /*
-Get single project deploy key
+Get single project deploy key.
+
+    GET /projects/:id/keys/:key_id
+
+Parameters:
+
+    id     The ID of a project
+    key_id The ID of a key
+
 */
 func (g *Gitlab) ProjectDeployKey(id, key_id string) (*DeployKey, error) {
 
-	url := strings.Replace(project_url_deploy_key, ":id", id, -1)
-	url = strings.Replace(url, ":key_id", key_id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
+	url := g.ResourceUrl(project_url_deploy_key, map[string]string{
+		":id":     id,
+		":key_id": key_id,
+	})
 
-	var err error
 	var deployKey *DeployKey
 
 	contents, err := g.buildAndExecRequest("GET", url, nil)
-	if err != nil {
-		return deployKey, err
+	if err == nil {
+		err = json.Unmarshal(contents, &deployKey)
 	}
-
-	err = json.Unmarshal(contents, &deployKey)
 
 	return deployKey, err
 }
 
 /*
-Add deploy key to project
-*/
-func (g *Gitlab) AddProjectDeployKey(id string, deployKey DeployKey) error {
+Add deploy key to project.
 
-	url := strings.Replace(project_url_deploy_keys, ":id", id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
+    POST /projects/:id/keys
+
+Parameters:
+
+    id    The ID of a project
+    title The key title
+    key   The key value
+
+*/
+func (g *Gitlab) AddProjectDeployKey(id, title, key string) error {
+
+	path := g.ResourceUrl(project_url_deploy_keys, map[string]string{":id": id})
 
 	var err error
-	var body []byte
 
-	body, err = json.Marshal(deployKey)
-	if err != nil {
-		return err
-	}
+	v := url.Values{}
+	v.Set("title", title)
+	v.Set("key", key)
 
-	_, err = g.buildAndExecRequest("POST", url, body)
+	body := v.Encode()
+
+	_, err = g.buildAndExecRequest("POST", path, []byte(body))
 
 	return err
 }
 
 /*
 Remove deploy key from project
+
+    DELETE /projects/:id/keys/:key_id
+
+Parameters:
+
+    id     The ID of a project
+    key_id The ID of a key
+
 */
 func (g *Gitlab) RemoveProjectDeployKey(id, key_id string) error {
 
-	url := strings.Replace(project_url_deploy_key, ":id", id, -1)
-	url = strings.Replace(url, ":key_id", key_id, -1)
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
+	url := g.ResourceUrl(project_url_deploy_key, map[string]string{
+		":id":     id,
+		":key_id": key_id,
+	})
 
 	var err error
 
