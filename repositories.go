@@ -154,12 +154,7 @@ func (g *Gitlab) RepoRawFile(id, sha, filepath string) ([]byte, error) {
 	})
 	url += "&filepath=" + filepath
 
-	var raw []byte
-
 	contents, err := g.buildAndExecRequest("GET", url, nil)
-	if err == nil {
-		err = json.Unmarshal(contents, raw)
-	}
 
-	return raw, err
+	return contents, err
 }
