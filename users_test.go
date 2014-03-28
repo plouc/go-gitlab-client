@@ -1,30 +1,17 @@
 package gogitlab
 
 import (
-	"fmt"
 	"github.com/stretchr/testify/assert"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 )
 
 func TestUser(t *testing.T) {
+	stub, err := ioutil.ReadFile("stubs/users/show.json")
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, `{
-  "id":6,
-  "username":"plouc",
-  "email":"plouc@plouc.com",
-  "name":"Raphaël Benitte",
-  "bio":null,
-  "skype":"",
-  "linkedin":"",
-  "twitter":"",
-  "theme_id":2,
-  "state":"active",
-  "created_at":"2001-01-01T00:00:00Z",
-  "extern_uid":"uid=plouc",
-  "provider":"ldap"
-		}`)
+		w.Write([]byte(stub))
 	}))
 	defer ts.Close()
 

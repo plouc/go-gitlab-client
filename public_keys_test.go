@@ -9,7 +9,7 @@ import (
 )
 
 func TestGetUserKeys(t *testing.T) {
-	stub, err := ioutil.ReadFile("stubs/userkeys/index.json")
+	stub, err := ioutil.ReadFile("stubs/public_keys/index.json")
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(stub))
 	}))
@@ -23,7 +23,7 @@ func TestGetUserKeys(t *testing.T) {
 }
 
 func TestGetUserKey(t *testing.T) {
-	stub, err := ioutil.ReadFile("stubs/userkeys/show.json")
+	stub, err := ioutil.ReadFile("stubs/public_keys/show.json")
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(stub))
 	}))
