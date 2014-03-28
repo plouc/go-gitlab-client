@@ -62,14 +62,14 @@ func TestAddUserKey(t *testing.T) {
 	assert.Equal(t, err, nil)
 }
 
-func TestRemoveKey(t *testing.T) {
+func TestDeleteKey(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(""))
 	}))
 	defer ts.Close()
 
 	gitlab := NewGitlab(ts.URL, "", "")
-	err := gitlab.RemoveKey("1")
+	err := gitlab.DeleteKey("1")
 
 	assert.Equal(t, err, nil)
 }

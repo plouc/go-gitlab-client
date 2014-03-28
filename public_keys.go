@@ -61,7 +61,7 @@ func (g *Gitlab) AddUserKey(id, title, key string) error {
 	return err
 }
 
-func (g *Gitlab) RemoveKey(id string) error {
+func (g *Gitlab) DeleteKey(id string) error {
 	url := g.ResourceUrl(user_key, map[string]string{":id": id})
 	var err error
 	_, err = g.buildAndExecRequest("DELETE", url, nil)
