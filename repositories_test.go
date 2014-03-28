@@ -9,46 +9,31 @@ import (
 )
 
 func TestRepoBranches(t *testing.T) {
-	stub, err := ioutil.ReadFile("stubs/branches/index.json")
-	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(stub))
-	}))
-	defer ts.Close()
-
-	gitlab := NewGitlab(ts.URL, "", "")
+  ts, gitlab := Stub("stubs/branches/index.json")
 	branches, err := gitlab.RepoBranches("1")
 
 	assert.Equal(t, err, nil)
 	assert.Equal(t, len(branches), 1)
+  defer ts.Close()
 }
 
 func TestRepoBranch(t *testing.T) {
-	stub, err := ioutil.ReadFile("stubs/branches/show.json")
-	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(stub))
-	}))
-	defer ts.Close()
-
-	gitlab := NewGitlab(ts.URL, "", "")
+	ts, gitlab := Stub("stubs/branches/show.json")
 	branch, err := gitlab.RepoBranch("1", "master")
 
 	assert.Equal(t, err, nil)
 	assert.IsType(t, new(Branch), branch)
 	assert.Equal(t, branch.Name, "master")
+  defer ts.Close()
 }
 
 func TestRepoTags(t *testing.T) {
-	stub, err := ioutil.ReadFile("stubs/tags/index.json")
-	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(stub))
-	}))
-	defer ts.Close()
-
-	gitlab := NewGitlab(ts.URL, "", "")
+	ts, gitlab := Stub("stubs/tags/index.json")
 	tags, err := gitlab.RepoTags("1")
 
 	assert.Equal(t, err, nil)
 	assert.Equal(t, len(tags), 1)
+  defer ts.Close()
 }
 
 func TestRepoCommits(t *testing.T) {
