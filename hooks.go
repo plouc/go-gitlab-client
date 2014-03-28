@@ -62,7 +62,7 @@ func (g *Gitlab) ProjectHook(id, hook_id string) (*Hook, error) {
 	})
 
 	var err error
-	var hook *Hook
+	hook := new(Hook)
 
 	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err != nil {
