@@ -6,6 +6,16 @@ import (
 	"time"
 )
 
+type Person struct {
+	Name  string `xml:"name"json:"name"`
+	Email string `xml:"email"json:"email"`
+}
+
+type Link struct {
+	Rel  string `xml:"rel,attr,omitempty"json:"rel"`
+	Href string `xml:"href,attr"json:"href"`
+}
+
 type ActivityFeed struct {
 	Title   string        `xml:"title"json:"title"`
 	Id      string        `xml:"id"json:"id"`

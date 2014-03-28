@@ -8,7 +8,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
-	"time"
 )
 
 const (
@@ -21,80 +20,6 @@ type Gitlab struct {
 	RepoFeedPath string
 	Token        string
 	Client       *http.Client
-}
-
-type Member struct {
-	Id        int
-	Username  string
-	Email     string
-	Name      string
-	State     string
-	CreatedAt string `json:"created_at,omitempty"`
-	// AccessLevel int
-}
-
-type Namespace struct {
-	Id          int
-	Name        string
-	Path        string
-	Description string
-	Owner_Id    int
-	Created_At  string
-	Updated_At  string
-}
-
-type Branch struct {
-	Name      string        `json:"name,omitempty"`
-	Protected bool          `json:"protected,omitempty"`
-	Commit    *BranchCommit `json:"commit,omitempty"`
-}
-
-type Tag struct {
-	Name      string        `json:"name,omitempty"`
-	Protected bool          `json:"protected,omitempty"`
-	Commit    *BranchCommit `json:"commit,omitempty"`
-}
-
-type BranchCommit struct {
-	Id               string  `json:"id,omitempty"`
-	Tree             string  `json:"tree,omitempty"`
-	AuthoredDateRaw  string  `json:"authored_date,omitempty"`
-	CommittedDateRaw string  `json:"committed_date,omitempty"`
-	Message          string  `json:"message,omitempty"`
-	Author           *Person `json:"author,omitempty"`
-	Committer        *Person `json:"committer,omitempty"`
-	/*
-			"parents": [
-			  {"id": "9b0c4b08e7890337fc8111e66f809c8bbec467a9"},
-		      {"id": "3ac634dca850cab70ab14b43ad6073d1e0a7827f"}
-		    ]
-	*/
-}
-
-type Commit struct {
-	Id           string
-	Short_Id     string
-	Title        string
-	Author_Name  string
-	Author_Email string
-	Created_At   string
-	CreatedAt    time.Time
-}
-
-type Hook struct {
-	Id           int    `json:"id,omitempty"`
-	Url          string `json:"url,omitempty"`
-	CreatedAtRaw string `json:"created_at,omitempty"`
-}
-
-type Link struct {
-	Rel  string `xml:"rel,attr,omitempty"json:"rel"`
-	Href string `xml:"href,attr"json:"href"`
-}
-
-type Person struct {
-	Name  string `xml:"name"json:"name"`
-	Email string `xml:"email"json:"email"`
 }
 
 const (

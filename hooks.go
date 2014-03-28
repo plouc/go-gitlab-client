@@ -10,6 +10,12 @@ const (
 	project_url_hook  = "/projects/:id/hooks/:hook_id" // Get single project hook
 )
 
+type Hook struct {
+	Id           int    `json:"id,omitempty"`
+	Url          string `json:"url,omitempty"`
+	CreatedAtRaw string `json:"created_at,omitempty"`
+}
+
 /*
 Get list of project hooks.
 
