@@ -2,6 +2,7 @@ package gogitlab
 
 import (
 	"encoding/json"
+ 	"net/url"
 )
 
 const (
@@ -25,78 +26,61 @@ func (g *Gitlab) UserKeys() ([]*UserKey, error) {
 	return keys, err
 }
 
-// /*
-// Get single project deploy key.
+func (g *Gitlab) UserKey(id string) (*UserKey, error) {
 
-//     GET /projects/:id/keys/:key_id
+	url := g.ResourceUrl(user_key, map[string]string{":id": id})
 
-// Parameters:
+	var key *UserKey
 
-//     id     The ID of a project
-//     key_id The ID of a key
+	contents, err := g.buildAndExecRequest("GET", url, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, &key)
+	}
 
-// */
-// func (g *Gitlab) UserKey(id string) (*UserKey, error) {
+	return key, err
+}
 
-// 	url := g.ResourceUrl(user_key, map[string]string{":id": id})
+func (g *Gitlab) AddKey(title, key string) error {
 
-// 	var key *UserKey
+	path := g.ResourceUrl(user_keys, nil)
 
-// 	contents, err := g.buildAndExecRequest("GET", url, nil)
-// 	if err == nil {
-// 		err = json.Unmarshal(contents, &Key)
-// 	}
+	var err error
 
-// 	return key, err
-// }
+	v := url.Values{}
+	v.Set("title", title)
+	v.Set("key", key)
 
-// /*
-// Add deploy key to project.
+	body := v.Encode()
 
-//     POST /projects/:id/keys
+	_, err = g.buildAndExecRequest("POST", path, []byte(body))
 
-// Parameters:
+	return err
+}
 
-//     id    The ID of a project
-//     title The key title
-//     key   The key value
+func (g *Gitlab) AddUserKey(id, title, key string) error {
 
-// */
-// func (g *Gitlab) AddKey(title, key string) error {
+	path := g.ResourceUrl(user_keys, map[string]string{":id": id})
 
-// 	path := g.ResourceUrl(user_keys, nil)
+	var err error
 
-// 	var err error
+	v := url.Values{}
+	v.Set("title", title)
+	v.Set("key", key)
 
-// 	v := url.Values{}
-// 	v.Set("title", title)
-// 	v.Set("key", key)
+	body := v.Encode()
 
-// 	body := v.Encode()
+	_, err = g.buildAndExecRequest("POST", path, []byte(body))
 
-// 	_, err = g.buildAndExecRequest("POST", path, []byte(body))
+	return err
+}
 
-// 	return err
-// }
+func (g *Gitlab) RemoveKey(id string) error {
 
-// /*
-// Remove deploy key from project
+	url := g.ResourceUrl(user_key, map[string]string{":id": id})
 
-//     DELETE /projects/:id/keys/:key_id
+	var err error
 
-// Parameters:
+	_, err = g.buildAndExecRequest("DELETE", url, nil)
 
-//     id     The ID of a project
-//     key_id The ID of a key
-
-// */
-// func (g *Gitlab) RemoveKey(id string) error {
-
-// 	url := g.ResourceUrl(user_key, map[string]string{":id": id})
-
-// 	var err error
-
-// 	_, err = g.buildAndExecRequest("DELETE", url, nil)
-
-// 	return err
-// }
+	return err
+}
