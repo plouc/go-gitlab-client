@@ -2,7 +2,7 @@ package gogitlab
 
 import (
 	"encoding/json"
- 	"net/url"
+	"net/url"
 )
 
 const (
@@ -11,6 +11,12 @@ const (
 	user_key         = "/user/keys/:id" // Get user key by id
 	custom_user_keys = "/user/:id/keys" // Create key for user with :id
 )
+
+type UserKey struct {
+	Id    int    `json:"id,omitempty"`
+	Title string `json:"title,omitempty"`
+	Key   string `json:"key,omitempty"`
+}
 
 func (g *Gitlab) UserKeys() ([]*UserKey, error) {
 

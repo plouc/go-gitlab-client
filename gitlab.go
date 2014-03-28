@@ -104,12 +104,6 @@ type DeployKey struct {
 	CreatedAtRaw string `json:"created_at,omitempty"`
 }
 
-type UserKey struct {
-	Id    int    `json:"id,omitempty"`
-	Title string `json:"title,omitempty"`
-	Key   string `json:"key,omitempty"`
-}
-
 const (
 	dateLayout = "2006-01-02T15:04:05-07:00"
 )
