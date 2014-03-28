@@ -97,13 +97,6 @@ type Person struct {
 	Email string `xml:"email"json:"email"`
 }
 
-type DeployKey struct {
-	Id           int    `json:"id,omitempty"`
-	Title        string `json:"title,omitempty"`
-	Key          string `json:"key,omitempty"`
-	CreatedAtRaw string `json:"created_at,omitempty"`
-}
-
 const (
 	dateLayout = "2006-01-02T15:04:05-07:00"
 )

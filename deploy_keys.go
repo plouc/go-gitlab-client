@@ -22,11 +22,11 @@ Parameters:
     id The ID of a project
 
 */
-func (g *Gitlab) ProjectDeployKeys(id string) ([]*DeployKey, error) {
+func (g *Gitlab) ProjectDeployKeys(id string) ([]*PublicKey, error) {
 
 	url := g.ResourceUrl(project_url_deploy_keys, map[string]string{":id": id})
 
-	var deployKeys []*DeployKey
+	var deployKeys []*PublicKey
 
 	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err == nil {
@@ -47,14 +47,14 @@ Parameters:
     key_id The ID of a key
 
 */
-func (g *Gitlab) ProjectDeployKey(id, key_id string) (*DeployKey, error) {
+func (g *Gitlab) ProjectDeployKey(id, key_id string) (*PublicKey, error) {
 
 	url := g.ResourceUrl(project_url_deploy_key, map[string]string{
 		":id":     id,
 		":key_id": key_id,
 	})
 
-	var deployKey *DeployKey
+	var deployKey *PublicKey
 
 	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err == nil {
