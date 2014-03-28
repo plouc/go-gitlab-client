@@ -2,7 +2,6 @@ package gogitlab
 
 import (
 	"encoding/json"
-	"fmt"
 	"time"
 )
 
@@ -97,15 +96,20 @@ Parameters:
     branch The name of the branch
 
 */
-func (g *Gitlab) RepoBranch(id string, refName string) {
+func (g *Gitlab) RepoBranch(id, refName string) (*Branch, error) {
 
 	url := g.ResourceUrl(repo_url_branch, map[string]string{
 		":id":     id,
 		":branch": refName,
 	})
-	fmt.Println(url)
 
-	// @todo
+	branch := new(Branch)
+
+	contents, err := g.buildAndExecRequest("GET", url, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, &branch)
+	}
+	return branch, err
 }
 
 /*
