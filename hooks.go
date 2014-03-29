@@ -10,6 +10,12 @@ const (
 	project_url_hook  = "/projects/:id/hooks/:hook_id" // Get single project hook
 )
 
+type Hook struct {
+	Id           int    `json:"id,omitempty"`
+	Url          string `json:"url,omitempty"`
+	CreatedAtRaw string `json:"created_at,omitempty"`
+}
+
 /*
 Get list of project hooks.
 
@@ -56,7 +62,7 @@ func (g *Gitlab) ProjectHook(id, hook_id string) (*Hook, error) {
 	})
 
 	var err error
-	var hook *Hook
+	hook := new(Hook)
 
 	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err != nil {

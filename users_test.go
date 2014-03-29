@@ -1,34 +1,21 @@
 package gogitlab
 
 import (
-	"fmt"
 	"github.com/stretchr/testify/assert"
-	"net/http"
-	"net/http/httptest"
 	"testing"
 )
 
-func TestUser(t *testing.T) {
-	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, `{
-  "id":6,
-  "username":"plouc",
-  "email":"plouc@plouc.com",
-  "name":"Raphaël Benitte",
-  "bio":null,
-  "skype":"",
-  "linkedin":"",
-  "twitter":"",
-  "theme_id":2,
-  "state":"active",
-  "created_at":"2001-01-01T00:00:00Z",
-  "extern_uid":"uid=plouc",
-  "provider":"ldap"
-		}`)
-	}))
-	defer ts.Close()
+func TestUsers(t *testing.T) {
+	ts, gitlab := Stub("stubs/users/index.json")
+	users, err := gitlab.Users()
 
-	gitlab := NewGitlab(ts.URL, "", "")
+	assert.Equal(t, err, nil)
+	assert.Equal(t, len(users), 2)
+	defer ts.Close()
+}
+
+func TestUser(t *testing.T) {
+	ts, gitlab := Stub("stubs/users/show.json")
 	user, err := gitlab.User("plouc")
 
 	assert.Equal(t, err, nil)
@@ -45,4 +32,22 @@ func TestUser(t *testing.T) {
 	assert.Equal(t, user.CreatedAt, "2001-01-01T00:00:00Z")
 	assert.Equal(t, user.ExternUid, "uid=plouc")
 	assert.Equal(t, user.Provider, "ldap")
+	defer ts.Close()
+}
+
+func TestDeleteUser(t *testing.T) {
+	ts, gitlab := Stub("")
+	err := gitlab.DeleteUser("1")
+
+	assert.Equal(t, err, nil)
+	defer ts.Close()
+}
+
+func TestCurrentUser(t *testing.T) {
+	ts, gitlab := Stub("stubs/users/current.json")
+	user, err := gitlab.CurrentUser()
+
+	assert.Equal(t, err, nil)
+	assert.Equal(t, user.Username, "john_smith")
+	defer ts.Close()
 }

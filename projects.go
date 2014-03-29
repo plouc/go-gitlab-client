@@ -14,6 +14,26 @@ const (
 	project_url_member   = "/projects/:id/members/:user_id"    // Get project team member
 )
 
+type Member struct {
+	Id        int
+	Username  string
+	Email     string
+	Name      string
+	State     string
+	CreatedAt string `json:"created_at,omitempty"`
+	// AccessLevel int
+}
+
+type Namespace struct {
+	Id          int
+	Name        string
+	Path        string
+	Description string
+	Owner_Id    int
+	Created_At  string
+	Updated_At  string
+}
+
 // A gitlab project
 type Project struct {
 	Id                   int        `json:"id,omitempty"`
@@ -30,6 +50,8 @@ type Project struct {
 	WikiEnabled          bool       `json:"wiki_enabled,omitempty"`
 	CreatedAtRaw         string     `json:"created_at,omitempty"`
 	Namespace            *Namespace `json:"namespace,omitempty"`
+	SshRepoUrl           string     `json:"ssh_url_to_repo"`
+	HttpRepoUrl          string     `json:"http_url_to_repo"`
 }
 
 /*

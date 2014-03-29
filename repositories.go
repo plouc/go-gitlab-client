@@ -2,7 +2,6 @@ package gogitlab
 
 import (
 	"encoding/json"
-	"fmt"
 	"time"
 )
 
@@ -14,6 +13,44 @@ const (
 	repo_url_tree     = "/projects/:id/repository/tree"             // List repository tree
 	repo_url_raw_file = "/projects/:id/repository/blobs/:sha"       // Get raw file content for specific commit/branch
 )
+
+type BranchCommit struct {
+	Id               string  `json:"id,omitempty"`
+	Tree             string  `json:"tree,omitempty"`
+	AuthoredDateRaw  string  `json:"authored_date,omitempty"`
+	CommittedDateRaw string  `json:"committed_date,omitempty"`
+	Message          string  `json:"message,omitempty"`
+	Author           *Person `json:"author,omitempty"`
+	Committer        *Person `json:"committer,omitempty"`
+	/*
+			"parents": [
+			  {"id": "9b0c4b08e7890337fc8111e66f809c8bbec467a9"},
+		      {"id": "3ac634dca850cab70ab14b43ad6073d1e0a7827f"}
+		    ]
+	*/
+}
+
+type Branch struct {
+	Name      string        `json:"name,omitempty"`
+	Protected bool          `json:"protected,omitempty"`
+	Commit    *BranchCommit `json:"commit,omitempty"`
+}
+
+type Tag struct {
+	Name      string        `json:"name,omitempty"`
+	Protected bool          `json:"protected,omitempty"`
+	Commit    *BranchCommit `json:"commit,omitempty"`
+}
+
+type Commit struct {
+	Id           string
+	Short_Id     string
+	Title        string
+	Author_Name  string
+	Author_Email string
+	Created_At   string
+	CreatedAt    time.Time
+}
 
 /*
 Get a list of repository branches from a project, sorted by name alphabetically.
@@ -59,15 +96,20 @@ Parameters:
     branch The name of the branch
 
 */
-func (g *Gitlab) RepoBranch(id string, refName string) {
+func (g *Gitlab) RepoBranch(id, refName string) (*Branch, error) {
 
 	url := g.ResourceUrl(repo_url_branch, map[string]string{
 		":id":     id,
 		":branch": refName,
 	})
-	fmt.Println(url)
 
-	// @todo
+	branch := new(Branch)
+
+	contents, err := g.buildAndExecRequest("GET", url, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, &branch)
+	}
+	return branch, err
 }
 
 /*
