@@ -78,11 +78,11 @@ Currently namespaced projects cannot be retrieved by name.
 */
 func (g *Gitlab) Project(id string) (*Project, error) {
 
-	url := g.ResourceUrl(project_url, map[string]string{":id": id})
+	url, opaque := g.ResourceUrlRaw(project_url, map[string]string{":id": id})
 
 	var project *Project
 
-	contents, err := g.buildAndExecRequest("GET", url, nil)
+	contents, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &project)
 	}

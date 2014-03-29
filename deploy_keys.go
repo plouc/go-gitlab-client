@@ -24,11 +24,11 @@ Parameters:
 */
 func (g *Gitlab) ProjectDeployKeys(id string) ([]*PublicKey, error) {
 
-	url := g.ResourceUrl(project_url_deploy_keys, map[string]string{":id": id})
+	url, opaque := g.ResourceUrlRaw(project_url_deploy_keys, map[string]string{":id": id})
 
 	var deployKeys []*PublicKey
 
-	contents, err := g.buildAndExecRequest("GET", url, nil)
+	contents, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &deployKeys)
 	}
@@ -49,14 +49,14 @@ Parameters:
 */
 func (g *Gitlab) ProjectDeployKey(id, key_id string) (*PublicKey, error) {
 
-	url := g.ResourceUrl(project_url_deploy_key, map[string]string{
+	url, opaque := g.ResourceUrlRaw(project_url_deploy_key, map[string]string{
 		":id":     id,
 		":key_id": key_id,
 	})
 
 	var deployKey *PublicKey
 
-	contents, err := g.buildAndExecRequest("GET", url, nil)
+	contents, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &deployKey)
 	}
@@ -78,7 +78,7 @@ Parameters:
 */
 func (g *Gitlab) AddProjectDeployKey(id, title, key string) error {
 
-	path := g.ResourceUrl(project_url_deploy_keys, map[string]string{":id": id})
+	path, opaque := g.ResourceUrlRaw(project_url_deploy_keys, map[string]string{":id": id})
 
 	var err error
 
@@ -88,7 +88,7 @@ func (g *Gitlab) AddProjectDeployKey(id, title, key string) error {
 
 	body := v.Encode()
 
-	_, err = g.buildAndExecRequest("POST", path, []byte(body))
+	_, err = g.buildAndExecRequestRaw("POST", path, opaque, []byte(body))
 
 	return err
 }
@@ -106,14 +106,14 @@ Parameters:
 */
 func (g *Gitlab) RemoveProjectDeployKey(id, key_id string) error {
 
-	url := g.ResourceUrl(project_url_deploy_key, map[string]string{
+	url, opaque := g.ResourceUrlRaw(project_url_deploy_key, map[string]string{
 		":id":     id,
 		":key_id": key_id,
 	})
 
 	var err error
 
-	_, err = g.buildAndExecRequest("DELETE", url, nil)
+	_, err = g.buildAndExecRequestRaw("DELETE", url, opaque, nil)
 
 	return err
 }
