@@ -73,11 +73,11 @@ Usage:
 */
 func (g *Gitlab) RepoBranches(id string) ([]*Branch, error) {
 
-	url := g.ResourceUrl(repo_url_branches, map[string]string{":id": id})
+	url, opaque := g.ResourceUrlRaw(repo_url_branches, map[string]string{":id": id})
 
 	var branches []*Branch
 
-	contents, err := g.buildAndExecRequest("GET", url, nil)
+	contents, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &branches)
 	}
@@ -98,14 +98,14 @@ Parameters:
 */
 func (g *Gitlab) RepoBranch(id, refName string) (*Branch, error) {
 
-	url := g.ResourceUrl(repo_url_branch, map[string]string{
+	url, opaque := g.ResourceUrlRaw(repo_url_branch, map[string]string{
 		":id":     id,
 		":branch": refName,
 	})
 
 	branch := new(Branch)
 
-	contents, err := g.buildAndExecRequest("GET", url, nil)
+	contents, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &branch)
 	}
@@ -133,11 +133,11 @@ Usage:
 */
 func (g *Gitlab) RepoTags(id string) ([]*Tag, error) {
 
-	url := g.ResourceUrl(repo_url_tags, map[string]string{":id": id})
+	url, opaque := g.ResourceUrlRaw(repo_url_tags, map[string]string{":id": id})
 
 	var tags []*Tag
 
-	contents, err := g.buildAndExecRequest("GET", url, nil)
+	contents, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &tags)
 	}
@@ -167,11 +167,11 @@ Usage:
 */
 func (g *Gitlab) RepoCommits(id string) ([]*Commit, error) {
 
-	url := g.ResourceUrl(repo_url_commits, map[string]string{":id": id})
+	url, opaque := g.ResourceUrlRaw(repo_url_commits, map[string]string{":id": id})
 
 	var commits []*Commit
 
-	contents, err := g.buildAndExecRequest("GET", url, nil)
+	contents, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &commits)
 		if err == nil {
@@ -190,13 +190,13 @@ Get Raw file content
 */
 func (g *Gitlab) RepoRawFile(id, sha, filepath string) ([]byte, error) {
 
-	url := g.ResourceUrl(repo_url_raw_file, map[string]string{
+	url, opaque := g.ResourceUrlRaw(repo_url_raw_file, map[string]string{
 		":id":  id,
 		":sha": sha,
 	})
 	url += "&filepath=" + filepath
 
-	contents, err := g.buildAndExecRequest("GET", url, nil)
+	contents, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
 
 	return contents, err
 }

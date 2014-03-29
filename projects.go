@@ -95,11 +95,11 @@ Lists all branches of a project.
 */
 func (g *Gitlab) ProjectBranches(id string) ([]*Branch, error) {
 
-	url := g.ResourceUrl(project_url_branches, map[string]string{":id": id})
+	url, opaque := g.ResourceUrlRaw(project_url_branches, map[string]string{":id": id})
 
 	var branches []*Branch
 
-	contents, err := g.buildAndExecRequest("GET", url, nil)
+	contents, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &branches)
 	}
@@ -108,11 +108,11 @@ func (g *Gitlab) ProjectBranches(id string) ([]*Branch, error) {
 }
 
 func (g *Gitlab) ProjectMembers(id string) ([]*Member, error) {
-	url := g.ResourceUrl(project_url_members, map[string]string{":id": id})
+	url, opaque := g.ResourceUrlRaw(project_url_members, map[string]string{":id": id})
 
 	var members []*Member
 
-	contents, err := g.buildAndExecRequest("GET", url, nil)
+	contents, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &members)
 	}
