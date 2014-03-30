@@ -27,6 +27,8 @@ func TestParsePushHook(t *testing.T) {
 	assert.Equal(t, len(p.Commits), 2)
 	assert.Equal(t, p.Commits[0].Author.Email, "jordi@softcatala.org")
 	assert.Equal(t, p.Commits[1].Id, "da1560886d4f094c3e6c9ef40349f7d38b5d27d7")
+	assert.Equal(t, p.Branch(), "master")
+	assert.Equal(t, p.Head().Message, "fixed readme")
 }
 
 func TestParseIssueHook(t *testing.T) {
