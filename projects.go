@@ -74,7 +74,11 @@ func (g *Gitlab) Projects() ([]*Project, error) {
 /*
 Get a specific project, identified by project ID or NAME,
 which is owned by the authentication user.
-Currently namespaced projects cannot be retrieved by name.
+Namespaced project may be retrieved by specifying the namespace
+and its project name like this:
+
+	`namespace%2Fproject-name`
+
 */
 func (g *Gitlab) Project(id string) (*Project, error) {
 
