@@ -3,6 +3,7 @@ package gogitlab
 
 import (
 	"bytes"
+	"crypto/tls"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -28,7 +29,9 @@ const (
 
 func NewGitlab(baseUrl, apiPath, token string) *Gitlab {
 
-	client := &http.Client{}
+	config := &tls.Config{InsecureSkipVerify: true}
+	tr := &http.Transport{TLSClientConfig: config}
+	client := &http.Client{Transport: tr}
 
 	return &Gitlab{
 		BaseUrl: baseUrl,
