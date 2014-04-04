@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"crypto/tls"
 )
 
 const (
@@ -28,7 +29,9 @@ const (
 
 func NewGitlab(baseUrl, apiPath, token string) *Gitlab {
 
-	client := &http.Client{}
+	config := &tls.Config{InsecureSkipVerify: true}
+	tr := &http.Transport{ TLSClientConfig: config }
+	client := &http.Client{Transport: tr}
 
 	return &Gitlab{
 		BaseUrl: baseUrl,
