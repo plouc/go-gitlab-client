@@ -4,6 +4,7 @@ package gogitlab
 import (
 	"bytes"
 	"crypto/tls"
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -27,9 +28,13 @@ const (
 	dateLayout = "2006-01-02T15:04:05-07:00"
 )
 
-func NewGitlab(baseUrl, apiPath, token string) *Gitlab {
+var (
+	skipCertVerify = flag.Bool("gitlab.skip-cert-check", false,
+		`If set to true, gitlab client will skip certificate checking for https, possibly exposing your system to MITM attack.`)
+)
 
-	config := &tls.Config{InsecureSkipVerify: true}
+func NewGitlab(baseUrl, apiPath, token string) *Gitlab {
+	config := &tls.Config{InsecureSkipVerify: *skipCertVerify}
 	tr := &http.Transport{TLSClientConfig: config}
 	client := &http.Client{Transport: tr}
 
