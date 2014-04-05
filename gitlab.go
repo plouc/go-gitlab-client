@@ -35,7 +35,10 @@ var (
 
 func NewGitlab(baseUrl, apiPath, token string) *Gitlab {
 	config := &tls.Config{InsecureSkipVerify: *skipCertVerify}
-	tr := &http.Transport{TLSClientConfig: config}
+	tr := &http.Transport{
+		Proxy:           http.ProxyFromEnvironment,
+		TLSClientConfig: config,
+	}
 	client := &http.Client{Transport: tr}
 
 	return &Gitlab{
