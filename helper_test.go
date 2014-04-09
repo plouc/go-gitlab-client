@@ -1,7 +1,7 @@
 package gogitlab
 
 import (
-  "io/ioutil"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 )
@@ -12,5 +12,5 @@ func Stub(filename string) (*httptest.Server, *Gitlab) {
 		w.Write([]byte(stub))
 	}))
 	gitlab := NewGitlab(ts.URL, "", "")
-  return ts, gitlab
+	return ts, gitlab
 }

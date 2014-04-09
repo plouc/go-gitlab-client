@@ -1,14 +1,14 @@
 package main
 
 import (
-	"os"
+	"encoding/json"
 	"flag"
 	"fmt"
-	"time"
-	"strconv"
 	"github.com/plouc/go-gitlab-client"
 	"io/ioutil"
-	"encoding/json"
+	"os"
+	"strconv"
+	"time"
 )
 
 type Config struct {
@@ -21,24 +21,24 @@ func main() {
 	help := flag.Bool("help", false, "Show usage")
 
 	file, e := ioutil.ReadFile("../config.json")
-    if e != nil {
-        fmt.Printf("Config file error: %v\n", e)
-        os.Exit(1)
-    }
+	if e != nil {
+		fmt.Printf("Config file error: %v\n", e)
+		os.Exit(1)
+	}
 
-    var config Config
-    json.Unmarshal(file, &config)
-    fmt.Printf("Results: %+v\n", config)
+	var config Config
+	json.Unmarshal(file, &config)
+	fmt.Printf("Results: %+v\n", config)
 
-    gitlab := gogitlab.NewGitlab(config.Host, config.ApiPath, config.Token)
+	gitlab := gogitlab.NewGitlab(config.Host, config.ApiPath, config.Token)
 
 	var method string
-	flag.StringVar(&method, "m", "", "Specify method to retrieve projects infos, available methods:\n" +
-									   "  > -m projects\n" +
-									   "  > -m project  -id PROJECT_ID\n" +
-									   "  > -m hooks    -id PROJECT_ID\n" +
-									   "  > -m branches -id PROJECT_ID\n" +
-									   "  > -m team     -id PROJECT_ID")
+	flag.StringVar(&method, "m", "", "Specify method to retrieve projects infos, available methods:\n"+
+		"  > -m projects\n"+
+		"  > -m project  -id PROJECT_ID\n"+
+		"  > -m hooks    -id PROJECT_ID\n"+
+		"  > -m branches -id PROJECT_ID\n"+
+		"  > -m team     -id PROJECT_ID")
 
 	var id string
 	flag.StringVar(&id, "id", "", "Specify repository id")
@@ -83,26 +83,26 @@ func main() {
 
 		project, err := gitlab.Project(id)
 		if err != nil {
-			fmt.Println(err.Error())	
+			fmt.Println(err.Error())
 			return
 		}
 
 		format := "> %-23s: %s\n"
 
 		fmt.Printf("%s\n", project.Name)
-		fmt.Printf(format, "id",                     strconv.Itoa(project.Id))
-		fmt.Printf(format, "name",                   project.Name)
-		fmt.Printf(format, "description",            project.Description)
-		fmt.Printf(format, "default branch",         project.DefaultBranch)
-		fmt.Printf(format, "owner.name",             project.Owner.Username)
-		fmt.Printf(format, "public",                 strconv.FormatBool(project.Public))
-		fmt.Printf(format, "path",                   project.Path)
-		fmt.Printf(format, "path with namespace",    project.PathWithNamespace)
-		fmt.Printf(format, "issues enabled",         strconv.FormatBool(project.IssuesEnabled))
+		fmt.Printf(format, "id", strconv.Itoa(project.Id))
+		fmt.Printf(format, "name", project.Name)
+		fmt.Printf(format, "description", project.Description)
+		fmt.Printf(format, "default branch", project.DefaultBranch)
+		fmt.Printf(format, "owner.name", project.Owner.Username)
+		fmt.Printf(format, "public", strconv.FormatBool(project.Public))
+		fmt.Printf(format, "path", project.Path)
+		fmt.Printf(format, "path with namespace", project.PathWithNamespace)
+		fmt.Printf(format, "issues enabled", strconv.FormatBool(project.IssuesEnabled))
 		fmt.Printf(format, "merge requests enabled", strconv.FormatBool(project.MergeRequestsEnabled))
-		fmt.Printf(format, "wall enabled",           strconv.FormatBool(project.WallEnabled))
-		fmt.Printf(format, "wiki enabled",           strconv.FormatBool(project.WikiEnabled))
-		fmt.Printf(format, "created at",             project.CreatedAtRaw)
+		fmt.Printf(format, "wall enabled", strconv.FormatBool(project.WallEnabled))
+		fmt.Printf(format, "wiki enabled", strconv.FormatBool(project.WikiEnabled))
+		fmt.Printf(format, "created at", project.CreatedAtRaw)
 		//fmt.Printf(format, "namespace",           project.Namespace)
 
 	case "branches":
@@ -115,7 +115,7 @@ func main() {
 
 		branches, err := gitlab.ProjectBranches(id)
 		if err != nil {
-			fmt.Println(err.Error())	
+			fmt.Println(err.Error())
 			return
 		}
 
@@ -133,7 +133,7 @@ func main() {
 
 		hooks, err := gitlab.ProjectHooks(id)
 		if err != nil {
-			fmt.Println(err.Error())	
+			fmt.Println(err.Error())
 			return
 		}
 
@@ -155,8 +155,8 @@ func main() {
 			return
 		}
 
-	for _, member := range members {
-		fmt.Printf("> [%d] %s (%s) since %s\n", member.Id, member.Username, member.Name, member.CreatedAt)
-	}
+		for _, member := range members {
+			fmt.Printf("> [%d] %s (%s) since %s\n", member.Id, member.Username, member.Name, member.CreatedAt)
+		}
 	}
 }

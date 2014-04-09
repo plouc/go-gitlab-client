@@ -1,13 +1,13 @@
 package main
 
 import (
-	"os"
+	"encoding/json"
 	"flag"
 	"fmt"
-	"time"
 	"github.com/plouc/go-gitlab-client"
 	"io/ioutil"
-	"encoding/json"
+	"os"
+	"time"
 )
 
 type Config struct {
@@ -20,23 +20,23 @@ func main() {
 	help := flag.Bool("help", false, "Show usage")
 
 	file, e := ioutil.ReadFile("../config.json")
-    if e != nil {
-        fmt.Printf("Config file error: %v\n", e)
-        os.Exit(1)
-    }
+	if e != nil {
+		fmt.Printf("Config file error: %v\n", e)
+		os.Exit(1)
+	}
 
-    var config Config
-    json.Unmarshal(file, &config)
-    fmt.Printf("Results: %+v\n", config)
+	var config Config
+	json.Unmarshal(file, &config)
+	fmt.Printf("Results: %+v\n", config)
 
-    gitlab := gogitlab.NewGitlab(config.Host, config.ApiPath, config.Token)
+	gitlab := gogitlab.NewGitlab(config.Host, config.ApiPath, config.Token)
 
 	var method string
-	flag.StringVar(&method, "m", "", "Specify method to retrieve repositories, available methods:\n" +
-									   "  > branches\n" +
-									   "  > branch\n" +
-									   "  > tags\n" +
-									   "  > commits")
+	flag.StringVar(&method, "m", "", "Specify method to retrieve repositories, available methods:\n"+
+		"  > branches\n"+
+		"  > branch\n"+
+		"  > tags\n"+
+		"  > commits")
 
 	var id string
 	flag.StringVar(&id, "id", "", "Specify repository id")
@@ -88,7 +88,7 @@ func main() {
 		if err != nil {
 			fmt.Println(err.Error())
 		}
-	
+
 		for _, commit := range commits {
 			fmt.Printf("%s > [%s] %s\n", commit.CreatedAt.Format("Mon 02 Jan 15:04"), commit.Author_Name, commit.Title)
 		}
