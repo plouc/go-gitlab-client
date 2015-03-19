@@ -38,11 +38,11 @@ type hRepository struct {
 }
 
 type hCommit struct {
-	Id        string  `json:"id,omitempty"`
-	Message   string  `json:"message,omitempty"`
-	Timestamp string  `json:"timestamp,omitempty"`
-	URL       string  `json:"url,omitempty"`
-	Author    *Person `json:"author,omitempty"`
+	Id        string    `json:"id,omitempty"`
+	Message   string    `json:"message,omitempty"`
+	Timestamp time.Time `json:"timestamp,omitempty"`
+	URL       string    `json:"url,omitempty"`
+	Author    *Person   `json:"author,omitempty"`
 }
 
 type HookPayload struct {
