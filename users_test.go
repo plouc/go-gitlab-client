@@ -7,7 +7,7 @@ import (
 
 func TestUsers(t *testing.T) {
 	ts, gitlab := Stub("stubs/users/index.json")
-	users, err := gitlab.Users()
+	users, err := gitlab.Users(0, 0)
 
 	assert.Equal(t, err, nil)
 	assert.Equal(t, len(users), 2)

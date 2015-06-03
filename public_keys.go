@@ -7,9 +7,10 @@ import (
 
 const (
 	// ID
-	user_keys        = "/user/keys"     // Get current user keys
-	user_key         = "/user/keys/:id" // Get user key by id
-	custom_user_keys = "/user/:id/keys" // Create key for user with :id
+	user_keys        = "/user/keys"       // Get current user keys
+	user_key         = "/user/keys/:id"   // Get user key by id
+	list_keys        = "/users/:uid/keys" // Get keys for the user id
+	custom_user_keys = "/user/:id/keys"   // Create key for user with :id
 )
 
 type PublicKey struct {
@@ -28,6 +29,17 @@ func (g *Gitlab) UserKeys() ([]*PublicKey, error) {
 	}
 	return keys, err
 }
+
+func (g *Gitlab) ListKeys(id string) ([]*PublicKey, error) {
+	url := g.ResourceUrl(list_keys, map[string]string{":uid": id})
+	var keys []*PublicKey
+	contents, err := g.buildAndExecRequest("GET", url, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, &keys)
+	}
+	return keys, err
+}
+
 
 func (g *Gitlab) UserKey(id string) (*PublicKey, error) {
 	url := g.ResourceUrl(user_key, map[string]string{":id": id})
