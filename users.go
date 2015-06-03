@@ -2,12 +2,13 @@ package gogitlab
 
 import (
 	"encoding/json"
+	"strconv"
 )
 
 const (
-	users_url        = "/users"     // Get users list
-	user_url         = "/users/:id" // Get a single user.
-	current_user_url = "/user"      // Get current user
+	users_url        = "/users?page=:page&per_page=:per_page"     // Get users list
+	user_url         = "/users/:id"                               // Get a single user.
+	current_user_url = "/user"                                    // Get current user
 )
 
 type User struct {
@@ -27,9 +28,9 @@ type User struct {
 	ColorSchemeId int    `json:"color_scheme_id,color_scheme_id"`
 }
 
-func (g *Gitlab) Users() ([]*User, error) {
+func (g *Gitlab) Users(page, per_page int) ([]*User, error) {
 
-	url := g.ResourceUrl(user_url, nil)
+	url := g.ResourceUrl(users_url, map[string]string{":page": strconv.Itoa(page), ":per_page": strconv.Itoa(per_page)})
 
 	var users []*User
 

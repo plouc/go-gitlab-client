@@ -14,6 +14,15 @@ func TestGetUserKeys(t *testing.T) {
 	defer ts.Close()
 }
 
+func TestListKeys(t *testing.T) {
+	ts, gitlab := Stub("stubs/public_keys/index.json")
+	keys, err := gitlab.ListKeys("1")
+
+	assert.Equal(t, err, nil)
+	assert.Equal(t, len(keys), 2)
+	defer ts.Close()
+}
+
 func TestGetUserKey(t *testing.T) {
 	ts, gitlab := Stub("stubs/public_keys/show.json")
 	key, err := gitlab.UserKey("1")

@@ -57,7 +57,14 @@ func (g *Gitlab) ResourceUrl(url string, params map[string]string) string {
 		}
 	}
 
-	url = g.BaseUrl + g.ApiPath + url + "?private_token=" + g.Token
+	url = g.BaseUrl + g.ApiPath + url
+
+	if strings.Contains(url, "?") {
+		url = url + "&private_token=" + g.Token
+	} else {
+		url = url + "?private_token=" + g.Token
+	}
+
 	return url
 }
 
