@@ -41,3 +41,12 @@ func TestRepoCommits(t *testing.T) {
 	assert.Equal(t, len(commits), 2)
 	defer ts.Close()
 }
+
+func TestRepoTree(t *testing.T) {
+	ts, gitlab := Stub("stubs/trees/show.json")
+	tree, err := gitlab.RepoTree("1", "path", "ref_name")
+
+	assert.Equal(t, err, nil)
+	assert.Equal(t, len(tree), 6)
+	defer ts.Close()
+}

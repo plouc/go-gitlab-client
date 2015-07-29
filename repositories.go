@@ -14,6 +14,13 @@ const (
 	repo_url_raw_file = "/projects/:id/repository/blobs/:sha"       // Get raw file content for specific commit/branch
 )
 
+type TreeNode struct {
+	Name string
+	Type string
+	Mode string
+	Id   string
+}
+
 type BranchCommit struct {
 	Id               string  `json:"id,omitempty"`
 	Tree             string  `json:"tree,omitempty"`
@@ -50,6 +57,36 @@ type Commit struct {
 	Author_Email string
 	Created_At   string
 	CreatedAt    time.Time
+}
+
+/*
+Get a list of repository files and directories in a project.
+
+    GET /projects/:id/repository/tree
+
+Parameters:
+
+    id (required) The ID of a project
+    path (optional) The path inside repository. Used to get contend of subdirectories
+		ref_name (optional) The name of a repository branch or tag or if not given the default branch
+
+Usage:
+		pass nil when not using optional parameters
+*/
+func (g *Gitlab) RepoTree(id, path, ref_name string) ([]*TreeNode, error) {
+
+	url, opaque := g.ResourceUrlRaw(repo_url_tree, map[string]string{":id": id})
+	url += "&path=" + path
+	url += "&ref_name=" + ref_name
+
+	var treeNodes []*TreeNode
+
+	contents, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, &treeNodes)
+	}
+
+	return treeNodes, err
 }
 
 /*
