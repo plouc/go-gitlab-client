@@ -32,12 +32,9 @@ go-gitlab-client is a simple client written in golang to consume gitlab API.
 	* list project deploy keys
 	* add/get/rm project deploy key
 
-*
+*   
     ###Session [gitlab api doc](http://api.gitlab.org/session.html)
     * create session
-
-
-
 
 Note: In most cases, OAuth2 is the preferred method of authentication, and you can find GitLab OAuth2 documentation [here](http://api.gitlab.org/oauth2.html). Access to the GitLab Session API is provided as a convenience when OAuth2 doesn't fit your use case.
 
