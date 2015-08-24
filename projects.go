@@ -2,6 +2,7 @@ package gogitlab
 
 import (
 	"encoding/json"
+	"strconv"
 )
 
 const (
@@ -69,6 +70,22 @@ func (g *Gitlab) Projects() ([]*Project, error) {
 	}
 
 	return projects, err
+}
+
+/*
+Remove a project.
+*/
+func (g *Gitlab) RemoveProject(id string) (bool, error) {
+
+	url, opaque := g.ResourceUrlRaw(project_url, map[string]string{":id": id})
+	result := false
+
+	contents, err := g.buildAndExecRequestRaw("DELETE", url, opaque, nil)
+	if err == nil {
+		result, err = strconv.ParseBool(string(contents[:]))
+	}
+
+	return result, err
 }
 
 /*

@@ -33,3 +33,13 @@ func TestProjectBranches(t *testing.T) {
 	assert.Equal(t, len(branches), 2)
 	defer ts.Close()
 }
+
+func TestRemoveProject(t *testing.T) {
+	ts, gitlab := Stub("stubs/projects/remove.json")
+	defer ts.Close()
+
+	result, err := gitlab.RemoveProject("1")
+
+	assert.Equal(t, err, nil)
+	assert.Equal(t, result, true)
+}
