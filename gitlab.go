@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	dasboard_feed_path = "/dashboard.atom"
+	dashboardFeedPath = "/dashboard.atom"
 )
 
 type Gitlab struct {
