@@ -6,9 +6,10 @@ import (
 )
 
 const (
-	users_url        = "/users?page=:page&per_page=:per_page"     // Get users list
-	user_url         = "/users/:id"                               // Get a single user.
-	current_user_url = "/user"                                    // Get current user
+	users_url        = "/users?page=:page&per_page=:per_page" // Get users list
+	users_all_url    = "/users"                               // Get all users
+	user_url         = "/users/:id"                           // Get a single user.
+	current_user_url = "/user"                                // Get current user
 )
 
 type User struct {
@@ -26,6 +27,19 @@ type User struct {
 	Provider      string `json:"provider,omitempty"`
 	ThemeId       int    `json:"theme_id,omitempty"`
 	ColorSchemeId int    `json:"color_scheme_id,color_scheme_id"`
+}
+
+func (g *Gitlab) AllUsers() ([]*User, error) {
+	url := g.ResourceUrl(users_all_url, nil)
+
+	var users []*User
+
+	contents, err := g.buildAndExecRequestEx("GET", url, "", nil, true)
+	if err == nil {
+		err = json.Unmarshal(contents, &users)
+	}
+
+	return users, err
 }
 
 func (g *Gitlab) Users(page, per_page int) ([]*User, error) {
