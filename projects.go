@@ -2,11 +2,13 @@ package gogitlab
 
 import (
 	"encoding/json"
+	"fmt"
 	"strconv"
 )
 
 const (
 	projects_url         = "/projects"                         // Get a list of projects owned by the authenticated user
+	projects_all_url     = "/projects/all"                     // Get a list of all projects (admin-only)
 	projects_search_url  = "/projects/search/:query"           // Search for projects by name
 	project_url          = "/projects/:id"                     // Get a specific project, identified by project ID or NAME
 	project_url_events   = "/projects/:id/events"              // Get project events
@@ -15,14 +17,39 @@ const (
 	project_url_member   = "/projects/:id/members/:user_id"    // Get project team member
 )
 
+type AccessLevel int
+
+func (al AccessLevel) Name() string {
+	if name, ok := accessLevelNameMap[al]; ok {
+		return name
+	}
+	return fmt.Sprintf("Unknown(%d)", al)
+}
+
+const (
+	AccessLevelGuest     AccessLevel = 10
+	AccessLevelReporter              = 20
+	AccessLevelDeveloper             = 30
+	AccessLevelMaster                = 40
+	AccessLevelOwner                 = 50
+)
+
+var accessLevelNameMap = map[AccessLevel]string{
+	AccessLevelGuest:     "guest",
+	AccessLevelReporter:  "reporter",
+	AccessLevelDeveloper: "developer",
+	AccessLevelMaster:    "master",
+	AccessLevelOwner:     "owner",
+}
+
 type Member struct {
-	Id        int
-	Username  string
-	Email     string
-	Name      string
-	State     string
-	CreatedAt string `json:"created_at,omitempty"`
-	// AccessLevel int
+	Id          int
+	Username    string
+	Email       string
+	Name        string
+	State       string
+	CreatedAt   string      `json:"created_at,omitempty"`
+	AccessLevel AccessLevel `json:"access_level,omitempty"`
 }
 
 type Namespace struct {
@@ -65,6 +92,22 @@ func (g *Gitlab) Projects() ([]*Project, error) {
 	var projects []*Project
 
 	contents, err := g.buildAndExecRequest("GET", url, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, &projects)
+	}
+
+	return projects, err
+}
+
+/*
+Get a list of all projects (admin-only).
+*/
+func (g *Gitlab) AllProjects() ([]*Project, error) {
+	url := g.ResourceUrl(projects_all_url, nil)
+
+	var projects []*Project
+
+	contents, err := g.buildAndExecRequestEx("GET", url, "", nil, true)
 	if err == nil {
 		err = json.Unmarshal(contents, &projects)
 	}
@@ -133,7 +176,7 @@ func (g *Gitlab) ProjectMembers(id string) ([]*Member, error) {
 
 	var members []*Member
 
-	contents, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
+	contents, err := g.buildAndExecRequestEx("GET", url, opaque, nil, true)
 	if err == nil {
 		err = json.Unmarshal(contents, &members)
 	}
