@@ -57,6 +57,7 @@ type Commit struct {
 	Author_Email string
 	Created_At   string
 	CreatedAt    time.Time
+	Message      string
 }
 
 /*
