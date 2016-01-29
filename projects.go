@@ -7,6 +7,7 @@ import (
 
 const (
 	projects_url         = "/projects"                         // Get a list of projects owned by the authenticated user
+	projects_all         = "/projects/all"                     // Get a list of all GitLab projects (admin only)
 	projects_search_url  = "/projects/search/:query"           // Search for projects by name
 	project_url          = "/projects/:id"                     // Get a specific project, identified by project ID or NAME
 	project_url_events   = "/projects/:id/events"              // Get project events
@@ -55,12 +56,8 @@ type Project struct {
 	HttpRepoUrl          string     `json:"http_url_to_repo"`
 }
 
-/*
-Get a list of projects owned by the authenticated user.
-*/
-func (g *Gitlab) Projects() ([]*Project, error) {
-
-	url := g.ResourceUrl(projects_url, nil)
+func projects(u string, g *Gitlab) ([]*Project, error) {
+	url := g.ResourceUrl(u, nil)
 
 	var projects []*Project
 
@@ -70,6 +67,20 @@ func (g *Gitlab) Projects() ([]*Project, error) {
 	}
 
 	return projects, err
+}
+
+/*
+Get a list of projects owned by the authenticated user.
+*/
+func (g *Gitlab) Projects() ([]*Project, error) {
+	return projects(projects_url, g)
+}
+
+/*
+Get a list of all GitLab projects (admin only).
+*/
+func (g *Gitlab) AllProjects() ([]*Project, error) {
+	return projects(projects_all, g)
 }
 
 /*
