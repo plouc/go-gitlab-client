@@ -68,8 +68,7 @@ func (g *Gitlab) ResourceUrl(url string, params map[string]string) string {
 	return url
 }
 
-func (g *Gitlab) buildAndExecRequest(method, url string, body []byte) ([]byte, error) {
-
+func (g *Gitlab) execRequest(method, url string, body []byte) (*http.Response, error) {
 	var req *http.Request
 	var err error
 
@@ -79,6 +78,7 @@ func (g *Gitlab) buildAndExecRequest(method, url string, body []byte) ([]byte, e
 	} else {
 		req, err = http.NewRequest(method, url, nil)
 	}
+
 	if err != nil {
 		panic("Error while building gitlab request")
 	}
@@ -87,14 +87,26 @@ func (g *Gitlab) buildAndExecRequest(method, url string, body []byte) ([]byte, e
 	if err != nil {
 		return nil, fmt.Errorf("Client.Do error: %q", err)
 	}
+
+	if resp.StatusCode >= http.StatusBadRequest {
+		err = fmt.Errorf("*Gitlab.buildAndExecRequest failed: <%d> %s", resp.StatusCode, req.URL)
+	}
+
+	return resp, err
+}
+
+func (g *Gitlab) buildAndExecRequest(method, url string, body []byte) ([]byte, error) {
+	resp, err := g.execRequest(method, url, body)
+
+	if err != nil {
+		return nil, err
+	}
+
 	defer resp.Body.Close()
+
 	contents, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Printf("%s", err)
-	}
-
-	if resp.StatusCode >= 400 {
-		err = fmt.Errorf("*Gitlab.buildAndExecRequest failed: <%d> %s", resp.StatusCode, req.URL)
 	}
 
 	return contents, err
@@ -115,6 +127,7 @@ func (g *Gitlab) ResourceUrlRaw(u string, params map[string]string) (string, str
 		return u, ""
 	}
 	opaque := "//" + p.Host + g.ApiPath + path
+
 	return u, opaque
 }
 
