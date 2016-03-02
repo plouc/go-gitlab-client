@@ -41,13 +41,13 @@ func (g *Gitlab) Activity() (ActivityFeed, error) {
 
 	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err != nil {
-		fmt.Println("%s", err)
+		fmt.Printf("%s\n", err.Error())
 	}
 
 	var activity ActivityFeed
 	err = xml.Unmarshal(contents, &activity)
 	if err != nil {
-		fmt.Println("%s", err)
+		fmt.Printf("%s\n", err.Error())
 	}
 
 	return activity, err
@@ -59,13 +59,13 @@ func (g *Gitlab) RepoActivityFeed(feedPath string) ActivityFeed {
 
 	contents, err := g.buildAndExecRequest("GET", url, nil)
 	if err != nil {
-		fmt.Println("%s", err)
+		fmt.Printf("%s\n", err)
 	}
 
 	var activity ActivityFeed
 	err = xml.Unmarshal(contents, &activity)
 	if err != nil {
-		fmt.Println("%s", err)
+		fmt.Printf("%s\n", err)
 	}
 
 	return activity

@@ -6,9 +6,9 @@ import (
 )
 
 const (
-	users_url        = "/users?page=:page&per_page=:per_page"     // Get users list
-	user_url         = "/users/:id"                               // Get a single user.
-	current_user_url = "/user"                                    // Get current user
+	users_url        = "/users?page=:page&per_page=:per_page" // Get users list
+	user_url         = "/users/:id"                           // Get a single user.
+	current_user_url = "/user"                                // Get current user
 )
 
 type User struct {
