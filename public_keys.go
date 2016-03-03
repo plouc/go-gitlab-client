@@ -40,7 +40,6 @@ func (g *Gitlab) ListKeys(id string) ([]*PublicKey, error) {
 	return keys, err
 }
 
-
 func (g *Gitlab) UserKey(id string) (*PublicKey, error) {
 	url := g.ResourceUrl(user_key, map[string]string{":id": id})
 	var key *PublicKey
