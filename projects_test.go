@@ -22,6 +22,7 @@ func TestProject(t *testing.T) {
 	assert.IsType(t, new(Project), project)
 	assert.Equal(t, project.SshRepoUrl, "git@example.com:diaspora/diaspora-project-site.git")
 	assert.Equal(t, project.HttpRepoUrl, "http://example.com/diaspora/diaspora-project-site.git")
+	assert.Equal(t, project.WebUrl, "http://example.com/diaspora/diaspora-project-site")
 	defer ts.Close()
 }
 
