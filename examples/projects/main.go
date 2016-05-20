@@ -195,7 +195,7 @@ func main() {
 		}
 
 		for _, mr := range mrs {
-			fmt.Printf("> [%d] %s (+%d) by %s. WIP : %t\n", mr.Id, mr.Title, mr.Upvotes, mr.Author.Name, mr.WorkInProgress)
+			fmt.Printf("> [%d] %s (+%d) by %s on %s.\n", mr.Id, mr.Title, mr.Upvotes, mr.Author.Name, mr.CreatedAt)
 		}
 
 	}

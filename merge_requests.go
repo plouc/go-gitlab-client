@@ -23,6 +23,8 @@ type MergeRequest struct {
 	ProjectId      int    `json:"project_id,omitempty"`
 	Title          string `json:"title,omitempty"`
 	State          string `json:"state,omitempty"`
+	CreatedAt      string `json:"created_at,omitempty"`
+	UpdatedAt      string `json:"updated_at,omitempty"`
 	Upvotes        int    `json:"upvotes,omitempty"`
 	Downvotes      int    `json:"downvotes,omitempty"`
 	Author         *User  `json:"author,omitempty"`
