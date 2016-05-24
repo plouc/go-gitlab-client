@@ -35,13 +35,23 @@ func main() {
 	var method string
 	flag.StringVar(&method, "m", "", "Specify method to retrieve projects infos, available methods:\n"+
 		"  > -m projects\n"+
-		"  > -m project  -id PROJECT_ID\n"+
-		"  > -m hooks    -id PROJECT_ID\n"+
-		"  > -m branches -id PROJECT_ID\n"+
-		"  > -m team     -id PROJECT_ID")
+		"  > -m project        -id PROJECT_ID\n"+
+		"  > -m hooks          -id PROJECT_ID\n"+
+		"  > -m branches       -id PROJECT_ID\n"+
+		"  > -m team           -id PROJECT_ID\n"+
+		"  > -m merge_requests -id PROJECT_ID [-state <all|merged|opened|closed>] [-order <created_at|updated_at>] [-sort <asc|desc>]")
 
 	var id string
 	flag.StringVar(&id, "id", "", "Specify repository id")
+
+	var state string
+	flag.StringVar(&state, "state", "", "Specify merge request state")
+
+	var order string
+	flag.StringVar(&order, "order", "", "Specify merge request order")
+
+	var sort string
+	flag.StringVar(&sort, "sort", "", "Specify merge request sort")
 
 	flag.Usage = func() {
 		fmt.Printf("Usage:\n")
@@ -158,5 +168,35 @@ func main() {
 		for _, member := range members {
 			fmt.Printf("> [%d] %s (%s) since %s\n", member.Id, member.Username, member.Name, member.CreatedAt)
 		}
+
+	case "merge_requests":
+		fmt.Println("Fetching project merge requests...")
+
+		if id == "" {
+			flag.Usage()
+			return
+		}
+
+		var params map[string]string = make(map[string]string)
+		if state != "" {
+			params["state"] = state
+		}
+		if order != "" {
+			params["order_by"] = order
+		}
+		if sort != "" {
+			params["sort"] = sort
+		}
+
+		mrs, err := gitlab.ProjectMergeRequests(id, params)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		for _, mr := range mrs {
+			fmt.Printf("> [%d] %s (+%d) by %s on %s.\n", mr.Id, mr.Title, mr.Upvotes, mr.Author.Name, mr.CreatedAt)
+		}
+
 	}
 }
