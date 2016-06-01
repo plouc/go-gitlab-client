@@ -31,6 +31,7 @@ type MergeRequest struct {
 	Assignee       *User  `json:"assignee,omitempty"`
 	Description    string `json:"description,omitempty"`
 	WorkInProgress bool   `json:"work_in_progress,omitempty"`
+	MergeStatus    string `json:"merge_status,omitempty"`
 }
 
 type ChangeItem struct {
