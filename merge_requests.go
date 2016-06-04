@@ -16,21 +16,24 @@ const (
 )
 
 type MergeRequest struct {
-	Id             int    `json:"id,omitempty"`
-	Iid            int    `json:"iid,omitempty"`
-	TargetBranch   string `json:"target_branch,omitempty"`
-	SourceBranch   string `json:"source_branch,omitempty"`
-	ProjectId      int    `json:"project_id,omitempty"`
-	Title          string `json:"title,omitempty"`
-	State          string `json:"state,omitempty"`
-	CreatedAt      string `json:"created_at,omitempty"`
-	UpdatedAt      string `json:"updated_at,omitempty"`
-	Upvotes        int    `json:"upvotes,omitempty"`
-	Downvotes      int    `json:"downvotes,omitempty"`
-	Author         *User  `json:"author,omitempty"`
-	Assignee       *User  `json:"assignee,omitempty"`
-	Description    string `json:"description,omitempty"`
-	WorkInProgress bool   `json:"work_in_progress,omitempty"`
+	Id              int    `json:"id,omitempty"`
+	Iid             int    `json:"iid,omitempty"`
+	TargetBranch    string `json:"target_branch,omitempty"`
+	SourceBranch    string `json:"source_branch,omitempty"`
+	ProjectId       int    `json:"project_id,omitempty"`
+	Title           string `json:"title,omitempty"`
+	State           string `json:"state,omitempty"`
+	CreatedAt       string `json:"created_at,omitempty"`
+	UpdatedAt       string `json:"updated_at,omitempty"`
+	Upvotes         int    `json:"upvotes,omitempty"`
+	Downvotes       int    `json:"downvotes,omitempty"`
+	Author          *User  `json:"author,omitempty"`
+	Assignee        *User  `json:"assignee,omitempty"`
+	Description     string `json:"description,omitempty"`
+	WorkInProgress  bool   `json:"work_in_progress,omitempty"`
+	MergeStatus     string `json:"merge_status,omitempty"`
+	SourceProjectID int    `json:"source_project_id,omitempty"`
+	TargetProjectID int    `json:"target_project_id,omitempty"`
 }
 
 type ChangeItem struct {
