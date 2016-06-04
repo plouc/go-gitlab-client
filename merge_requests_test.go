@@ -22,8 +22,8 @@ func TestProjectMergeRequest(t *testing.T) {
 	assert.Equal(t, err, nil)
 	assert.Equal(t, mr.TargetBranch, "master")
 	assert.Equal(t, mr.MergeStatus, "can_be_merged")
-	assert.Equal(t, mr.SourceProjectID, "2")
-	assert.Equal(t, mr.TargetProjectID, "3")
+	assert.Equal(t, mr.SourceProjectID, 2)
+	assert.Equal(t, mr.TargetProjectID, 3)
 	defer ts.Close()
 }
 

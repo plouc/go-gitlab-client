@@ -32,8 +32,8 @@ type MergeRequest struct {
 	Description     string `json:"description,omitempty"`
 	WorkInProgress  bool   `json:"work_in_progress,omitempty"`
 	MergeStatus     string `json:"merge_status,omitempty"`
-	SourceProjectID string `json:"source_project_id,omitempty"`
-	TargetProjectID string `json:"target_project_id,omitempty"`
+	SourceProjectID int    `json:"source_project_id,omitempty"`
+	TargetProjectID int    `json:"target_project_id,omitempty"`
 }
 
 type ChangeItem struct {
