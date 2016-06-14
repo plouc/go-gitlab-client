@@ -79,6 +79,10 @@ func (g *Gitlab) execRequest(method, url string, body []byte) (*http.Response, e
 		req, err = http.NewRequest(method, url, nil)
 	}
 
+	if method == "POST" || method == "PUT" {
+		req.Header.Add("Content-Type", "application/json")
+	}
+
 	if err != nil {
 		panic("Error while building gitlab request")
 	}
@@ -142,6 +146,11 @@ func (g *Gitlab) buildAndExecRequestRaw(method, url, opaque string, body []byte)
 	} else {
 		req, err = http.NewRequest(method, url, nil)
 	}
+
+	if method == "POST" || method == "PUT" {
+		req.Header.Add("Content-Type", "application/json")
+	}
+
 	if err != nil {
 		panic("Error while building gitlab request")
 	}
