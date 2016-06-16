@@ -23,6 +23,7 @@
     "snippets_enabled": false,
     "created_at": "2013-09-30T13: 46: 02Z",
     "last_activity_at": "2013-09-30T13: 46: 02Z",
+    "shared_runners_enabled": true,
     "namespace": {
         "created_at": "2013-09-30T13: 46: 02Z",
         "description": "",

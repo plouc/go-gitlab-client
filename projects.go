@@ -55,6 +55,7 @@ type Project struct {
 	SshRepoUrl           string     `json:"ssh_url_to_repo"`
 	HttpRepoUrl          string     `json:"http_url_to_repo"`
 	WebUrl               string     `json:"web_url"`
+	SharedRunners        bool       `json:"shared_runners_enabled"`
 }
 
 func projects(u string, g *Gitlab) ([]*Project, error) {

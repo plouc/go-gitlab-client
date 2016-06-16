@@ -113,6 +113,7 @@ func main() {
 		fmt.Printf(format, "wall enabled", strconv.FormatBool(project.WallEnabled))
 		fmt.Printf(format, "wiki enabled", strconv.FormatBool(project.WikiEnabled))
 		fmt.Printf(format, "created at", project.CreatedAtRaw)
+		fmt.Printf(format, "shared runners enabled", strconv.FormatBool(project.SharedRunners))
 		//fmt.Printf(format, "namespace",           project.Namespace)
 
 	case "branches":
