@@ -9,7 +9,7 @@ func TestUsers(t *testing.T) {
 	ts, gitlab := Stub("stubs/users/index.json")
 	users, err := gitlab.Users(0, 0)
 
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.Equal(t, len(users), 2)
 	defer ts.Close()
 }
@@ -18,7 +18,7 @@ func TestUser(t *testing.T) {
 	ts, gitlab := Stub("stubs/users/show.json")
 	user, err := gitlab.User("plouc")
 
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.IsType(t, new(User), user)
 	assert.Equal(t, user.Id, 6)
 	assert.Equal(t, user.Username, "plouc")
@@ -39,7 +39,7 @@ func TestDeleteUser(t *testing.T) {
 	ts, gitlab := Stub("")
 	err := gitlab.DeleteUser("1")
 
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	defer ts.Close()
 }
 
@@ -47,7 +47,7 @@ func TestCurrentUser(t *testing.T) {
 	ts, gitlab := Stub("stubs/users/current.json")
 	user, err := gitlab.CurrentUser()
 
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.Equal(t, user.Username, "john_smith")
 	defer ts.Close()
 }
