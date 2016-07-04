@@ -35,7 +35,7 @@ func main() {
 	var method string
 	flag.StringVar(&method, "m", "", "Specify method to retrieve projects infos, available methods:\n"+
 		"  > -m projects\n"+
-		"  > -m project        -id PROJECT_ID\n"+
+		"  > -m project        -id PROJECT_ID [-o <edit> -desc PROJECT_DESCRIPTION]\n"+
 		"  > -m hooks          -id PROJECT_ID\n"+
 		"  > -m branches       -id PROJECT_ID\n"+
 		"  > -m team           -id PROJECT_ID\n"+
@@ -52,6 +52,12 @@ func main() {
 
 	var sort string
 	flag.StringVar(&sort, "sort", "", "Specify merge request sort")
+
+	var operation string
+	flag.StringVar(&operation, "o", "", "Specify operation")
+
+	var desc string
+	flag.StringVar(&desc, "desc", "", "Specify description")
 
 	flag.Usage = func() {
 		fmt.Printf("Usage:\n")
@@ -84,37 +90,55 @@ func main() {
 		}
 
 	case "project":
-		fmt.Println("Fetching project…")
 
 		if id == "" {
 			flag.Usage()
 			return
 		}
 
-		project, err := gitlab.Project(id)
-		if err != nil {
-			fmt.Println(err.Error())
-			return
+		if operation == "" {
+			fmt.Println("Fetching project…")
+
+			project, err := gitlab.Project(id)
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
+
+			format := "> %-23s: %s\n"
+
+			fmt.Printf("%s\n", project.Name)
+			fmt.Printf(format, "id", strconv.Itoa(project.Id))
+			fmt.Printf(format, "name", project.Name)
+			fmt.Printf(format, "description", project.Description)
+			fmt.Printf(format, "default branch", project.DefaultBranch)
+			fmt.Printf(format, "owner.name", project.Owner.Username)
+			fmt.Printf(format, "public", strconv.FormatBool(project.Public))
+			fmt.Printf(format, "path", project.Path)
+			fmt.Printf(format, "path with namespace", project.PathWithNamespace)
+			fmt.Printf(format, "issues enabled", strconv.FormatBool(project.IssuesEnabled))
+			fmt.Printf(format, "merge requests enabled", strconv.FormatBool(project.MergeRequestsEnabled))
+			fmt.Printf(format, "wall enabled", strconv.FormatBool(project.WallEnabled))
+			fmt.Printf(format, "wiki enabled", strconv.FormatBool(project.WikiEnabled))
+			fmt.Printf(format, "shared runners enabled", strconv.FormatBool(project.SharedRunners))
+			fmt.Printf(format, "created at", project.CreatedAtRaw)
+			//fmt.Printf(format, "namespace",           project.Namespace)
 		}
 
-		format := "> %-23s: %s\n"
+		switch operation {
+		case "edit":
+			fmt.Println("Edit project...")
 
-		fmt.Printf("%s\n", project.Name)
-		fmt.Printf(format, "id", strconv.Itoa(project.Id))
-		fmt.Printf(format, "name", project.Name)
-		fmt.Printf(format, "description", project.Description)
-		fmt.Printf(format, "default branch", project.DefaultBranch)
-		fmt.Printf(format, "owner.name", project.Owner.Username)
-		fmt.Printf(format, "public", strconv.FormatBool(project.Public))
-		fmt.Printf(format, "path", project.Path)
-		fmt.Printf(format, "path with namespace", project.PathWithNamespace)
-		fmt.Printf(format, "issues enabled", strconv.FormatBool(project.IssuesEnabled))
-		fmt.Printf(format, "merge requests enabled", strconv.FormatBool(project.MergeRequestsEnabled))
-		fmt.Printf(format, "wall enabled", strconv.FormatBool(project.WallEnabled))
-		fmt.Printf(format, "wiki enabled", strconv.FormatBool(project.WikiEnabled))
-		fmt.Printf(format, "created at", project.CreatedAtRaw)
-		fmt.Printf(format, "shared runners enabled", strconv.FormatBool(project.SharedRunners))
-		//fmt.Printf(format, "namespace",           project.Namespace)
+			project := gogitlab.Project{
+				Description: desc,
+			}
+
+			_, err := gitlab.UpdateProject(id, &project)
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
+		}
 
 	case "branches":
 		fmt.Println("Fetching project branches…")

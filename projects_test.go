@@ -26,6 +26,17 @@ func TestProject(t *testing.T) {
 	defer ts.Close()
 }
 
+func TestUpdateProject(t *testing.T) {
+	ts, gitlab := Stub("stubs/projects/show.json")
+	project := Project{
+		Description: "Project Description",
+	}
+
+	_, err := gitlab.UpdateProject("1", &project)
+	assert.Equal(t, err, nil)
+	defer ts.Close()
+}
+
 func TestProjectBranches(t *testing.T) {
 	ts, gitlab := Stub("stubs/projects/branches/index.json")
 	branches, err := gitlab.ProjectBranches("1")

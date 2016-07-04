@@ -125,6 +125,33 @@ func (g *Gitlab) Project(id string) (*Project, error) {
 }
 
 /*
+Update a specific project, identified by project ID or NAME,
+which is owned by the authentication user.
+Namespaced project may be retrieved by specifying the namespace
+and its project name like this:
+
+	`namespace%2Fproject-name`
+
+*/
+func (g *Gitlab) UpdateProject(id string, project *Project) (*Project, error) {
+
+	url := g.ResourceUrl(project_url, map[string]string{":id": id})
+
+	encodedRequest, err := json.Marshal(project)
+	if err != nil {
+		return nil, err
+	}
+	var result *Project
+
+	contents, err := g.buildAndExecRequest("PUT", url, encodedRequest)
+	if err == nil {
+		err = json.Unmarshal(contents, &result)
+	}
+
+	return result, err
+}
+
+/*
 Lists all branches of a project.
 */
 func (g *Gitlab) ProjectBranches(id string) ([]*Branch, error) {
