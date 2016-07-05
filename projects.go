@@ -40,6 +40,7 @@ type Namespace struct {
 type Project struct {
 	Id                   int        `json:"id,omitempty"`
 	Name                 string     `json:"name,omitempty"`
+	NamespaceId          int        `json:"namespace_id,omitempty"` // only for request
 	Description          string     `json:"description,omitempty"`
 	DefaultBranch        string     `json:"default_branch,omitempty"`
 	Owner                *Member    `json:"owner,omitempty"`
@@ -48,6 +49,8 @@ type Project struct {
 	PathWithNamespace    string     `json:"path_with_namespace,omitempty"`
 	IssuesEnabled        bool       `json:"issues_enabled,omitempty"`
 	MergeRequestsEnabled bool       `json:"merge_requests_enabled,omitempty"`
+	BuildsEnabled        bool       `json:"builds_enabled,omitempty"`
+	PublicBuilds         bool       `json:"public_builds,omitempty"`
 	WallEnabled          bool       `json:"wall_enabled,omitempty"`
 	WikiEnabled          bool       `json:"wiki_enabled,omitempty"`
 	CreatedAtRaw         string     `json:"created_at,omitempty"`
@@ -122,6 +125,28 @@ func (g *Gitlab) Project(id string) (*Project, error) {
 	}
 
 	return project, err
+}
+
+/*
+Create a project which will be owned by the authentication user.
+
+*/
+func (g *Gitlab) CreateProject(project *Project) (*Project, error) {
+
+	url := g.ResourceUrl(projects_url, nil)
+
+	encodedRequest, err := json.Marshal(project)
+	if err != nil {
+		return nil, err
+	}
+	var result *Project
+
+	contents, err := g.buildAndExecRequest("POST", url, encodedRequest)
+	if err == nil {
+		err = json.Unmarshal(contents, &result)
+	}
+
+	return result, err
 }
 
 /*
