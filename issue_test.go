@@ -15,7 +15,7 @@ func TestAddIssue(t *testing.T) {
 	}
 	issue, err := gitlab.AddIssue("1", req)
 
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.Equal(t, issue.Id, 1)
 	assert.Equal(t, issue.IId, 1)
 	assert.Equal(t, issue.ProjectId, 1)

@@ -6,14 +6,16 @@ import (
 )
 
 const (
-	projects_url         = "/projects"                         // Get a list of projects owned by the authenticated user
-	projects_all         = "/projects/all"                     // Get a list of all GitLab projects (admin only)
-	projects_search_url  = "/projects/search/:query"           // Search for projects by name
-	project_url          = "/projects/:id"                     // Get a specific project, identified by project ID or NAME
-	project_url_events   = "/projects/:id/events"              // Get project events
-	project_url_branches = "/projects/:id/repository/branches" // Lists all branches of a project
-	project_url_members  = "/projects/:id/members"             // List project team members
-	project_url_member   = "/projects/:id/members/:user_id"    // Get project team member
+	projects_url          = "/projects"                             // Get a list of projects owned by the authenticated user
+	projects_all          = "/projects/all"                         // Get a list of all GitLab projects (admin only)
+	projects_search_url   = "/projects/search/:query"               // Search for projects by name
+	project_url           = "/projects/:id"                         // Get a specific project, identified by project ID or NAME
+	project_url_events    = "/projects/:id/events"                  // Get project events
+	project_url_branches  = "/projects/:id/repository/branches"     // Lists all branches of a project
+	project_url_members   = "/projects/:id/members"                 // List project team members
+	project_url_member    = "/projects/:id/members/:user_id"        // Get project team member
+	project_url_variables = "/projects/:id/variables"               // List project variables or add one
+	project_url_variable  = "/projects/:id/variables/:variable_key" // Get or Update project variable
 )
 
 type Member struct {
@@ -34,6 +36,11 @@ type Namespace struct {
 	Owner_Id    int
 	Created_At  string
 	Updated_At  string
+}
+
+type Variable struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
 }
 
 // A gitlab project
@@ -179,4 +186,94 @@ func (g *Gitlab) ProjectMembers(id string) ([]*Member, error) {
 	}
 
 	return members, err
+}
+
+/*
+Lists all variables of a project
+*/
+func (g *Gitlab) ProjectVariables(id string) ([]*Variable, error) {
+	url, opaque := g.ResourceUrlRaw(project_url_variables, map[string]string{":id": id})
+
+	var variables []*Variable
+
+	contents, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, &variables)
+	}
+
+	return variables, err
+}
+
+/*
+Shows a project variable
+*/
+func (g *Gitlab) ProjectVariable(id string, key string) (*Variable, error) {
+	url, opaque := g.ResourceUrlRaw(project_url_variable, map[string]string{":id": id, ":variable_key": key})
+
+	var result *Variable
+
+	contents, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, &result)
+	}
+
+	return result, err
+}
+
+/*
+Adds a project variable
+*/
+func (g *Gitlab) AddProjectVariable(id string, variable *Variable) (*Variable, error) {
+	url, opaque := g.ResourceUrlRaw(project_url_variables, map[string]string{":id": id})
+
+	encodedRequest, err := json.Marshal(variable)
+	if err != nil {
+		return nil, err
+	}
+
+	var result *Variable
+
+	contents, err := g.buildAndExecRequestRaw("POST", url, opaque, encodedRequest)
+	if err == nil {
+		err = json.Unmarshal(contents, &result)
+	}
+
+	return result, err
+}
+
+/*
+Updates a project variable
+*/
+func (g *Gitlab) UpdateProjectVariable(id string, variable *Variable) (*Variable, error) {
+	url := g.ResourceUrl(project_url_variable, map[string]string{":id": id, ":variable_key": variable.Key})
+
+	encodedRequest, err := json.Marshal(variable)
+	if err != nil {
+		return nil, err
+	}
+	var result *Variable
+
+	contents, err := g.buildAndExecRequest("PUT", url, encodedRequest)
+
+	if err == nil {
+		err = json.Unmarshal(contents, &result)
+	}
+
+	return result, err
+}
+
+/*
+Deletes a project variable
+*/
+func (g *Gitlab) DeleteProjectVariable(id string, key string) (*Variable, error) {
+	url, opaque := g.ResourceUrlRaw(project_url_variable, map[string]string{":id": id, ":variable_key": key})
+
+	var result *Variable
+
+	contents, err := g.buildAndExecRequestRaw("DELETE", url, opaque, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, &result)
+	}
+
+	return result, err
 }

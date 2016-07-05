@@ -39,7 +39,8 @@ func main() {
 		"  > -m hooks          -id PROJECT_ID\n"+
 		"  > -m branches       -id PROJECT_ID\n"+
 		"  > -m team           -id PROJECT_ID\n"+
-		"  > -m merge_requests -id PROJECT_ID [-state <all|merged|opened|closed>] [-order <created_at|updated_at>] [-sort <asc|desc>]")
+		"  > -m merge_requests -id PROJECT_ID [-state <all|merged|opened|closed>] [-order <created_at|updated_at>] [-sort <asc|desc>]\n"+
+		"  > -m variables      -id PROJECT_ID [-o <add|get|edit|rm>] [-key VARIABLE_KEY] [-value VARIABLE_VALUE]")
 
 	var id string
 	flag.StringVar(&id, "id", "", "Specify repository id")
@@ -55,6 +56,12 @@ func main() {
 
 	var operation string
 	flag.StringVar(&operation, "o", "", "Specify operation")
+
+	var key string
+	flag.StringVar(&key, "key", "", "Specify key")
+
+	var value string
+	flag.StringVar(&value, "value", "", "Specify value")
 
 	var desc string
 	flag.StringVar(&desc, "desc", "", "Specify description")
@@ -223,5 +230,99 @@ func main() {
 			fmt.Printf("> [%d] %s (+%d) by %s on %s.\n", mr.Id, mr.Title, mr.Upvotes, mr.Author.Name, mr.CreatedAt)
 		}
 
+	case "variables":
+
+		if id == "" {
+			flag.Usage()
+			return
+		}
+
+		if operation == "" {
+			fmt.Println("Fetching project variables...")
+
+			variables, err := gitlab.ProjectVariables(id)
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
+
+			for _, variable := range variables {
+				fmt.Printf("> %s -> %s.\n", variable.Key, variable.Value)
+			}
+			return
+		}
+
+		switch operation {
+		case "get":
+			fmt.Println("Fetching project variable...")
+			if key == "" {
+				flag.Usage()
+				return
+			}
+
+			variable, err := gitlab.ProjectVariable(id, key)
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
+
+			fmt.Printf("> %s -> %s.\n", variable.Key, variable.Value)
+
+		case "add":
+			fmt.Println("Add project variable...")
+			if key == "" || value == "" {
+				flag.Usage()
+				return
+			}
+
+			req := gogitlab.Variable{
+				Key:   key,
+				Value: value,
+			}
+
+			variable, err := gitlab.AddProjectVariable(id, &req)
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
+
+			fmt.Printf("> %s -> %s.\n", variable.Key, variable.Value)
+
+		case "edit":
+			fmt.Println("Edit project variable...")
+			if key == "" || value == "" {
+				flag.Usage()
+				return
+			}
+
+			req := gogitlab.Variable{
+				Key:   key,
+				Value: value,
+			}
+
+			variable, err := gitlab.UpdateProjectVariable(id, &req)
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
+
+			fmt.Printf("> %s -> %s.\n", variable.Key, variable.Value)
+
+		case "rm":
+			fmt.Println("Delete project variable...")
+			if key == "" {
+				flag.Usage()
+				return
+			}
+
+			variable, err := gitlab.DeleteProjectVariable(id, key)
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
+
+			fmt.Printf("> %s -> %s.\n", variable.Key, variable.Value)
+
+		}
 	}
 }
