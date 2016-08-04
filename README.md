@@ -42,7 +42,7 @@ go-gitlab-client is a simple client written in golang to consume gitlab API.
  	* Erase a build
 
 *
-	### Runners [gitlab api doc](https://github.com/ce/gitlabhq/blob/master/doc/api/runners.md)
+	### Runners [gitlab api doc](http://doc.gitlab.com/ce/api/runners.html)
 	* list owned runners
 	* list shared runners
 	* list projects runners
