@@ -6,11 +6,11 @@ import (
 )
 
 const (
-	runners_url         = "/runners?page=:page&per_page=:per_page"     // Get runners list.
+	runners_url         = "/runners?page=:page&per_page=:per_page"     // Get current users runner list.
 	runners_all         = "/runners/all?page=:page&per_page=:per_page" // Get ALL runners list.
 	runner_url          = "/runners/:id"                               // Get a single runner.
-	project_runners_url = "/projects/:project_id/runners"              // Get a single runner.
-	project_runner_url  = "/projects/:project_id/runners/:id"          // Get a single runner.
+	project_runners_url = "/projects/:project_id/runners"              // Get ALL project runners.
+	project_runner_url  = "/projects/:project_id/runners/:id"          // Get a single project runner.
 )
 
 type Runner struct {
@@ -213,15 +213,9 @@ func (g *Gitlab) DisableProjectRunner(project_id string, id int) (*Runner, error
 
 	url := g.ResourceUrl(project_runner_url, map[string]string{":project_id": project_id, ":id": strconv.Itoa(id)})
 
-	request := map[string]int{"runner_id": id}
-
-	encodedRequest, err := json.Marshal(request)
-	if err != nil {
-		return nil, err
-	}
 	var result *Runner
 
-	contents, err := g.buildAndExecRequest("DELETE", url, encodedRequest)
+	contents, err := g.buildAndExecRequest("DELETE", url, nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &result)
 	}
