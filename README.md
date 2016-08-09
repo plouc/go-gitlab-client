@@ -8,11 +8,11 @@ go-gitlab-client is a simple client written in golang to consume gitlab API.
 
 ##features
 
-*	
+*
 	### Projects [gitlab api doc](http://doc.gitlab.com/ce/api/projects.html)
 	* list projects
 	* add/get/edit/rm single project
-*	
+*
 	### Repositories [gitlab api doc](http://doc.gitlab.com/ce/api/repositories.html)
 	* list repository branches
 	* get single repository branch
@@ -21,25 +21,35 @@ go-gitlab-client is a simple client written in golang to consume gitlab API.
 	* list project hooks
 	* add/get/edit/rm project hook
 
-*	
+*
 	### Users [gitlab api doc](http://api.gitlab.org/users.html)
 	* get single user
 	* manage user keys
 
-*	
+*
 	### Deploy Keys [gitlab api doc](http://doc.gitlab.com/ce/api/deploy_keys.html)
 	* list project deploy keys
 	* add/get/rm project deploy key
 
-*	
+*
 	### Builds [gitlab api doc](http://doc.gitlab.com/ce/api/builds.html)
 	* List project builds
-	* Get a single build
-	* List commit builds
-	* Get build artifacts
-	* Cancel a build
-	* Retry a build
-	* Erase a build
+ 	* Get a single build
+ 	* List commit builds
+ 	* Get build artifacts
+ 	* Cancel a build
+ 	* Retry a build
+ 	* Erase a build
+
+*
+	### Runners [gitlab api doc](http://doc.gitlab.com/ce/api/runners.html)
+	* list owned runners
+	* list shared runners
+	* list projects runners
+	* get a single runner
+	* update/remove runner
+	* enable/disable runner in project
+
 
 ##Installation
 
