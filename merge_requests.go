@@ -3,6 +3,7 @@ package gogitlab
 import (
 	"encoding/json"
 	"time"
+	"fmt"
 )
 
 const (
@@ -216,7 +217,7 @@ Parameters:
 */
 func (g *Gitlab) AddMergeRequest(req *AddMergeRequestRequest) (*MergeRequest, error) {
 	url, _ := g.ResourceUrlRaw(project_url_merge_requests, map[string]string{
-		":id": string(req.TargetProjectId),
+		":id": fmt.Sprintf("%d", req.TargetProjectId),
 	})
 
 	encodedRequest, err := json.Marshal(req)
@@ -249,8 +250,8 @@ Parameters:
 */
 func (g *Gitlab) EditMergeRequest(mr *MergeRequest) error {
 	url, _ := g.ResourceUrlRaw(project_url_merge_request, map[string]string{
-		":id":               string(mr.ProjectId),
-		":merge_request_id": string(mr.Id),
+		":id":               fmt.Sprintf("%d", mr.ProjectId),
+		":merge_request_id": fmt.Sprintf("%d", mr.Id),
 	})
 
 	encodedRequest, err := json.Marshal(mr)
