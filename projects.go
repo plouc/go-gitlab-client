@@ -6,14 +6,15 @@ import (
 )
 
 const (
-	projects_url         = "/projects"                         // Get a list of projects owned by the authenticated user
-	projects_all         = "/projects/all"                     // Get a list of all GitLab projects (admin only)
+	projects_url         = "/projects?page=:page&per_page=:per_page"                         // Get a list of projects owned by the authenticated user
+	projects_all         = "/projects/all?page=:page&per_page=:per_page"                     // Get a list of all GitLab projects (admin only)
 	projects_search_url  = "/projects/search/:query"           // Search for projects by name
 	project_url          = "/projects/:id"                     // Get a specific project, identified by project ID or NAME
 	project_url_events   = "/projects/:id/events"              // Get project events
 	project_url_branches = "/projects/:id/repository/branches" // Lists all branches of a project
 	project_url_members  = "/projects/:id/members"             // List project team members
 	project_url_member   = "/projects/:id/members/:user_id"    // Get project team member
+	max_page_size = 20
 )
 
 type Member struct {
@@ -58,17 +59,50 @@ type Project struct {
 	SharedRunners        bool       `json:"shared_runners_enabled"`
 }
 
+func append(slice []*Project, elements ...*Project) []*Project {
+	n := len(slice)
+	total := len(slice) + len(elements)
+	if total > cap(slice) {
+		// Reallocate. Grow to 1.5 times the new size, so we can still grow.
+		newSize := total*3/2 + 1
+		newSlice := make([]*Project, total, newSize)
+		copy(newSlice, slice)
+		slice = newSlice
+	}
+	slice = slice[:total]
+	copy(slice[n:], elements)
+	return slice
+}
+
 func projects(u string, g *Gitlab) ([]*Project, error) {
-	url := g.ResourceUrl(u, nil)
 
 	var projects []*Project
+	var page int64 = 1
+	for {
+		url := g.ResourceUrl(
+			u,
+			map[string]string{
+				":page": strconv.FormatInt(page, 10),
+				":per_page": strconv.FormatInt(max_page_size, 10)})
 
-	contents, err := g.buildAndExecRequest("GET", url, nil)
-	if err == nil {
-		err = json.Unmarshal(contents, &projects)
+		var pageProjects []*Project
+
+		contents, err := g.buildAndExecRequest("GET", url, nil)
+		if err == nil {
+			err = json.Unmarshal(contents, &pageProjects)
+			if err == nil {
+				projects = append(projects, pageProjects...)
+				page++
+				if len(pageProjects) < max_page_size {
+					break
+				}
+				continue
+			}
+		}
+		return projects, err
 	}
 
-	return projects, err
+	return projects, nil
 }
 
 /*
