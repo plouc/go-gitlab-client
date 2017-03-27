@@ -106,10 +106,16 @@ func ParseHook(payload []byte) (*HookPayload, error) {
 	return &hp, nil
 }
 
-// Branch returns current branch for push event hook payload
+// Branch returns current branch for pipeline and push event hook
+// payload
 // This function returns empty string for any other events
 func (h *HookPayload) Branch() string {
-	return strings.TrimPrefix(h.Ref, "refs/heads/")
+	ref := h.Ref
+	if h.ObjectAttributes != nil && len(h.ObjectAttributes.Ref) > 0 {
+		ref = h.ObjectAttributes.Ref
+	}
+
+	return strings.TrimPrefix(ref, "refs/heads/")
 }
 
 // Head returns the latest changeset for push event hook payload
