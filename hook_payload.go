@@ -75,6 +75,7 @@ type HookPayload struct {
 	TotalCommitsCount int          `json:"total_commits_count,omitempty"`
 	ObjectKind        string       `json:"object_kind,omitempty"`
 	ObjectAttributes  *HookObjAttr `json:"object_attributes,omitempty"`
+	Builds            []*Build     `json:"builds,omitempty"`
 }
 
 // ParseHook parses hook payload from GitLab
