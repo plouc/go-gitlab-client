@@ -49,3 +49,16 @@ func TestParseMergeRequestHook(t *testing.T) {
 	assert.Equal(t, p.ObjectAttributes.TargetBranch, "master")
 	assert.Equal(t, p.ObjectAttributes.SourceProjectId, p.ObjectAttributes.TargetProjectId)
 }
+
+func TestParsePipelineHook(t *testing.T) {
+	stub, _ := ioutil.ReadFile("stubs/hooks/pipeline.json")
+	p, err := ParseHook([]byte(stub))
+
+	assert.Equal(t, err, nil)
+	assert.IsType(t, new(HookPayload), p)
+	assert.Equal(t, p.ObjectAttributes.Sha, "bcbb5ec396a2c0f828686f14fac9b80b780504f2")
+	assert.Equal(t, p.Project.Description, "Atque in sunt eos similique dolores voluptatem.")
+	assert.Equal(t, p.Commit.Id, "bcbb5ec396a2c0f828686f14fac9b80b780504f2")
+	assert.Equal(t, p.Branch(), "master")
+	assert.Equal(t, p.Builds[0].Id, 380)
+}

@@ -9,12 +9,20 @@ import (
 
 type HookObjAttr struct {
 	Id              int       `json:"id,omitempty"`
+	Ref             string    `json:"ref,omitempty"`
+	Tag             bool      `json:"tag,omitempty"`
+	Sha             string    `json:"sha,omitempty"`
+	BeforeSha       string    `json:"before_sha,omitempty"`
 	Title           string    `json:"title,omitempty"`
 	AssigneeId      int       `json:"assignee_id,omitempty"`
 	AuthorId        int       `json:"author_id,omitempty"`
 	ProjectId       int       `json:"project_id,omitempty"`
+	Status          string    `json:"status,omitempty"`
+	Stages          []string  `json:"stages,omitempty"`
 	CreatedAt       time.Time `json:"created_at,omitempty"`
 	UpdatedAt       time.Time `json:"updated_at,omitempty"`
+	FinishedAt      time.Time `json:"finished_at,omitempty"`
+	Duration        int       `json:"duration,omitempty"`
 	Position        int       `json:"position,omitempty"`
 	BranchName      string    `json:"branch_name,omitempty"`
 	Description     string    `json:"description,omitempty"`
@@ -37,6 +45,14 @@ type hRepository struct {
 	Homepage    string `json:"homepage,omitempty"`
 }
 
+type hProject struct {
+	Project
+	// Overwrite type *gogitlab.Namespace with type string,
+	// otherwise the project hash passed for pipeline hooks is
+	// identical
+	Namespace string `json:"namespace,omitempty"`
+}
+
 type hCommit struct {
 	Id        string    `json:"id,omitempty"`
 	Message   string    `json:"message,omitempty"`
@@ -52,11 +68,14 @@ type HookPayload struct {
 	UserId            int          `json:"user_id,omitempty"`
 	UserName          string       `json:"user_name,omitempty"`
 	ProjectId         int          `json:"project_id,omitempty"`
+	Project           *hProject    `json:"project,omitempty"`
 	Repository        *hRepository `json:"repository,omitempty"`
 	Commits           []hCommit    `json:"commits,omitempty"`
+	Commit            *hCommit     `json:"commit,omitempty"`
 	TotalCommitsCount int          `json:"total_commits_count,omitempty"`
 	ObjectKind        string       `json:"object_kind,omitempty"`
 	ObjectAttributes  *HookObjAttr `json:"object_attributes,omitempty"`
+	Builds            []*Build     `json:"builds,omitempty"`
 }
 
 // ParseHook parses hook payload from GitLab
@@ -73,6 +92,8 @@ func ParseHook(payload []byte) (*HookPayload, error) {
 		if len(hp.After) == 0 {
 			return nil, fmt.Errorf("Invalid hook received, commit hash not found.")
 		}
+	case hp.ObjectKind == "pipeline":
+		fallthrough
 	case hp.ObjectKind == "issue":
 		fallthrough
 	case hp.ObjectKind == "merge_request":
@@ -86,10 +107,16 @@ func ParseHook(payload []byte) (*HookPayload, error) {
 	return &hp, nil
 }
 
-// Branch returns current branch for push event hook payload
+// Branch returns current branch for pipeline and push event hook
+// payload
 // This function returns empty string for any other events
 func (h *HookPayload) Branch() string {
-	return strings.TrimPrefix(h.Ref, "refs/heads/")
+	ref := h.Ref
+	if h.ObjectAttributes != nil && len(h.ObjectAttributes.Ref) > 0 {
+		ref = h.ObjectAttributes.Ref
+	}
+
+	return strings.TrimPrefix(ref, "refs/heads/")
 }
 
 // Head returns the latest changeset for push event hook payload

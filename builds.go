@@ -23,7 +23,7 @@ type ArtifactsFile struct {
 type Build struct {
 	Id            int           `json:"id"`
 	ArtifactsFile ArtifactsFile `json:"artifacts_file"`
-	Commit        Commit        `json:"commit"`
+	Commit        Commit        `json:"commit,omitempty"`
 	CreatedAt     string        `json:"created_at"`
 	DownloadURL   string        `json:"download_url"`
 	FinishedAt    string        `json:"finished_at"`
@@ -34,6 +34,8 @@ type Build struct {
 	Status        string        `json:"status"`
 	Tag           bool          `json:"tag"`
 	User          User          `json:"user"`
+	When          string        `json:"when,omitempty"`
+	Manual        bool          `json:"manual,omitempty"`
 }
 
 func (g *Gitlab) ProjectBuilds(id string) ([]*Build, error) {
