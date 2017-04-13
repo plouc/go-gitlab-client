@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "path": "user1",
+    "kind": "user"
+  },
+  {
+    "id": 2,
+    "path": "group1",
+    "kind": "group"
+  },
+  {
+    "id": 3,
+    "path": "bar",
+    "kind": "group",
+    "full_path": "foo/bar"
+  }
+]
