@@ -15,22 +15,13 @@ type CommitStatus struct {
 	StartedAt    *time.Time `json:"started_at"`
 	Name         string     `json:"name"`
 	AllowFailure bool       `json:"allow_failure"`
-	Author       Author     `json:"author"`
+	Author       User       `json:"author"`
 	Description  *string    `json:"description"`
 	Sha          string     `json:"sha"`
 	TargetURL    string     `json:"target_url"`
 	FinishedAt   *time.Time `json:"finished_at"`
 	ID           int        `json:"id"`
 	Ref          string     `json:"ref"`
-}
-
-type Author struct {
-	Username  string `json:"username"`
-	State     string `json:"state"`
-	WebURL    string `json:"web_url"`
-	AvatarURL string `json:"avatar_url"`
-	ID        int    `json:"id"`
-	Name      string `json:"name"`
 }
 
 func (g *Gitlab) ProjectCommitStatuses(id, sha1 string) ([]*CommitStatus, error) {
