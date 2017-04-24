@@ -5,8 +5,8 @@ import (
 )
 
 const (
-	namespaces_url        = "/namespaces"        // Get a list of namespaces associated of the authenticated user
-	namespaces_search_url = "/namespaces/:query" // Get all namespaces matching a string in their name/path
+	namespaces_url        = "/namespaces"               // Get a list of namespaces associated of the authenticated user
+	namespaces_search_url = "/namespaces?search=:query" // Get all namespaces matching a string in their name/path
 )
 
 type nNamespace struct {
