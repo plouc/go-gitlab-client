@@ -92,10 +92,8 @@ func (g *Gitlab) AddProjectHook(id, hook_url string, push_events, issues_events,
 
 	url, opaque := g.ResourceUrlRaw(project_url_hooks, map[string]string{":id": id})
 
-	var err error
-
-	body := buildHookQuery(hook_url, push_events, issues_events, merge_requests_events)
-	_, err = g.buildAndExecRequestRaw("POST", url, opaque, []byte(body))
+	params := buildHookQuery(hook_url, push_events, issues_events, merge_requests_events)
+	_, err := g.buildAndExecRequestRaw("POST", url+"?"+params, opaque, nil)
 
 	return err
 }
