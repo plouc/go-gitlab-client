@@ -57,15 +57,7 @@ func (g *Gitlab) ResourceUrl(url string, params map[string]string) string {
 		}
 	}
 
-	url = g.BaseUrl + g.ApiPath + url
-
-	if strings.Contains(url, "?") {
-		url = url + "&private_token=" + g.Token
-	} else {
-		url = url + "?private_token=" + g.Token
-	}
-
-	return url
+	return g.BaseUrl + g.ApiPath + url
 }
 
 func (g *Gitlab) execRequest(method, url string, body []byte) (*http.Response, error) {
@@ -78,6 +70,8 @@ func (g *Gitlab) execRequest(method, url string, body []byte) (*http.Response, e
 	} else {
 		req, err = http.NewRequest(method, url, nil)
 	}
+
+	req.Header.Add("PRIVATE-TOKEN", g.Token)
 
 	if method == "POST" || method == "PUT" {
 		req.Header.Add("Content-Type", "application/json")
@@ -125,7 +119,7 @@ func (g *Gitlab) ResourceUrlRaw(u string, params map[string]string) (string, str
 	}
 
 	path := u
-	u = g.BaseUrl + g.ApiPath + path + "?private_token=" + g.Token
+	u = g.BaseUrl + g.ApiPath + path
 	p, err := url.Parse(g.BaseUrl)
 	if err != nil {
 		return u, ""
@@ -146,6 +140,8 @@ func (g *Gitlab) buildAndExecRequestRaw(method, url, opaque string, body []byte)
 	} else {
 		req, err = http.NewRequest(method, url, nil)
 	}
+
+	req.Header.Add("PRIVATE-TOKEN", g.Token)
 
 	if method == "POST" || method == "PUT" {
 		req.Header.Add("Content-Type", "application/json")
