@@ -22,6 +22,7 @@ type User struct {
 	Skype         string `json:"skype,omitempty"`
 	LinkedIn      string `json:"linkedin,omitempty"`
 	Twitter       string `json:"twitter,omitempty"`
+	WebURL        string `json:"web_url"`
 	ExternUid     string `json:"extern_uid,omitempty"`
 	Provider      string `json:"provider,omitempty"`
 	ThemeId       int    `json:"theme_id,omitempty"`
