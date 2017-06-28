@@ -1,0 +1,14 @@
+{
+  "id": 2,
+  "name": "Updated Name",
+  "path": "another",
+  "description": "A new group description",
+  "visibility": "public",
+  "lfs_enabled": true,
+  "avatar_url": "http://localhost:3000/uploads/group/avatar/1/bar.jpg",
+  "web_url": "http://localhost:3000/foo-bar/another",
+  "request_access_enabled": false,
+  "full_name": "Another Group",
+  "full_path": "foo-bar/another",
+  "parent_id": 1
+}
