@@ -11,7 +11,7 @@ func TestGroups(t *testing.T) {
 	defer ts.Close()
 
 	groups, err := gitlab.Groups()
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.Equal(t, len(groups), 2)
 	assert.Equal(t, groups[0].Id, 1)
 	assert.Equal(t, groups[0].Name, "Foobar Group")
@@ -25,7 +25,7 @@ func TestGroup(t *testing.T) {
 
 	group, err := gitlab.Group("2")
 
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.Equal(t, group.Id, 2)
 	assert.Equal(t, group.Name, "Another Group")
 	assert.Equal(t, group.Path, "another")
@@ -46,7 +46,7 @@ func TestAddGroup(t *testing.T) {
 		RequestAccessEnabled: true,
 	})
 
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.Equal(t, result.Name, "New Group")
 	assert.Equal(t, result.Path, "new-group")
 	assert.Equal(t, result.Description, "A new group added for testing")
@@ -64,7 +64,7 @@ func TestUpdateGroup(t *testing.T) {
 		Description: "A new group description",
 	})
 
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.Equal(t, result.Name, "Updated Name")
 	assert.Equal(t, result.Description, "A new group description")
 
@@ -76,7 +76,7 @@ func TestRemoveGroup(t *testing.T) {
 
 	result, err := gitlab.RemoveGroup("1")
 
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.Equal(t, result, true)
 }
 
@@ -86,7 +86,7 @@ func TestGroupProjects(t *testing.T) {
 
 	projects, err := gitlab.GroupProjects("1")
 
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.Equal(t, len(projects), 2)
 	assert.Equal(t, projects[1].Id, 6)
 	assert.Equal(t, projects[1].Name, "Puppet")
@@ -101,7 +101,7 @@ func TestGroupMembers(t *testing.T) {
 
 	members, err := gitlab.GroupMembers("1")
 
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.Equal(t, len(members), 2)
 	assert.Equal(t, members[0].Id, 1)
 	assert.Equal(t, members[0].Username, "raymond_smith")
