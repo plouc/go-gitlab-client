@@ -17,6 +17,51 @@ type Config struct {
 	Token   string `json:"token"`
 }
 
+func buildProject(name string, namespaceId string, desc string, builds string, mergeRequests string) gogitlab.Project {
+	project := gogitlab.Project{
+		Description: desc,
+	}
+
+	if name != "" {
+		project.Name = name
+	}
+	if namespaceId != "" {
+		project.NamespaceId, _ = strconv.Atoi(namespaceId)
+	}
+	if builds != "" {
+		project.BuildsEnabled, _ = strconv.ParseBool(builds)
+	}
+	if mergeRequests != "" {
+		project.MergeRequestsEnabled, _ = strconv.ParseBool(mergeRequests)
+	}
+
+	return project
+}
+
+func printProject(project gogitlab.Project) {
+	format := "> %-23s: %s\n"
+
+	fmt.Printf("%s\n", project.Name)
+	fmt.Printf(format, "id", strconv.Itoa(project.Id))
+	fmt.Printf(format, "name", project.Name)
+	fmt.Printf(format, "description", project.Description)
+	fmt.Printf(format, "default branch", project.DefaultBranch)
+	if project.Owner != nil {
+		fmt.Printf(format, "owner.name", project.Owner.Username)
+	}
+	fmt.Printf(format, "public", strconv.FormatBool(project.Public))
+	fmt.Printf(format, "path", project.Path)
+	fmt.Printf(format, "path with namespace", project.PathWithNamespace)
+	fmt.Printf(format, "issues enabled", strconv.FormatBool(project.IssuesEnabled))
+	fmt.Printf(format, "merge requests enabled", strconv.FormatBool(project.MergeRequestsEnabled))
+	fmt.Printf(format, "builds enabled", strconv.FormatBool(project.BuildsEnabled))
+	fmt.Printf(format, "wall enabled", strconv.FormatBool(project.WallEnabled))
+	fmt.Printf(format, "wiki enabled", strconv.FormatBool(project.WikiEnabled))
+	fmt.Printf(format, "shared runners enabled", strconv.FormatBool(project.SharedRunners))
+	fmt.Printf(format, "created at", project.CreatedAtRaw)
+	//fmt.Printf(format, "namespace",           project.Namespace)
+}
+
 func main() {
 	help := flag.Bool("help", false, "Show usage")
 
@@ -35,7 +80,8 @@ func main() {
 	var method string
 	flag.StringVar(&method, "m", "", "Specify method to retrieve projects infos, available methods:\n"+
 		"  > -m projects\n"+
-		"  > -m project        -id PROJECT_ID [-o <edit> -desc PROJECT_DESCRIPTION]\n"+
+		"  > -m project        -id PROJECT_ID [-o edit -desc PROJECT_DESCRIPTION -builds -merge_requests]\n"+
+		"  > -m project        -o create -name PROJECT_NAME [-namespace_id PROJECT_NAMESPACE -desc PROJECT_DESCRIPTION -builds -merge_requests]\n"+
 		"  > -m hooks          -id PROJECT_ID\n"+
 		"  > -m branches       -id PROJECT_ID\n"+
 		"  > -m team           -id PROJECT_ID\n"+
@@ -56,8 +102,20 @@ func main() {
 	var operation string
 	flag.StringVar(&operation, "o", "", "Specify operation")
 
+	var name string
+	flag.StringVar(&name, "name", "", "Specify name")
+
+	var namespaceId string
+	flag.StringVar(&namespaceId, "namespace_id", "", "Specify namepace id")
+
 	var desc string
 	flag.StringVar(&desc, "desc", "", "Specify description")
+
+	var builds string
+	flag.StringVar(&builds, "builds", "", "Specify whether builds are enabled (default no change)")
+
+	var mergeRequests string
+	flag.StringVar(&mergeRequests, "merge_requests", "", "Specify whether merge requests are enabled (default no change)")
 
 	flag.Usage = func() {
 		fmt.Printf("Usage:\n")
@@ -91,13 +149,13 @@ func main() {
 
 	case "project":
 
-		if id == "" {
-			flag.Usage()
-			return
-		}
-
 		if operation == "" {
 			fmt.Println("Fetching project…")
+
+			if id == "" {
+				flag.Usage()
+				return
+			}
 
 			project, err := gitlab.Project(id)
 			if err != nil {
@@ -105,39 +163,48 @@ func main() {
 				return
 			}
 
-			format := "> %-23s: %s\n"
-
-			fmt.Printf("%s\n", project.Name)
-			fmt.Printf(format, "id", strconv.Itoa(project.Id))
-			fmt.Printf(format, "name", project.Name)
-			fmt.Printf(format, "description", project.Description)
-			fmt.Printf(format, "default branch", project.DefaultBranch)
-			fmt.Printf(format, "owner.name", project.Owner.Username)
-			fmt.Printf(format, "public", strconv.FormatBool(project.Public))
-			fmt.Printf(format, "path", project.Path)
-			fmt.Printf(format, "path with namespace", project.PathWithNamespace)
-			fmt.Printf(format, "issues enabled", strconv.FormatBool(project.IssuesEnabled))
-			fmt.Printf(format, "merge requests enabled", strconv.FormatBool(project.MergeRequestsEnabled))
-			fmt.Printf(format, "wall enabled", strconv.FormatBool(project.WallEnabled))
-			fmt.Printf(format, "wiki enabled", strconv.FormatBool(project.WikiEnabled))
-			fmt.Printf(format, "shared runners enabled", strconv.FormatBool(project.SharedRunners))
-			fmt.Printf(format, "created at", project.CreatedAtRaw)
-			//fmt.Printf(format, "namespace",           project.Namespace)
+			printProject(*project)
 		}
 
 		switch operation {
-		case "edit":
-			fmt.Println("Edit project...")
+		case "create":
+			fmt.Println("Create project...")
 
-			project := gogitlab.Project{
-				Description: desc,
+			if name == "" {
+				flag.Usage()
+				return
 			}
 
-			_, err := gitlab.UpdateProject(id, &project)
+			project := buildProject(name, namespaceId, desc, builds, mergeRequests)
+
+			result, err := gitlab.CreateProject(&project)
+
 			if err != nil {
 				fmt.Println(err.Error())
 				return
 			}
+
+			printProject(*result)
+
+		case "edit":
+			fmt.Println("Edit project...")
+
+			if id == "" {
+				flag.Usage()
+				return
+			}
+
+			project := buildProject(name, namespaceId, desc, builds, mergeRequests)
+
+			result, err := gitlab.UpdateProject(id, &project)
+
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
+
+			printProject(*result)
+
 		}
 
 	case "branches":

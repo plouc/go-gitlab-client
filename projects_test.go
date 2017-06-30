@@ -26,6 +26,18 @@ func TestProject(t *testing.T) {
 	defer ts.Close()
 }
 
+func TestCreateProject(t *testing.T) {
+	ts, gitlab := Stub("stubs/projects/show.json")
+	project := Project{
+		Name: "Diaspora Project Site",
+	}
+
+	result, err := gitlab.CreateProject(&project)
+	assert.NoError(t, err)
+	assert.Equal(t, project.Name, result.Name)
+	defer ts.Close()
+}
+
 func TestUpdateProject(t *testing.T) {
 	ts, gitlab := Stub("stubs/projects/show.json")
 	project := Project{
