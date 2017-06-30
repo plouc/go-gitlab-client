@@ -11,6 +11,7 @@ func TestGroups(t *testing.T) {
 	defer ts.Close()
 
 	groups, err := gitlab.Groups()
+
 	assert.NoError(t, err)
 	assert.Equal(t, len(groups), 2)
 	assert.Equal(t, groups[0].Id, 1)
