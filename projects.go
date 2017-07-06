@@ -60,7 +60,7 @@ type Project struct {
 	HttpRepoUrl          string     `json:"http_url_to_repo"`
 	WebUrl               string     `json:"web_url"`
 	SharedRunners        bool       `json:"shared_runners_enabled"`
-	Archived             bool       `json:"archived"`
+	Archived             bool       `json:"archived,omitempty"`
 }
 
 /*
