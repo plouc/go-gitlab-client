@@ -76,8 +76,8 @@ func TestIdParameter(t *testing.T) {
 	}
 
 	var invalidTests = []*Project{
-		&Project{Name: "My Project"},
-		&Project{Path: "my-path"},
+		{Name: "My Project"},
+		{Path: "my-path"},
 	}
 
 	for _, tt := range invalidTests {
@@ -106,5 +106,4 @@ func TestUnrchiveProject(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.Equal(t, result.Archived, false)
-
 }
