@@ -6,10 +6,11 @@ import (
 )
 
 const (
-	groups_url         = "/groups"              // Get a list of groups. (As user: my groups or all available, as admin: all groups)
-	group_url          = "/groups/:id"          // Get all details of a group
-	group_projects_url = "/groups/:id/projects" // Get a list of projects in this group
-	group_url_members  = "/groups/:id/members"  // Get a list of members in this group
+	groups_url         = "/groups?page=:page&per_page=:per_page" // Get a list of groups. (As user: my groups or all available, as admin: all groups)
+	groups_add_url     = "/groups"                               // POST to add a group
+	group_url          = "/groups/:id"                           // Get all details of a group
+	group_projects_url = "/groups/:id/projects"                  // Get a list of projects in this group
+	group_url_members  = "/groups/:id/members"                   // Get a list of members in this group
 )
 
 // A gitlab group
@@ -33,9 +34,8 @@ type Group struct {
 /*
 Get a list of groups. (As user: my groups or all available, as admin: all groups)
 */
-func (g *Gitlab) Groups() ([]*Group, error) {
-	url := g.ResourceUrl(groups_url, nil)
-
+func (g *Gitlab) Groups(pageNum, resPerPage int) ([]*Group, error) {
+	url := g.ResourceUrl(groups_url, map[string]string{":page": strconv.Itoa(pageNum), ":per_page": strconv.Itoa(resPerPage)})
 	var groups []*Group
 
 	contents, err := g.buildAndExecRequest("GET", url, nil)
@@ -79,7 +79,7 @@ Optional fields on group:
 Other fields on group are not supported by the GitLab API
 */
 func (g *Gitlab) AddGroup(group *Group) (*Group, error) {
-	url := g.ResourceUrl(groups_url, nil)
+	url := g.ResourceUrl(groups_add_url, nil)
 
 	encodedRequest, err := json.Marshal(group)
 	if err != nil {
