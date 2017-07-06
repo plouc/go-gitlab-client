@@ -18,7 +18,7 @@ type Group struct {
 	Name                      string     `json:"name,omitempty"`
 	Path                      string     `json:"path,omitempty"`
 	Description               string     `json:"description,omitempty"`
-	Visibility                string     `json:"visibility,omitempty"`
+	Visibility                Visibility `json:"visibility,omitempty"`
 	LfsEnabled                bool       `json:"lfs_enabled,omitempty"`
 	AvatarUrl                 string     `json:"avatar_url,omitempty"`
 	WebURL                    string     `json:"web_url,omitempty"`

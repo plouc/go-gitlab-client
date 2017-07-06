@@ -42,7 +42,7 @@ func TestAddGroup(t *testing.T) {
 		Name:                 "New Group",
 		Path:                 "new-group",
 		Description:          "A new group added for testing",
-		Visibility:           "internal",
+		Visibility:           VisibilityInternal,
 		LfsEnabled:           true,
 		RequestAccessEnabled: true,
 	})
@@ -51,7 +51,7 @@ func TestAddGroup(t *testing.T) {
 	assert.Equal(t, result.Name, "New Group")
 	assert.Equal(t, result.Path, "new-group")
 	assert.Equal(t, result.Description, "A new group added for testing")
-	assert.Equal(t, result.Visibility, "internal")
+	assert.Equal(t, result.Visibility, VisibilityInternal)
 	assert.Equal(t, result.LfsEnabled, true)
 	assert.Equal(t, result.RequestAccessEnabled, true)
 }

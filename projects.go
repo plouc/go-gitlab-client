@@ -36,6 +36,19 @@ type Namespace struct {
 	Updated_At  string
 }
 
+type Visibility string
+
+const (
+	// VisibilityPrivate indicates project access must be granted explicitly for each user.
+	VisibilityPrivate = Visibility("private")
+
+	// VisibilityInternal indicates the project can be cloned by any logged in user.
+	VisibilityInternal = Visibility("internal")
+
+	// VisibilityPublic indicates the project can be cloned without any authentication.
+	VisibilityPublic = Visibility("public")
+)
+
 // A gitlab project
 type Project struct {
 	Id                   int        `json:"id,omitempty"`
@@ -46,6 +59,7 @@ type Project struct {
 	Public               bool       `json:"public,omitempty"`
 	Path                 string     `json:"path,omitempty"`
 	PathWithNamespace    string     `json:"path_with_namespace,omitempty"`
+	Visibility           Visibility `json:"visibility,omitempty"`
 	IssuesEnabled        bool       `json:"issues_enabled,omitempty"`
 	MergeRequestsEnabled bool       `json:"merge_requests_enabled,omitempty"`
 	WallEnabled          bool       `json:"wall_enabled,omitempty"`
