@@ -1,8 +1,9 @@
 package gogitlab
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestProjects(t *testing.T) {
@@ -54,4 +55,56 @@ func TestRemoveProject(t *testing.T) {
 
 	assert.Equal(t, err, nil)
 	assert.Equal(t, result, true)
+}
+
+func TestIdParameter(t *testing.T) {
+	var validTests = []struct {
+		project *Project
+		id      string
+	}{
+		{&Project{Id: 7}, "7"},
+		{&Project{PathWithNamespace: "my-project"}, "my-project"},
+		{&Project{PathWithNamespace: "my-group/my-project"}, "my-group%2Fmy-project"},
+		{&Project{Id: 7, PathWithNamespace: "my-project"}, "7"},
+	}
+
+	for _, tt := range validTests {
+		id, err := tt.project.idParameter()
+
+		assert.NoError(t, err)
+		assert.Equal(t, id, tt.id)
+	}
+
+	var invalidTests = []*Project{
+		&Project{Name: "My Project"},
+		&Project{Path: "my-path"},
+	}
+
+	for _, tt := range invalidTests {
+		id, err := tt.idParameter()
+
+		assert.Error(t, err)
+		assert.Equal(t, id, "")
+	}
+}
+
+func TestArchiveProject(t *testing.T) {
+	ts, gitlab := Stub("stubs/projects/archive.json")
+	defer ts.Close()
+
+	result, err := gitlab.ArchiveProject(&Project{Id: 7})
+
+	assert.NoError(t, err)
+	assert.Equal(t, result.Archived, true)
+}
+
+func TestUnrchiveProject(t *testing.T) {
+	ts, gitlab := Stub("stubs/projects/unarchive.json")
+	defer ts.Close()
+
+	result, err := gitlab.UnarchiveProject(&Project{Id: 7})
+
+	assert.NoError(t, err)
+	assert.Equal(t, result.Archived, false)
+
 }

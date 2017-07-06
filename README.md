@@ -12,6 +12,7 @@ go-gitlab-client is a simple client written in golang to consume gitlab API.
 	### Projects [gitlab api doc](http://doc.gitlab.com/ce/api/projects.html)
 	* list projects
 	* add/get/edit/rm single project
+	* archive/unarchive
 *
 	### Repositories [gitlab api doc](http://doc.gitlab.com/ce/api/repositories.html)
 	* list repository branches

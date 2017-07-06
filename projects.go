@@ -2,18 +2,22 @@ package gogitlab
 
 import (
 	"encoding/json"
+	"errors"
+	"net/url"
 	"strconv"
 )
 
 const (
-	projects_url         = "/projects"                         // Get a list of projects owned by the authenticated user
-	projects_all         = "/projects/all"                     // Get a list of all GitLab projects (admin only)
-	projects_search_url  = "/projects/search/:query"           // Search for projects by name
-	project_url          = "/projects/:id"                     // Get a specific project, identified by project ID or NAME
-	project_url_events   = "/projects/:id/events"              // Get project events
-	project_url_branches = "/projects/:id/repository/branches" // Lists all branches of a project
-	project_url_members  = "/projects/:id/members"             // List project team members
-	project_url_member   = "/projects/:id/members/:user_id"    // Get project team member
+	projects_url          = "/projects"                         // Get a list of projects owned by the authenticated user
+	projects_all          = "/projects/all"                     // Get a list of all GitLab projects (admin only)
+	projects_search_url   = "/projects/search/:query"           // Search for projects by name
+	project_url           = "/projects/:id"                     // Get a specific project, identified by project ID or NAME
+	project_url_events    = "/projects/:id/events"              // Get project events
+	project_url_branches  = "/projects/:id/repository/branches" // Lists all branches of a project
+	project_url_members   = "/projects/:id/members"             // List project team members
+	project_url_member    = "/projects/:id/members/:user_id"    // Get project team member
+	project_url_archive   = "/projects/:id/archive"             // Archives the project
+	project_url_unarchive = "/projects/:id/unarchive"           // Unarchives the project
 )
 
 type Member struct {
@@ -56,6 +60,28 @@ type Project struct {
 	HttpRepoUrl          string     `json:"http_url_to_repo"`
 	WebUrl               string     `json:"web_url"`
 	SharedRunners        bool       `json:"shared_runners_enabled"`
+	Archived             bool       `json:"archived"`
+}
+
+/*
+idParameter is used to create a string id paramter for the given project
+that is required for some API methods. One of the following fields must
+be set on the project:
+	* Id
+	* PathWithNamespace
+*/
+func (p *Project) idParameter() (string, error) {
+	// Project ID is used if present
+	if p.Id != 0 {
+		return strconv.Itoa(p.Id), nil
+	}
+
+	// Full path is URL escaped and used if present
+	if p.PathWithNamespace != "" {
+		return url.PathEscape(p.PathWithNamespace), nil
+	}
+
+	return "", errors.New("Id or PathWithNamespace field must be set")
 }
 
 func projects(u string, g *Gitlab) ([]*Project, error) {
@@ -179,4 +205,52 @@ func (g *Gitlab) ProjectMembers(id string) ([]*Member, error) {
 	}
 
 	return members, err
+}
+
+/*
+Archiving the project will mark its repository as read-only. It is hidden from
+the dashboard and doesn't show up in searches. The user must be either admin or
+the project owner of this project. This action is idempotent, thus archiving an
+already archived project will not change the project.
+
+One of the following fields must be set on the project:
+	* Id
+	* PathWithNamespace
+*/
+func (g *Gitlab) ArchiveProject(project *Project) (*Project, error) {
+
+	id, err := project.idParameter()
+	url, opaque := g.ResourceUrlRaw(project_url_archive, map[string]string{":id": id})
+
+	var archivedProject *Project
+
+	contents, err := g.buildAndExecRequestRaw("POST", url, opaque, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, &archivedProject)
+	}
+
+	return archivedProject, err
+}
+
+/*
+Unarchives the project if the user is either admin or the project owner of this
+project. This action is idempotent, thus unarchiving an non-archived project
+will not change the project. One of the following fields must
+be set on the project:
+	* Id
+	* PathWithNamespace
+*/
+func (g *Gitlab) UnarchiveProject(project *Project) (*Project, error) {
+
+	id, err := project.idParameter()
+	url, opaque := g.ResourceUrlRaw(project_url_unarchive, map[string]string{":id": id})
+
+	var unarchivedProject *Project
+
+	contents, err := g.buildAndExecRequestRaw("POST", url, opaque, nil)
+	if err == nil {
+		err = json.Unmarshal(contents, &unarchivedProject)
+	}
+
+	return unarchivedProject, err
 }
