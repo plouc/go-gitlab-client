@@ -66,6 +66,7 @@ type Project struct {
 	WikiEnabled          bool       `json:"wiki_enabled,omitempty"`
 	CreatedAtRaw         string     `json:"created_at,omitempty"`
 	Namespace            *Namespace `json:"namespace,omitempty"`
+	NamespaceId          int        `json:"namespace_id,omitempty"` // Only used for create
 	SshRepoUrl           string     `json:"ssh_url_to_repo"`
 	HttpRepoUrl          string     `json:"http_url_to_repo"`
 	WebUrl               string     `json:"web_url"`
@@ -97,6 +98,29 @@ Get a list of all GitLab projects (admin only).
 */
 func (g *Gitlab) AllProjects() ([]*Project, error) {
 	return projects(projects_all, g)
+}
+
+/*
+Creates a new project owned by the authenticated user.
+
+One (or more) of the following fields are required:
+	* Name
+	* Path
+*/
+func (g *Gitlab) AddProject(project *Project) (*Project, error) {
+	url := g.ResourceUrl(projects_url, nil)
+
+	encodedRequest, err := json.Marshal(project)
+	if err != nil {
+		return nil, err
+	}
+	var result *Project
+	contents, err := g.buildAndExecRequest("POST", url, encodedRequest)
+	if err == nil {
+		err = json.Unmarshal(contents, &result)
+	}
+
+	return result, err
 }
 
 /*
