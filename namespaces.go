@@ -5,8 +5,8 @@ import (
 )
 
 const (
-	namespaces_url        = "/namespaces"        // Get a list of namespaces associated of the authenticated user
-	namespaces_search_url = "/namespaces/:query" // Get all namespaces matching a string in their name/path
+	namespaces_url        = "/namespaces"               // Get a list of namespaces associated of the authenticated user
+	namespaces_search_url = "/namespaces?search=:query" // Get all namespaces matching a string in their name/path
 )
 
 type nNamespace struct {
@@ -34,14 +34,14 @@ func (g *Gitlab) Namespaces() ([]*nNamespace, error) {
 }
 
 func (g *Gitlab) SearchNamespaces(query string) ([]*nNamespace, error) {
-	url, opaque := g.ResourceUrlRaw(
+	url := g.ResourceUrl(
 		namespaces_search_url,
 		map[string]string{":query": query},
 	)
 
 	var namespaces []*nNamespace
 
-	contents, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
+	contents, err := g.buildAndExecRequestRaw("GET", url, "", nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &namespaces)
 	}
