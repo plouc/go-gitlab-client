@@ -26,6 +26,26 @@ func TestProject(t *testing.T) {
 	defer ts.Close()
 }
 
+func TestAddProject(t *testing.T) {
+	ts, gitlab := Stub("stubs/projects/add.json")
+	defer ts.Close()
+
+	project := &Project{
+		Name:        "Diaspora Client",
+		Path:        "diaspora-client",
+		NamespaceId: 3,
+		Visibility:  VisibilityPrivate,
+	}
+	newProject, err := gitlab.AddProject(project)
+
+	assert.NoError(t, err)
+	assert.Equal(t, newProject.Name, project.Name)
+	assert.Equal(t, newProject.Description, project.Description)
+	assert.Equal(t, newProject.SshRepoUrl, "git@example.com:diaspora/diaspora-client.git")
+	assert.Equal(t, newProject.HttpRepoUrl, "http://example.com/diaspora/diaspora-client.git")
+	assert.Equal(t, newProject.WebUrl, "http://example.com/diaspora/diaspora-client")
+}
+
 func TestUpdateProject(t *testing.T) {
 	ts, gitlab := Stub("stubs/projects/show.json")
 	project := Project{
