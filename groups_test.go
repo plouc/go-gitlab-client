@@ -10,7 +10,7 @@ func TestGroups(t *testing.T) {
 	ts, gitlab := Stub("stubs/groups/index.json")
 	defer ts.Close()
 
-	groups, err := gitlab.Groups()
+	groups, err := gitlab.Groups(1, 5)
 
 	assert.NoError(t, err)
 	assert.Equal(t, len(groups), 2)
