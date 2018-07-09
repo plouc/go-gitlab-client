@@ -1,0 +1,31 @@
+Add resource
+
+Usage:
+  glc add [command]
+
+Available Commands:
+  alias                    Create resource alias
+  group                    Create a new group
+  group-var                Create a new group variable
+  project                  Create a new project
+  project-badge            Create project badge
+  project-branch           Create project branch
+  project-hook             Create a new hook for given project
+  project-protected-branch Protect project branch
+  project-star             Stars a given project
+  project-var              Create a new project variable
+
+Flags:
+  -h, --help   help for add
+
+Global Flags:
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yaml")
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json'
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+
+Use "glc add [command] --help" for more information about a command.

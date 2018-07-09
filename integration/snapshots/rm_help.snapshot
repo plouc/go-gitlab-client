@@ -1,0 +1,33 @@
+Remove resource
+
+Usage:
+  glc rm [command]
+
+Available Commands:
+  alias                    Remove resource alias
+  group                    Remove group
+  group-var                Remove a group's variable
+  project                  Remove project
+  project-badge            Remove project badge
+  project-branch           Remove project branch
+  project-hook             Remove project hook
+  project-merged-branches  Remove project merged branches
+  project-protected-branch Unprotect project branch
+  project-star             Unstars a given project
+  project-var              Remove a project's variable
+
+Flags:
+  -h, --help   help for rm
+  -y, --yes    Do not ask for confirmation
+
+Global Flags:
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yaml")
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json'
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+
+Use "glc rm [command] --help" for more information about a command.

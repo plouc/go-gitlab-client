@@ -1,0 +1,29 @@
+Fetching user (id: 1)…
+id: 1
+username: plouc
+email: plouc@plouc.com
+name: Raphaël Benitte
+state: active
+avatarurl: ""
+weburl: ""
+createdat: "2001-01-01T00:00:00Z"
+isadmin: false
+bio: ""
+location: ""
+skype: ""
+linkedin: ""
+twitter: ""
+websiteurl: ""
+organization: ""
+lastsigninat: ""
+confirmedat: ""
+themeid: 2
+lastactivityon: ""
+colorschemeid: 0
+projectslimit: 0
+currentsigninat: ""
+identities: []
+cancreategroup: false
+cancreateproject: false
+twofactorenabled: false
+external: false

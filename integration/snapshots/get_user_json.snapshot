@@ -1,0 +1,13 @@
+Fetching user (id: 1)…
+{
+  "id": 1,
+  "username": "plouc",
+  "email": "plouc@plouc.com",
+  "name": "Raphaël Benitte",
+  "state": "active",
+  "web_url": "",
+  "created_at": "2001-01-01T00:00:00Z",
+  "website_url": "",
+  "organization": "",
+  "theme_id": 2
+}

@@ -1,22 +1,25 @@
-language: go
+sudo: required
 
-sudo: false
+services:
+  - docker
 
-matrix:
-  include:
-    - go: 1.1
-    - go: 1.2
-    - go: 1.3
-    - go: 1.4
-    - go: 1.5
-    - go: 1.6
-    - go: 1.7
-    - go: 1.8
-    - go: 1.x
-    - go: master
-  allow_failures:
-    - go: master
+script:
+  - make up --no-print-directory
+  - make install_go_deps --no-print-directory
+  - make test --no-print-directory
+  - make cli_build_all --no-print-directory
 
-install: make install
-
-script: make test
+deploy:
+  provider: releases
+  api_key:
+    secure: UXQgBNdZdK+Y8GFB/qgS4KclcfH7fWSsh6Wy1gGCEEKvGpJ1JXd3zng9FWDfYIII00Oe6c9rS2wEeJIE+5w1cPr+KXic8OcYoAA6gGZ26tibsz6zkKHV5++Qako5t714R54+7Icjm50RcIe3+BG0Ze0n4m6qfFGgEracpZxEjjI=
+  file:
+    - cli/build/darwin-amd64-glc
+    - cli/build/linux-amd64-glc
+    - cli/build/linux-386-glc
+    - cli/build/linux-arm-glc
+    - cli/build/linux-arm64-glc
+    - cli/build/alpine-amd64-glc
+  on:
+    repo: plouc/go-gitlab-client
+    tags: true

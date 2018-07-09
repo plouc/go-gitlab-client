@@ -1,0 +1,7 @@
+Fetching groups…
+
+| ID |     NAME      |  PATH   | VISIBILITY |
++----+---------------+---------+------------+
+|  1 | Foobar Group  | foo-bar | public     |
+|  2 | Another Group | another | public     |
+

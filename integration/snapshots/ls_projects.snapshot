@@ -1,0 +1,7 @@
+Fetching projects…
+
+| ID |      NAME       | PUBLIC |                   WEBURL                    |
++----+-----------------+--------+---------------------------------------------+
+|  4 | Diaspora Client | false  | http://example.com/diaspora/diaspora-client |
+|  6 | Puppet          | false  | http://example.com/brightbox/puppet         |
+

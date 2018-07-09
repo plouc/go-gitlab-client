@@ -1,0 +1,20 @@
+Fetching user (id: 1)…
+
+Basic info
+  Id        1
+  Username  plouc
+  Email     plouc@plouc.com
+  Name      Raphaël Benitte
+  State     active
+
+Rights
+  IsAdmin           false
+  CanCreateGroup    false
+  CanCreateProject  false
+  ProjectsLimit     0
+
+Security
+  External           false
+  TwoFactorEnabled    false
+  Identities
+
