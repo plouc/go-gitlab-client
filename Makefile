@@ -179,7 +179,7 @@ wait_for_%: ##@docker make sure a service is up and reachable, eg. wait_for_wire
 	done;
 
 ensure_wiremock_is_up: ##@docker wait for wiremock to be up
-	@${MAKE} wait_for_wiremock WAIT_URL="http://mockserver:8080/__admin/mappings" GREP_ITEM="total"
+	@${MAKE} wait_for_wiremock WAIT_URL="http://wiremock:8080/__admin/mappings" GREP_ITEM="total"
 
 clean: ##@docker Stop and remove docker compose stack
 	@echo "${YELLOW}Cleaning docker-compose stack${RESET}"
@@ -210,6 +210,7 @@ test_lib: ##@test Run lib tests
 
 _test_lib:
 	@echo "${YELLOW}Running lib tests${RESET}"
+	@make ensure_wiremock_is_up --no-print-directory
 	@go test ${TESTS_OPTS} ./gogitlab/.
 	@echo "${GREEN}✔ Lib tests successfully passed${RESET}\n"
 
@@ -218,6 +219,7 @@ test_cli: ##@test Run CLI tests
 
 _test_cli:
 	@echo "${YELLOW}Running CLI tests${RESET}"
+	@make ensure_wiremock_is_up --no-print-directory
 	@go ${TESTS_OPTS} test ./integration/.
 	@echo "${GREEN}✔ CLI tests successfully passed${RESET}\n"
 
@@ -284,7 +286,7 @@ _cli_build_all:
 	cd cli && GOOS=linux  GOARCH=386   go build -o build/linux-386-glc
 	cd cli && GOOS=linux  GOARCH=arm   go build -o build/linux-arm-glc
 	cd cli && GOOS=linux  GOARCH=arm64 go build -o build/linux-arm64-glc
-	@echo "${GREEN}✔ successfully built CLI${RESET}\n"
+	@echo "${GREEN}✔ successfully built CLI flavors${RESET}\n"
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 #
