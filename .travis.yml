@@ -8,3 +8,18 @@ script:
   - make install_go_deps --no-print-directory
   - make test --no-print-directory
   - make cli_build_all --no-print-directory
+
+deploy:
+  provider: releases
+  api_key:
+    secure: UXQgBNdZdK+Y8GFB/qgS4KclcfH7fWSsh6Wy1gGCEEKvGpJ1JXd3zng9FWDfYIII00Oe6c9rS2wEeJIE+5w1cPr+KXic8OcYoAA6gGZ26tibsz6zkKHV5++Qako5t714R54+7Icjm50RcIe3+BG0Ze0n4m6qfFGgEracpZxEjjI=
+  file:
+    - cli/build/darwin-amd64-glc
+    - cli/build/linux-amd64-glc
+    - cli/build/linux-386-glc
+    - cli/build/linux-arm-glc
+    - cli/build/linux-arm64-glc
+    - cli/build/alpine-amd64-glc
+  on:
+    repo: plouc/go-gitlab-client
+    tags: true
