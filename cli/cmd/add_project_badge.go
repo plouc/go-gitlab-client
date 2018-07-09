@@ -5,8 +5,8 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
-	"github.com/spf13/cobra"
 	"github.com/plouc/go-gitlab-client/gitlab"
+	"github.com/spf13/cobra"
 )
 
 func init() {

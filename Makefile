@@ -54,7 +54,7 @@ setup: ##@setup Install all required components
 	@${MAKE} install_modd
 	@${MAKE} up
 	@${MAKE} install_go_deps
-	@${MAKE} cli
+	@${MAKE} cli_all
 
 install_modd: ##@setup Download modd watcher
 	@mkdir -p ./bin
@@ -142,7 +142,7 @@ run_in_%: ##@docker Run a command inside % service
 		@${CMD}
     else
 		@${MAKE} is_${*}_up
-		@${DOCKER_COMPOSE} exec -T ${*} /bin/sh -c "${CMD}"
+		@${DOCKER_COMPOSE} exec ${*} /bin/sh -c "${CMD}"
     endif
 
 make_in_%: ##@docker Run a make command in % service
@@ -211,7 +211,7 @@ test_lib: ##@test Run lib tests
 _test_lib:
 	@echo "${YELLOW}Running lib tests${RESET}"
 	@make ensure_wiremock_is_up --no-print-directory
-	@go test ${TESTS_OPTS} ./gogitlab/.
+	@go test ${TESTS_OPTS} ./gitlab/.
 	@echo "${GREEN}✔ Lib tests successfully passed${RESET}\n"
 
 test_cli: ##@test Run CLI tests
@@ -225,8 +225,8 @@ _test_cli:
 
 vet_lib: ##@test Run vet on lib files
 	@echo "${YELLOW}Running vet on lib${RESET}"
-	@go vet ./gogitlab/.
-	@echo "${GREEN}✔ vet successfully passed for lib${RESET}\n"
+	@go vet ./gitlab/.
+	@echo "${GREEN}✔ vet successfully pas	sed for lib${RESET}\n"
 
 vet_cli: ##@test Run vet on cli files
 	@echo "${YELLOW}Running vet on cli${RESET}"
@@ -247,10 +247,14 @@ _fmt_check:
 #
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-cli: ##@cli Run all cli steps
+cli: ##@cli Run cli from docker. eg. make cli CMD="ls groups"
+	@${MAKE} run_in_go CMD="./cli/glc ${CMD}"
+
+cli_all: ##@cli Run all cli steps
 	@${MAKE} cli_doc
 	@${MAKE} cli_completion
 	@${MAKE} cli_build
+	@${MAKE} cli_build_all
 
 cli_doc: ##@cli Generate cli documentation
 	@${MAKE} make_in_go TARGET=_cli_doc
