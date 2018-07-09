@@ -4,7 +4,7 @@
 
 **go-gitlab-client** is a simple client written in golang to consume gitlab API.
 
-It also provides an handy CLI to easily interact with gitlab through CLI.
+It also provides an handy CLI to easily interact with gitlab API.
 
 - [lib](#lib)
   - [install](#install-lib)
@@ -32,7 +32,7 @@ Import the `go-gitlab-client` package into your code:
 package whatever
 
 import (
-    "github.com/plouc/go-gitlab-client/gogitlab"
+    "github.com/plouc/go-gitlab-client/gitlab"
 )
 ```
 
@@ -40,11 +40,11 @@ import (
 
 To update `go-gitlab-client`, use `go get -u`:
 
-    go get -u github.com/plouc/go-gitlab-client
+    go get -u github.com/plouc/go-gitlab-client/gitlab
 
 ### Documentation
 
-Visit the docs at http://godoc.org/github.com/plouc/go-gitlab-client
+Visit the docs at http://godoc.org/github.com/plouc/go-gitlab-client/gitlab
 
 ### Supported APIs
 
