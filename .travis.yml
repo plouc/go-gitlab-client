@@ -1,18 +1,10 @@
-language: go
+sudo: required
 
-sudo: false
+services:
+  - docker
 
-matrix:
-  include:
-    - go: 1.7
-    - go: 1.8
-    - go: 1.9
-    - go: 1.10
-    - go: 1.x
-    - go: master
-  allow_failures:
-    - go: master
-
-install: make install
-
-script: make test
+script:
+  - make up --no-print-directory
+  - make install_go_deps --no-print-directory
+  - make test --no-print-directory
+  - make cli_build_all --no-print-directory

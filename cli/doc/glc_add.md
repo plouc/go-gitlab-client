@@ -1,10 +1,10 @@
 ## glc add
 
-Add resource
+Add resource type
 
 ### Synopsis
 
-Add resource
+Add resource type
 
 ### Options
 

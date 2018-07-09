@@ -21,7 +21,7 @@ gitlab Command Line Application
 
 ### SEE ALSO
 
-* [glc add](glc_add.md)	 - Add resource
+* [glc add](glc_add.md)	 - Add resource type
 * [glc get](glc_get.md)	 - Get resource details
 * [glc init](glc_init.md)	 - Init glc config
 * [glc ls](glc_ls.md)	 - List resource

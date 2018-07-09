@@ -1,11 +1,12 @@
-.PHONY: install update test test_lib test_cli vet_lib vet_cli fmt_check cli cli_doc cli_completion cli_build fmt
+.PHONY: install update test test_lib _test_lib test_cli _test_cli vet_lib _vet_lib vet_cli _vet_cli \
+        fmt_check cli cli_doc cli_completion cli_build fmt
 .DEFAULT: help
 
 STACK_NAME      = gogitlab
 WIREMOCK_IMAGE  = ekino/wiremock:2.7.1
 GO_IMAGE        = golang:1.10.3
 MODD_VERSION    = 0.5
-GO_PKG_SRC_PATH = github.com/plouc/go-gitlab-client
+GO_PKG_SRC_PATH = "github.com/plouc/go-gitlab-client"
 TESTS_OPTS     ?=
 
 SHA1 = $(shell git rev-parse HEAD)
@@ -140,12 +141,12 @@ run_in_%: ##@docker Run a command inside % service
     ifdef NO_DOCKER
 		@${CMD}
     else
-		@make is_${*}_up
+		@${MAKE} is_${*}_up
 		@${DOCKER_COMPOSE} exec -T ${*} /bin/sh -c "${CMD}"
     endif
 
 make_in_%: ##@docker Run a make command in % service
-	@${MAKE} run_in_${*} CMD="${ENV} make ${TARGET} args='${args}'"
+	@${MAKE} run_in_${*} CMD="${ENV} make ${TARGET}"
 
 shell_in_%: ##@docker Get a shell in % service
 	@${MAKE} is_${*}_up
@@ -231,6 +232,9 @@ vet_cli: ##@test Run vet on cli files
 	@echo "${GREEN}✔ vet successfully passed for cli${RESET}\n"
 
 fmt_check: ##@test Check formatting
+	@${MAKE} make_in_go TARGET=_fmt_check
+
+_fmt_check:
 	@echo "${YELLOW}Checking formatting${RESET}"
 	@exit `gofmt -l -s -e . | wc -l`
 	@echo "${GREEN}✔ code was formatted as expected${RESET}\n"
