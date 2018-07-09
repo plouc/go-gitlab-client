@@ -23,7 +23,7 @@ func TestSearchNamespaces(t *testing.T) {
 	defer ts.Close()
 	namespaces, err := gitlab.SearchNamespaces("twitter")
 
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.IsType(t, new(nNamespace), namespaces[0])
 	assert.Equal(t, 1, len(namespaces))
 	assert.Equal(t, 4, namespaces[0].Id)

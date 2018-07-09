@@ -15,7 +15,7 @@ func TestRunners(t *testing.T) {
 	assert.NotNil(t, runners)
 	assert.NotNil(t, meta)
 	assert.Equal(t, meta.StatusCode, 200)
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.Equal(t, len(runners), 2)
 }
 
@@ -24,7 +24,7 @@ func TestRunner(t *testing.T) {
 	ts, gitlab := Stub("stubs/runners/show.json")
 	runner, _, err := gitlab.Runner(6)
 
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.IsType(t, new(RunnerWithDetails), runner)
 	assert.Equal(t, runner.Id, 6)
 	assert.Equal(t, runner.IsShared, false)
@@ -43,7 +43,7 @@ func TestUpdateRunner(t *testing.T) {
 	}
 
 	resp, _, err := gitlab.UpdateRunner(6, &runner)
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.IsType(t, new(Runner), resp)
 	assert.Equal(t, resp.Description, "New Runner Description")
 	defer ts.Close()
@@ -53,7 +53,7 @@ func TestDeleteRunner(t *testing.T) {
 	ts, gitlab := Stub("stubs/runners/delete.json")
 	resp, _, err := gitlab.DeleteRunner(6)
 
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.IsType(t, new(Runner), resp)
 	assert.IsType(t, resp.Id, 6)
 	defer ts.Close()
@@ -63,7 +63,7 @@ func TestProjectRunners(t *testing.T) {
 	ts, gitlab := Stub("stubs/runners/projects/index.json")
 	runners, _, err := gitlab.ProjectRunners("1", 0, 2)
 
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.Equal(t, len(runners), 2)
 	assert.Equal(t, runners[0].IsShared, false)
 	defer ts.Close()
@@ -73,7 +73,7 @@ func TestEnableProjectRunner(t *testing.T) {
 	ts, gitlab := Stub("stubs/runners/projects/enable.json")
 	runner, _, err := gitlab.EnableProjectRunner("1", 9)
 
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.IsType(t, new(Runner), runner)
 	assert.Equal(t, runner.Id, 9)
 	defer ts.Close()
@@ -83,7 +83,7 @@ func TestDisableProjectRunner(t *testing.T) {
 	ts, gitlab := Stub("stubs/runners/projects/disable.json")
 	runner, _, err := gitlab.DisableProjectRunner("1", 9)
 
-	assert.Equal(t, err, nil)
+	assert.NoError(t, err)
 	assert.IsType(t, new(Runner), runner)
 	assert.Equal(t, runner.Id, 9)
 	defer ts.Close()
