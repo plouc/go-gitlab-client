@@ -13,7 +13,7 @@ glc ls groups [flags]
 ### Options
 
 ```
-  -a, --all                      Show all the groups you have access to (defaults to false for authenticated users, true for admin)
+      --all                      Show all the groups you have access to (defaults to false for authenticated users, true for admin)
   -h, --help                     help for groups
       --owned                    Limit to groups owned by the current user
   -s, --search string            Return the list of authorized groups matching the search criteria
@@ -24,6 +24,7 @@ glc ls groups [flags]
 ### Options inherited from parent commands
 
 ```
+  -a, --alias string                Use resource alias
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified

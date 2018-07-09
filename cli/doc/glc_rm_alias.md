@@ -7,7 +7,7 @@ Remove resource alias
 Remove resource alias
 
 ```
-glc rm alias [alias] [flags]
+glc rm alias [alias] [resource type] [flags]
 ```
 
 ### Options
@@ -19,6 +19,7 @@ glc rm alias [alias] [flags]
 ### Options inherited from parent commands
 
 ```
+  -a, --alias string                Use resource alias
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified

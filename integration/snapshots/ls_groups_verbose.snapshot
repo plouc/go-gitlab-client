@@ -9,7 +9,7 @@ Fetching groups…
 Response meta
 
   Method          GET
-  Url             http://localhost:8080/api/v4/groups?per_page=10
+  Url             http://wiremock:8080/api/v4/groups?per_page=10
   StatusCode      200
   Request id      
   Runtime         0.000000

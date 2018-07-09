@@ -9,6 +9,7 @@ gitlab Command Line Application
 ### Options
 
 ```
+  -a, --alias string                Use resource alias
   -h, --help                        help for glc
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output

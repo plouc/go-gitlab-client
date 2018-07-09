@@ -1,10 +1,20 @@
 version: '2'
 services:
   wiremock:
-    image: ekino/wiremock:2.7.1
+    image:      ${WIREMOCK_IMAGE}
     entrypoint: java -Xms512M -Xmx1024M -jar wiremock.jar
     volumes:
-      - ./integration/mocks/__files:/wiremock/__files:delegated
-      - ./integration/mocks/mappings:/wiremock/mappings:delegated
+      - ${PWD}/mocks/__files:/wiremock/__files
+      - ${PWD}/mocks/mappings:/wiremock/mappings
     ports:
       - 8080:8080
+
+  go:
+    image:       ${GO_IMAGE}
+    command:     /bin/sh -c "while [ 1 ]; do sleep 3600; done"
+    working_dir: /go/src/${GO_PKG_SRC_PATH}
+    volumes:
+      - ${PWD}/gogitlab:/go/src/${GO_PKG_SRC_PATH}/gogitlab
+      - ${PWD}/cli:/go/src/${GO_PKG_SRC_PATH}/cli
+      - ${PWD}/integration:/go/src/${GO_PKG_SRC_PATH}/integration
+      - ${PWD}/Makefile:/go/src/${GO_PKG_SRC_PATH}/Makefile

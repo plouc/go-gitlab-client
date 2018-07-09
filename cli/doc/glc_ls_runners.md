@@ -13,7 +13,7 @@ glc ls runners [flags]
 ### Options
 
 ```
-  -a, --all            Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges
+      --all            Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges
   -h, --help           help for runners
   -s, --scope string   The scope of runners to show, one of: specific, shared, active, paused, online; showing all runners if none provided
 ```
@@ -21,6 +21,7 @@ glc ls runners [flags]
 ### Options inherited from parent commands
 
 ```
+  -a, --alias string                Use resource alias
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified

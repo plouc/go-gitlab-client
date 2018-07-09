@@ -4,7 +4,7 @@ Usage:
   glc [command]
 
 Available Commands:
-  add         Add resource
+  add         Add resource type
   get         Get resource details
   help        Help about any command
   init        Init glc config

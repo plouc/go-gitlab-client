@@ -1,16 +1,19 @@
 package gogitlab
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestRunners(t *testing.T) {
-	gitlab := NewGitlab("http://localhost:8080", "/api/v4", "")
+	g := NewGitlab(testsHost, "/api/v4", "")
 	o := RunnersOptions{}
 	o.PerPage = 10
-	runners, meta, err := gitlab.Runners(&o)
+	runners, meta, err := g.Runners(&o)
 
+	assert.NotNil(t, runners)
+	assert.NotNil(t, meta)
 	assert.Equal(t, meta.StatusCode, 200)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, len(runners), 2)

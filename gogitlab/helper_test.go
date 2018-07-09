@@ -6,6 +6,8 @@ import (
 	"net/http/httptest"
 )
 
+const testsHost = "http://wiremock:8080"
+
 func Stub(filename string) (*httptest.Server, *Gitlab) {
 	var err error
 

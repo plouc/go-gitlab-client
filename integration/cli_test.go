@@ -321,10 +321,11 @@ func TestMain(m *testing.M) {
 		os.Exit(1)
 	}
 
-	cmd := exec.Command("make", "cli_build")
-	if err := cmd.Run(); err != nil {
+	cmd := exec.Command("make", "_cli_build", "--no-print-directory")
+	cmd.Start()
+	if err := cmd.Wait(); err != nil {
 		output, _ := cmd.CombinedOutput()
-		fmt.Printf("could not make binary for %s:\n%v\n%s", binaryName, err, output)
+		fmt.Printf("could not make '%s' binary:\n%v\n%s", binaryName, err, output)
 		os.Exit(1)
 	}
 
