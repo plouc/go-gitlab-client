@@ -6,7 +6,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
 func confirmAction(question, abortMessage string, autoConfirm bool) bool {
@@ -34,7 +34,7 @@ func confirmAction(question, abortMessage string, autoConfirm bool) bool {
 	return false
 }
 
-func handlePaginatedResult(meta *gogitlab.ResponseMeta, fetch func()) {
+func handlePaginatedResult(meta *gitlab.ResponseMeta, fetch func()) {
 	if !isInteractive {
 		return
 	}

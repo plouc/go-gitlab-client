@@ -6,10 +6,10 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
-func hooksOutput(hooks []*gogitlab.Hook) {
+func hooksOutput(hooks []*gitlab.Hook) {
 	if outputFormat == "json" {
 		jsonOutput(hooks)
 	} else {
@@ -49,7 +49,7 @@ func hooksOutput(hooks []*gogitlab.Hook) {
 	}
 }
 
-func hookOutput(hook *gogitlab.Hook) {
+func hookOutput(hook *gitlab.Hook) {
 	if outputFormat == "json" {
 		jsonOutput(hook)
 	} else {

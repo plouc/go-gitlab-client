@@ -5,10 +5,10 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
-func namespacesOutput(namespaces []*gogitlab.Namespace) {
+func namespacesOutput(namespaces []*gitlab.Namespace) {
 	if outputFormat == "json" {
 		jsonOutput(namespaces)
 	} else if outputFormat == "yaml" {
@@ -38,7 +38,7 @@ func namespacesOutput(namespaces []*gogitlab.Namespace) {
 	}
 }
 
-func namespaceOutput(namespace *gogitlab.Namespace) {
+func namespaceOutput(namespace *gitlab.Namespace) {
 	if outputFormat == "json" {
 		jsonOutput(namespace)
 	} else {

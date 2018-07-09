@@ -76,7 +76,7 @@ var initCmd = &cobra.Command{
 
 		selectPrompt := promptui.Select{
 			Label: "default output format",
-			Items: []string{"text", "json"},
+			Items: []string{"text", "json", "yaml"},
 		}
 		_, format, err := selectPrompt.Run()
 		if err != nil {

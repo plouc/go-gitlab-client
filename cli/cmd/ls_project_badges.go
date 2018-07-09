@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
 
@@ -15,7 +15,7 @@ func init() {
 func fetchProjectBadges(projectId string) {
 	color.Yellow("Fetching project badges (id: %s)…", projectId)
 
-	o := &gogitlab.PaginationOptions{}
+	o := &gitlab.PaginationOptions{}
 	o.Page = page
 	o.PerPage = perPage
 

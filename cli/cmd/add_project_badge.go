@@ -5,8 +5,8 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
-	"github.com/plouc/go-gitlab-client/gogitlab"
 	"github.com/spf13/cobra"
+	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
 func init() {
@@ -29,7 +29,7 @@ var addProjectBadgeCmd = &cobra.Command{
 
 		color.Yellow("Creating project's badge (project id: %s)…", projectId)
 
-		badge := new(gogitlab.Badge)
+		badge := new(gitlab.Badge)
 
 		prompt := promptui.Prompt{
 			Label: "LinkUrl",

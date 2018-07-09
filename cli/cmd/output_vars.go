@@ -5,10 +5,10 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
-func varsOutput(variables []*gogitlab.Variable) {
+func varsOutput(variables []*gitlab.Variable) {
 	if outputFormat == "json" {
 		jsonOutput(variables)
 	} else {
@@ -34,7 +34,7 @@ func varsOutput(variables []*gogitlab.Variable) {
 	}
 }
 
-func varOutput(variable *gogitlab.Variable) {
+func varOutput(variable *gitlab.Variable) {
 	if outputFormat == "json" {
 		jsonOutput(variable)
 	} else {

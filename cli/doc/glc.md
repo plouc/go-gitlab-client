@@ -10,6 +10,7 @@ gitlab Command Line Application
 
 ```
   -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yaml")
   -h, --help                        help for glc
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
@@ -21,7 +22,7 @@ gitlab Command Line Application
 
 ### SEE ALSO
 
-* [glc add](glc_add.md)	 - Add resource type
+* [glc add](glc_add.md)	 - Add resource
 * [glc get](glc_get.md)	 - Get resource details
 * [glc init](glc_init.md)	 - Init glc config
 * [glc ls](glc_ls.md)	 - List resource

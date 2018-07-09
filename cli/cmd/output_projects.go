@@ -7,10 +7,10 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
-func projectsOutput(projects []*gogitlab.Project) {
+func projectsOutput(projects []*gitlab.Project) {
 	if outputFormat == "json" {
 		jsonOutput(projects)
 	} else if outputFormat == "yaml" {
@@ -38,7 +38,7 @@ func projectsOutput(projects []*gogitlab.Project) {
 	}
 }
 
-func projectOutput(project *gogitlab.Project, withStatistics bool) {
+func projectOutput(project *gitlab.Project, withStatistics bool) {
 	if outputFormat == "json" {
 		jsonOutput(project)
 	} else {
@@ -49,7 +49,7 @@ func projectOutput(project *gogitlab.Project, withStatistics bool) {
 		fmt.Fprintf(output, "  NameWithNamespace                          %s\n", color.YellowString(project.NameWithNamespace))
 		fmt.Fprintf(output, "  Description                                %s\n", color.YellowString(project.Description))
 		fmt.Fprintf(output, "  DefaultBranch                              %s\n", color.YellowString(project.DefaultBranch))
-		// Owner: (*gogitlab.Member)(<nil>)
+		// Owner: (*gitlab.Member)(<nil>)
 		fmt.Fprintf(output, "  Public                                     %s\n", color.YellowString("%t", project.Public))
 		fmt.Fprintf(output, "  Path                                       %s\n", color.YellowString(project.Path))
 		fmt.Fprintf(output, "  PathWithNamespace                          %s\n", color.YellowString(project.PathWithNamespace))

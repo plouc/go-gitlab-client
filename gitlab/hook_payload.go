@@ -1,4 +1,4 @@
-package gogitlab
+package gitlab
 
 import (
 	"encoding/json"
@@ -47,7 +47,7 @@ type hRepository struct {
 
 type hProject struct {
 	Project
-	// Overwrite type *gogitlab.Namespace with type string,
+	// Overwrite type *gitlab.Namespace with type string,
 	// otherwise the project hash passed for pipeline hooks is
 	// identical
 	Namespace string `json:"namespace,omitempty"`

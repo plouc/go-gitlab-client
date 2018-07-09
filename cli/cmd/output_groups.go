@@ -5,10 +5,10 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
-func groupsOutput(groups []*gogitlab.Group) {
+func groupsOutput(groups []*gitlab.Group) {
 	if outputFormat == "json" {
 		jsonOutput(groups)
 	} else if outputFormat == "yaml" {
@@ -36,7 +36,7 @@ func groupsOutput(groups []*gogitlab.Group) {
 	}
 }
 
-func groupOutput(group *gogitlab.GroupWithDetails) {
+func groupOutput(group *gitlab.GroupWithDetails) {
 	if outputFormat == "json" {
 		jsonOutput(group)
 	} else if outputFormat == "yaml" {

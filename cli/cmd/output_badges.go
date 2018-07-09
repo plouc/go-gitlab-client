@@ -5,10 +5,10 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
-func badgesOutput(badges []*gogitlab.Badge) {
+func badgesOutput(badges []*gitlab.Badge) {
 	if outputFormat == "json" {
 		jsonOutput(badges)
 	} else {
@@ -32,7 +32,7 @@ func badgesOutput(badges []*gogitlab.Badge) {
 	}
 }
 
-func badgeOutput(badge *gogitlab.Badge) {
+func badgeOutput(badge *gitlab.Badge) {
 	if outputFormat == "json" {
 		jsonOutput(badge)
 	} else {

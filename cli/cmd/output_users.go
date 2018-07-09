@@ -5,10 +5,10 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
-func usersOutput(users []*gogitlab.User) {
+func usersOutput(users []*gitlab.User) {
 	if outputFormat == "json" {
 		jsonOutput(users)
 	} else if outputFormat == "yaml" {
@@ -42,7 +42,7 @@ func usersOutput(users []*gogitlab.User) {
 	}
 }
 
-func userOutput(user *gogitlab.User) {
+func userOutput(user *gitlab.User) {
 	if outputFormat == "json" {
 		jsonOutput(user)
 	} else if outputFormat == "yaml" {

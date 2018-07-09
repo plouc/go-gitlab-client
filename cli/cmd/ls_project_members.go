@@ -6,7 +6,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
 
@@ -21,7 +21,7 @@ func init() {
 func fetchProjectMembers(projectId string) {
 	color.Yellow("Fetching project members (id: %s)…", projectId)
 
-	o := &gogitlab.MembersOptions{}
+	o := &gitlab.MembersOptions{}
 	o.Page = page
 	o.PerPage = perPage
 	if projectMembersQuery != "" {

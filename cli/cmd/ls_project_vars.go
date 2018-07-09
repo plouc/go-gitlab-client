@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
 
@@ -28,7 +28,7 @@ var lsProjectVarsCmd = &cobra.Command{
 
 		color.Yellow("Fetching project variables (id: %s)…", projectId)
 
-		o := &gogitlab.PaginationOptions{
+		o := &gitlab.PaginationOptions{
 			Page:    page,
 			PerPage: perPage,
 		}

@@ -22,7 +22,7 @@ It also provides an handy CLI to easily interact with gitlab through CLI.
 To install go-gitlab-client, use `go get`:
 
 ```
-go get github.com/plouc/go-gitlab-client
+go get github.com/plouc/go-gitlab-client/gitlab
 ```
 
 Import the `go-gitlab-client` package into your code:

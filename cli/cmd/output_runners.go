@@ -7,10 +7,10 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
-func runnersOutput(runners []*gogitlab.Runner) {
+func runnersOutput(runners []*gitlab.Runner) {
 	if outputFormat == "json" {
 		jsonOutput(runners)
 	} else if outputFormat == "yaml" {
@@ -44,7 +44,7 @@ func runnersOutput(runners []*gogitlab.Runner) {
 	}
 }
 
-func runnerOutput(runner *gogitlab.RunnerWithDetails) {
+func runnerOutput(runner *gitlab.RunnerWithDetails) {
 	if outputFormat == "json" {
 		jsonOutput(runner)
 	} else if outputFormat == "yaml" {

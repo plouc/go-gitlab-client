@@ -8,8 +8,8 @@ import (
 
 	"github.com/briandowns/spinner"
 	"github.com/fatih/color"
-	"github.com/plouc/go-gitlab-client/gogitlab"
 	"github.com/spf13/cobra"
+	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
 type Loader interface {
@@ -24,7 +24,7 @@ func (fl *FakeLoader) Stop()  {}
 
 // global
 var config *Config
-var client *gogitlab.Gitlab
+var client *gitlab.Gitlab
 var loader Loader
 var writers []io.Writer
 var output io.Writer
@@ -55,7 +55,7 @@ var RootCmd = &cobra.Command{
 		config = loadConfig(configFile, cmdRequireClient(cmd.Use))
 
 		if cmdRequireClient(cmd.Use) {
-			client = gogitlab.NewGitlab(config.Host, config.ApiPath, config.Token)
+			client = gitlab.NewGitlab(config.Host, config.ApiPath, config.Token)
 		}
 
 		if noColor {

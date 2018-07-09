@@ -20,6 +20,7 @@ glc rm project-merged-branches [project id] [flags]
 
 ```
   -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yaml")
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified

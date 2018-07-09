@@ -1,5 +1,5 @@
 // Package github implements a simple client to consume gitlab API.
-package gogitlab
+package gitlab
 
 import (
 	"bytes"

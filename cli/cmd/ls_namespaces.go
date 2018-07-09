@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
 
@@ -19,7 +19,7 @@ func init() {
 func fetchNamespaces() {
 	color.Yellow("Fetching namespaces…")
 
-	o := &gogitlab.NamespacesOptions{}
+	o := &gitlab.NamespacesOptions{}
 	o.Page = page
 	o.PerPage = perPage
 	if namespacesSearch != "" {

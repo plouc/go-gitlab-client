@@ -1,4 +1,4 @@
-package gogitlab
+package gitlab
 
 import (
 	"github.com/stretchr/testify/assert"

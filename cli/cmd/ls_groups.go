@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
 
@@ -24,7 +24,7 @@ func init() {
 func fetchGroups() {
 	color.Yellow("Fetching groups…")
 
-	o := &gogitlab.GroupsOptions{}
+	o := &gitlab.GroupsOptions{}
 	o.Page = page
 	o.PerPage = perPage
 	if groupsSearch != "" {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
 
@@ -24,7 +24,7 @@ func init() {
 func fetchProjects() {
 	color.Yellow("Fetching projects…")
 
-	o := &gogitlab.ProjectsOptions{}
+	o := &gitlab.ProjectsOptions{}
 	o.Page = page
 	o.PerPage = perPage
 	if projectsSearch != "" {

@@ -4,10 +4,10 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
-func pipelineOutput(pipeline *gogitlab.PipelineWithDetails) {
+func pipelineOutput(pipeline *gitlab.PipelineWithDetails) {
 	if outputFormat == "json" {
 		jsonOutput(pipeline)
 	} else {

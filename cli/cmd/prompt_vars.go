@@ -3,11 +3,11 @@ package cmd
 import (
 	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
-func promptVariable() (*gogitlab.Variable, error) {
-	variable := gogitlab.Variable{}
+func promptVariable() (*gitlab.Variable, error) {
+	variable := gitlab.Variable{}
 
 	prompt := promptui.Prompt{
 		Label: "Key",

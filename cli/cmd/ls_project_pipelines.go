@@ -6,7 +6,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
 
@@ -17,7 +17,7 @@ func init() {
 func fetchProjectPipelines(projectId string) {
 	color.Yellow("Fetching project's pipelines (project id: %s)…", projectId)
 
-	o := &gogitlab.PipelinesOptions{}
+	o := &gitlab.PipelinesOptions{}
 	o.Page = page
 	o.PerPage = perPage
 

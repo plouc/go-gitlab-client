@@ -5,7 +5,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
 
@@ -22,7 +22,7 @@ var addProjectHookCmd = &cobra.Command{
 
 		color.Yellow("Creating hook for project (project id: %s)…", projectId)
 
-		hook := gogitlab.HookAddPayload{}
+		hook := gitlab.HookAddPayload{}
 
 		prompt := promptui.Prompt{
 			Label: "Url",

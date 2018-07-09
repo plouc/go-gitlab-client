@@ -4,10 +4,10 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
-func branchOutput(branch *gogitlab.Branch) {
+func branchOutput(branch *gitlab.Branch) {
 	if outputFormat == "json" {
 		jsonOutput(branch)
 	} else {
@@ -32,7 +32,7 @@ func branchOutput(branch *gogitlab.Branch) {
 	}
 }
 
-func printAccessLevelInfo(accessLevel *gogitlab.AccessLevelInfo) {
+func printAccessLevelInfo(accessLevel *gitlab.AccessLevelInfo) {
 	fmt.Printf("    Access level              %d\n", accessLevel.AccessLevel)
 	fmt.Printf("    Access level description  %s\n", accessLevel.AccessLevelDescription)
 	if accessLevel.GroupId != 0 {
@@ -43,7 +43,7 @@ func printAccessLevelInfo(accessLevel *gogitlab.AccessLevelInfo) {
 	}
 }
 
-func printProtectedBranch(protectedBranch *gogitlab.ProtectedBranch) {
+func printProtectedBranch(protectedBranch *gitlab.ProtectedBranch) {
 	color.Blue(protectedBranch.Name)
 
 	fmt.Println("  Push access levels:")

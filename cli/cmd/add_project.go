@@ -5,8 +5,8 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
-	"github.com/plouc/go-gitlab-client/gogitlab"
 	"github.com/spf13/cobra"
+	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
 func init() {
@@ -20,7 +20,7 @@ var addProjectCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		color.Yellow("Creating project…")
 
-		project := gogitlab.ProjectAddPayload{}
+		project := gitlab.ProjectAddPayload{}
 
 		prompt := promptui.Prompt{
 			Label: "Name",

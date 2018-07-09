@@ -1,10 +1,10 @@
 ## glc add
 
-Add resource type
+Add resource
 
 ### Synopsis
 
-Add resource type
+Add resource
 
 ### Options
 
@@ -16,6 +16,7 @@ Add resource type
 
 ```
   -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yaml")
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified

@@ -6,11 +6,11 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 	"gopkg.in/yaml.v2"
 )
 
-func metaOutput(meta *gogitlab.ResponseMeta, withPagination bool) {
+func metaOutput(meta *gitlab.ResponseMeta, withPagination bool) {
 	if !verbose {
 		return
 	}

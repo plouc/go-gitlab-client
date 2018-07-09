@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
-	"github.com/plouc/go-gitlab-client/gogitlab"
+	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
 
@@ -21,11 +21,11 @@ func init() {
 func fetchRunners() {
 	color.Yellow("Fetching runners…")
 
-	o := &gogitlab.RunnersOptions{}
+	o := &gitlab.RunnersOptions{}
 	o.Page = page
 	o.PerPage = perPage
 	if runnersScope != "" {
-		o.Scope = gogitlab.RunnerScope(runnersScope)
+		o.Scope = gitlab.RunnerScope(runnersScope)
 	}
 	if runnersAll {
 		o.All = true

@@ -2,6 +2,6 @@
 .idea
 /data
 /bin
-cli/.glc*
+.glc*
 cli/glc
 cli/build
