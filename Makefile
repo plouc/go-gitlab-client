@@ -270,6 +270,18 @@ _cli_build:
 	@cd cli && go build -o glc
 	@echo "${GREEN}✔ successfully built CLI${RESET}\n"
 
+cli_build_all: ##@cli Build cli for various platforms
+	@${MAKE} make_in_go TARGET=_cli_build_all
+
+_cli_build_all:
+	@echo "${YELLOW}Building cli for various platforms${RESET}"
+	cd cli && GOOS=darwin GOARCH=amd64 go build -o build/darwin-amd64-glc
+	cd cli && GOOS=linux  GOARCH=amd64 go build -o build/linux-amd64-glc
+	cd cli && GOOS=linux  GOARCH=386   go build -o build/linux-386-glc
+	cd cli && GOOS=linux  GOARCH=arm   go build -o build/linux-arm-glc
+	cd cli && GOOS=linux  GOARCH=arm64 go build -o build/linux-arm64-glc
+	@echo "${GREEN}✔ successfully built CLI${RESET}\n"
+
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 #
 #  MISC

@@ -4,3 +4,4 @@
 /bin
 cli/.glc.yml
 cli/glc
+cli/build
