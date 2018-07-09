@@ -33,7 +33,7 @@ var rmAliasCmd = &cobra.Command{
 			return
 		}
 
-		writeConfig(configFilePath, config)
+		config.Write(configFile)
 
 		color.Green("✔ Alias %s was successfully removed", alias)
 	},

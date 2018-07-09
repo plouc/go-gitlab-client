@@ -80,7 +80,7 @@ var aliasCmd = &cobra.Command{
 			Alias:        alias,
 		})
 
-		writeConfig(configFilePath, config)
+		config.Write(configFile)
 
 		color.Green("✔ Alias '%s' for resource '%s' was successfully %s", alias, resourceType, action)
 	},

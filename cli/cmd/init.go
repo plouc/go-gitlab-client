@@ -85,7 +85,7 @@ var initCmd = &cobra.Command{
 		}
 		config.OutputFormat = format
 
-		writeConfig(configFilePath, config)
+		config.Write(configFile)
 
 		color.Green("✔ Configuration file was successfully %s", action)
 	},

@@ -30,7 +30,7 @@ var writers []io.Writer
 var output io.Writer
 
 // options
-var configFilePath = "./.glc.yml"
+var configFile = "./.glc.yml"
 var isInteractive bool
 var verbose bool
 var silent bool
@@ -52,7 +52,7 @@ var RootCmd = &cobra.Command{
 	Short: "gitlab cli",
 	Long:  "gitlab Command Line Application",
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		config = loadConfig(configFilePath, cmdRequireClient(cmd.Use))
+		config = loadConfig(configFile, cmdRequireClient(cmd.Use))
 
 		if cmdRequireClient(cmd.Use) {
 			client = gogitlab.NewGitlab(config.Host, config.ApiPath, config.Token)
@@ -93,6 +93,7 @@ var RootCmd = &cobra.Command{
 }
 
 func init() {
+	RootCmd.PersistentFlags().StringVarP(&configFile, "config", "c", ".glc.yaml", "Path to configuration file")
 	RootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "verbose output")
 	RootCmd.PersistentFlags().BoolVar(&silent, "silent", false, "silent mode")
 	RootCmd.PersistentFlags().BoolVarP(&isInteractive, "interactive", "i", false, "enable interactive mode when applicable (eg. creation, pagination)")

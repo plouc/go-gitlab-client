@@ -90,7 +90,7 @@ func loadConfig(path string, isMandatory bool) *Config {
 	return c
 }
 
-func writeConfig(path string, c *Config) {
+func (c *Config) Write(path string) {
 	configYaml, err := yaml.Marshal(c)
 	if err != nil {
 		color.Red("✘ An error occurred while serializing config:")

@@ -4,7 +4,7 @@ Usage:
   glc [command]
 
 Available Commands:
-  add         Add resource type
+  add         Add resource
   get         Get resource details
   help        Help about any command
   init        Init glc config
@@ -14,6 +14,7 @@ Available Commands:
 
 Flags:
   -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yaml")
   -h, --help                        help for glc
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
