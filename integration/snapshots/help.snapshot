@@ -5,6 +5,7 @@ Usage:
 
 Available Commands:
   add         Add resource
+  completion  Output shell completion code for the specified shell (bash or zsh)
   get         Get resource details
   help        Help about any command
   init        Init glc config

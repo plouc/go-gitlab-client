@@ -21,8 +21,8 @@ Available Commands:
 
 Flags:
   -h, --help           help for ls
-  -p, --page int       Page. (default 1)
-  -l, --per_page int   Items per page. (default 10)
+  -p, --page int       Page (default 1)
+  -l, --per-page int   Items per page (default 10)
 
 Global Flags:
   -a, --alias string                Use resource alias
