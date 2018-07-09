@@ -1,0 +1,32 @@
+Get resource details
+
+Usage:
+  glc get [command]
+
+Available Commands:
+  current-user     Get current user
+  group            Get all details of a group
+  group-var        Get the details of a group's specific variable
+  namespace        Get a single namespace
+  project          Get a specific project
+  project-badge    Get project badge info
+  project-branch   Get project branch info
+  project-hook     Get project hook info
+  project-pipeline Get project pipeline details
+  project-var      Get the details of a project's specific variable
+  runner           Get details of a runner
+  user             Get a single user
+
+Flags:
+  -h, --help   help for get
+
+Global Flags:
+  -a, --alias string                Use resource alias
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json'
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+
+Use "glc get [command] --help" for more information about a command.

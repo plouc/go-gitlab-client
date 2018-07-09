@@ -1,0 +1,10 @@
+version: '2'
+services:
+  wiremock:
+    image: ekino/wiremock:2.7.1
+    entrypoint: java -Xms512M -Xmx1024M -jar wiremock.jar
+    volumes:
+      - ./integration/mocks/__files:/wiremock/__files:delegated
+      - ./integration/mocks/mappings:/wiremock/mappings:delegated
+    ports:
+      - 8080:8080

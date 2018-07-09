@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Foobar Group",
+    "path": "foo-bar",
+    "description": "An interesting group",
+    "visibility": "public",
+    "lfs_enabled": true,
+    "avatar_url": "http://localhost:3000/uploads/group/avatar/1/foo.jpg",
+    "web_url": "http://localhost:3000/foo-bar",
+    "request_access_enabled": false,
+    "full_name": "Foobar Group",
+    "full_path": "foo-bar",
+    "parent_id": null
+  },
+  {
+    "id": 2,
+    "name": "Another Group",
+    "path": "another",
+    "description": "A not so interesting group",
+    "visibility": "public",
+    "lfs_enabled": true,
+    "avatar_url": "http://localhost:3000/uploads/group/avatar/1/bar.jpg",
+    "web_url": "http://localhost:3000/foo-bar/another",
+    "request_access_enabled": false,
+    "full_name": "Another Group",
+    "full_path": "foo-bar/another",
+    "parent_id": 1
+  }
+]

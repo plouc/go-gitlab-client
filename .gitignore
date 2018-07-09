@@ -1,3 +1,5 @@
 .DS_Store
 .idea
-examples/config.json
+/data
+cli/.glc.yml
+cli/glc

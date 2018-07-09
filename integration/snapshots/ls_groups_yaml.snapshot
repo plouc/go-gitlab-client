@@ -1,0 +1,27 @@
+Fetching groups…
+- id: 1
+  name: Foobar Group
+  path: foo-bar
+  description: An interesting group
+  visibility: public
+  lfs_enabled: true
+  request_access_enabled: false
+  parent_id: 0
+  shared_runners_minutes_limit: 0
+  avatar_url: http://localhost:3000/uploads/group/avatar/1/foo.jpg
+  web_url: http://localhost:3000/foo-bar
+  full_name: Foobar Group
+  full_path: foo-bar
+- id: 2
+  name: Another Group
+  path: another
+  description: A not so interesting group
+  visibility: public
+  lfs_enabled: true
+  request_access_enabled: false
+  parent_id: 1
+  shared_runners_minutes_limit: 0
+  avatar_url: http://localhost:3000/uploads/group/avatar/1/bar.jpg
+  web_url: http://localhost:3000/foo-bar/another
+  full_name: Another Group
+  full_path: foo-bar/another

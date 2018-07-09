@@ -1,0 +1,12 @@
+{
+  "request": {
+    "url": "/api/v4/users/1",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "users/user_1.json",
+    "headers": {
+    }
+  }
+}

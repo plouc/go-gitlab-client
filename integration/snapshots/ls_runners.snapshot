@@ -1,0 +1,7 @@
+Fetching runners…
+
+| ID | NAME | ACTIVE | ONLINE | STATUS | IP | SHARED |
++----+------+--------+--------+--------+----+--------+
+|  6 |      | true   | false  |        |    | false  |
+|  8 |      | true   | false  |        |    | false  |
+

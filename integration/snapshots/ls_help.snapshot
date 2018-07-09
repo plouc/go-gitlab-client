@@ -1,0 +1,36 @@
+List resource
+
+Usage:
+  glc ls [command]
+
+Available Commands:
+  aliases                    List resource aliases
+  group-vars                 Get list of a group's variables
+  groups                     List groups
+  namespaces                 List namespaces
+  project-badges             List project badges
+  project-branches           List project branches
+  project-hooks              List project's hooks
+  project-members            List project members
+  project-pipelines          List project pipelines
+  project-protected-branches List project protected branches
+  project-vars               Get list of a project's variables
+  projects                   List projects
+  runners                    List runners
+  users                      List users
+
+Flags:
+  -h, --help           help for ls
+  -p, --page int       Page. (default 1)
+  -l, --per_page int   Items per page. (default 10)
+
+Global Flags:
+  -a, --alias string                Use resource alias
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json'
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+
+Use "glc ls [command] --help" for more information about a command.

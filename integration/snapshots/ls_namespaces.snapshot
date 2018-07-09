@@ -1,0 +1,8 @@
+Fetching namespaces…
+
+| ID | NAME |  PATH  | KIND  | FULL PATH |
++----+------+--------+-------+-----------+
+|  1 |      | user1  | user  |           |
+|  2 |      | group1 | group |           |
+|  3 |      | bar    | group | foo/bar   |
+

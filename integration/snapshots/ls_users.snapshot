@@ -1,0 +1,7 @@
+Fetching users…
+
+| ID |  USERNAME  |      EMAIL       |    NAME    |  STATE  | IS ADMIN | EXTERNAL |
++----+------------+------------------+------------+---------+----------+----------+
+|  1 | john_smith | john@example.com | John Smith | active  | false    | false    |
+|  2 | jack_smith | jack@example.com | Jack Smith | blocked | false    | false    |
+

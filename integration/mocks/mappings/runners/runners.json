@@ -1,0 +1,12 @@
+{
+  "request": {
+    "url": "/api/v4/runners?per_page=10",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "runners/runners.json",
+    "headers": {
+    }
+  }
+}

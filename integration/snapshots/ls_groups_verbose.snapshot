@@ -1,0 +1,22 @@
+Fetching groups…
+
+| ID |     NAME      |  PATH   | VISIBILITY |
++----+---------------+---------+------------+
+|  1 | Foobar Group  | foo-bar | public     |
+|  2 | Another Group | another | public     |
+
+
+Response meta
+
+  Method          GET
+  Url             http://localhost:8080/api/v4/groups?per_page=10
+  StatusCode      200
+  Request id      
+  Runtime         0.000000
+  Page            0
+  Items per page  0
+  Previous page   0
+  Next page       0
+  Total pages     0
+  Total           0
+
