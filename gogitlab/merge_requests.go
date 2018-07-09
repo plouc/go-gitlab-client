@@ -91,16 +91,17 @@ Params:
 
 */
 func (g *Gitlab) ProjectMergeRequests(id string, params map[string]string) ([]*MergeRequest, *ResponseMeta, error) {
-	url, opaque := g.ResourceUrlRaw(project_url_merge_requests, map[string]string{":id": id})
-
+	u := g.ResourceUrl(project_url_merge_requests, map[string]string{":id": id})
+	q := u.Query()
 	for name, value := range params {
-		url = url + "&" + name + "=" + value
+		q.Set(name, value)
 	}
+	u.RawQuery = q.Encode()
 
 	var err error
 	var mergeRequests []*MergeRequest
 
-	contents, meta, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
+	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &mergeRequests)
 	}
@@ -120,7 +121,7 @@ Parameters:
 
 */
 func (g *Gitlab) ProjectMergeRequest(id, merge_request_id string) (*MergeRequest, *ResponseMeta, error) {
-	url, opaque := g.ResourceUrlRaw(project_url_merge_request, map[string]string{
+	u := g.ResourceUrl(project_url_merge_request, map[string]string{
 		":id":               id,
 		":merge_request_id": merge_request_id,
 	})
@@ -128,7 +129,7 @@ func (g *Gitlab) ProjectMergeRequest(id, merge_request_id string) (*MergeRequest
 	var err error
 	mr := new(MergeRequest)
 
-	contents, meta, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
+	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &mr)
 	}
@@ -148,7 +149,7 @@ Parameters:
 
 */
 func (g *Gitlab) ProjectMergeRequestCommits(id, merge_request_id string) ([]*Commit, *ResponseMeta, error) {
-	url, opaque := g.ResourceUrlRaw(project_url_merge_request_commits, map[string]string{
+	u := g.ResourceUrl(project_url_merge_request_commits, map[string]string{
 		":id":               id,
 		":merge_request_id": merge_request_id,
 	})
@@ -156,7 +157,7 @@ func (g *Gitlab) ProjectMergeRequestCommits(id, merge_request_id string) ([]*Com
 	var err error
 	var commits []*Commit
 
-	contents, meta, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
+	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &commits)
 		if err == nil {
@@ -182,7 +183,7 @@ Parameters:
 
 */
 func (g *Gitlab) ProjectMergeRequestChanges(id, merge_request_id string) (*MergeRequestChanges, *ResponseMeta, error) {
-	url, opaque := g.ResourceUrlRaw(project_url_merge_request_changes, map[string]string{
+	u := g.ResourceUrl(project_url_merge_request_changes, map[string]string{
 		":id":               id,
 		":merge_request_id": merge_request_id,
 	})
@@ -190,7 +191,7 @@ func (g *Gitlab) ProjectMergeRequestChanges(id, merge_request_id string) (*Merge
 	var err error
 	changes := new(MergeRequestChanges)
 
-	contents, meta, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
+	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &changes)
 	}
@@ -209,7 +210,7 @@ Parameters:
 
 */
 func (g *Gitlab) AddMergeRequest(req *AddMergeRequestRequest) (*MergeRequest, error) {
-	url, _ := g.ResourceUrlRaw(project_url_merge_requests, map[string]string{
+	u := g.ResourceUrl(project_url_merge_requests, map[string]string{
 		":id": string(req.TargetProjectId),
 	})
 
@@ -218,7 +219,7 @@ func (g *Gitlab) AddMergeRequest(req *AddMergeRequestRequest) (*MergeRequest, er
 		return nil, err
 	}
 
-	data, _, err := g.buildAndExecRequest("POST", url, encodedRequest)
+	data, _, err := g.buildAndExecRequest("POST", u.String(), encodedRequest)
 	if err != nil {
 		return nil, err
 	}
@@ -242,7 +243,7 @@ Parameters:
 
 */
 func (g *Gitlab) EditMergeRequest(mr *MergeRequest) error {
-	url, _ := g.ResourceUrlRaw(project_url_merge_request, map[string]string{
+	u := g.ResourceUrl(project_url_merge_request, map[string]string{
 		":id":               string(mr.ProjectId),
 		":merge_request_id": string(mr.Id),
 	})
@@ -252,7 +253,7 @@ func (g *Gitlab) EditMergeRequest(mr *MergeRequest) error {
 		return err
 	}
 
-	data, _, err := g.buildAndExecRequest("PUT", url, encodedRequest)
+	data, _, err := g.buildAndExecRequest("PUT", u.String(), encodedRequest)
 	if err != nil {
 		return err
 	}
@@ -277,7 +278,7 @@ Parameters:
 
 */
 func (g *Gitlab) ProjectMergeRequestAccept(id, merge_request_id string, req *AcceptMergeRequestRequest) (*MergeRequest, error) {
-	url, _ := g.ResourceUrlRaw(project_url_merge_request_merge, map[string]string{
+	u := g.ResourceUrl(project_url_merge_request_merge, map[string]string{
 		":id":               id,
 		":merge_request_id": merge_request_id,
 	})
@@ -287,7 +288,7 @@ func (g *Gitlab) ProjectMergeRequestAccept(id, merge_request_id string, req *Acc
 		return nil, err
 	}
 
-	data, _, err := g.buildAndExecRequest("PUT", url, encodedRequest)
+	data, _, err := g.buildAndExecRequest("PUT", u.String(), encodedRequest)
 	if err != nil {
 		return nil, err
 	}
@@ -312,12 +313,12 @@ Parameters:
 
 */
 func (g *Gitlab) ProjectMergeRequestCancelMerge(id, merge_request_id string) (*MergeRequest, *ResponseMeta, error) {
-	url, _ := g.ResourceUrlRaw(project_url_merge_request_cancel_merge, map[string]string{
+	u := g.ResourceUrl(project_url_merge_request_cancel_merge, map[string]string{
 		":id":               id,
 		":merge_request_id": merge_request_id,
 	})
 
-	data, meta, err := g.buildAndExecRequest("PUT", url, []byte{})
+	data, meta, err := g.buildAndExecRequest("PUT", u.String(), []byte{})
 	if err != nil {
 		return nil, meta, err
 	}
@@ -327,5 +328,6 @@ func (g *Gitlab) ProjectMergeRequestCancelMerge(id, merge_request_id string) (*M
 	if err != nil {
 		panic(err)
 	}
+
 	return mr, meta, nil
 }

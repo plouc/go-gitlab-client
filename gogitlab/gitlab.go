@@ -95,25 +95,6 @@ func (g *Gitlab) ResourceUrl(p string, params map[string]string) *url.URL {
 	return u
 }
 
-func (g *Gitlab) ResourceUrlRaw(u string, params map[string]string) (string, string) {
-	if params != nil {
-		for key, val := range params {
-			u = strings.Replace(u, key, val, -1)
-		}
-	}
-
-	path := u
-	u = g.BaseUrl + g.ApiPath + path
-	p, err := url.Parse(g.BaseUrl)
-	if err != nil {
-		return u, ""
-	}
-
-	opaque := "//" + p.Host + p.Path + g.ApiPath + path
-
-	return u, opaque
-}
-
 func (g *Gitlab) execRequest(method, url string, body []byte) (*http.Response, error) {
 	var req *http.Request
 	var err error

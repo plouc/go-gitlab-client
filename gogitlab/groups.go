@@ -182,11 +182,11 @@ func (g *Gitlab) RemoveGroup(id string) (string, *ResponseMeta, error) {
 }
 
 func (g *Gitlab) GroupProjects(id string) ([]*Project, *ResponseMeta, error) {
-	url, opaque := g.ResourceUrlRaw(groupProjectsUrl, map[string]string{":id": id})
+	u := g.ResourceUrl(groupProjectsUrl, map[string]string{":id": id})
 
 	var projects []*Project
 
-	contents, meta, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
+	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &projects)
 	}

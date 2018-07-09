@@ -50,14 +50,17 @@ Parameters:
 Usage:
 		pass nil when not using optional parameters
 */
-func (g *Gitlab) RepoTree(id, path, ref_name string) ([]*TreeNode, *ResponseMeta, error) {
-	url, opaque := g.ResourceUrlRaw(repo_url_tree, map[string]string{":id": id})
-	url += "&path=" + path
-	url += "&ref_name=" + ref_name
+func (g *Gitlab) RepoTree(id, path, refName string) ([]*TreeNode, *ResponseMeta, error) {
+	u := g.ResourceUrl(repo_url_tree, map[string]string{":id": id})
+
+	q := u.Query()
+	q.Set("path", path)
+	q.Set("ref_name", refName)
+	u.RawQuery = q.Encode()
 
 	var treeNodes []*TreeNode
 
-	contents, meta, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
+	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &treeNodes)
 	}
@@ -85,11 +88,11 @@ Usage:
 	}
 */
 func (g *Gitlab) RepoTags(id string) ([]*Tag, *ResponseMeta, error) {
-	url, opaque := g.ResourceUrlRaw(repo_url_tags, map[string]string{":id": id})
+	u := g.ResourceUrl(repo_url_tags, map[string]string{":id": id})
 
 	var tags []*Tag
 
-	contents, meta, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
+	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &tags)
 	}
@@ -118,11 +121,11 @@ Usage:
 	}
 */
 func (g *Gitlab) RepoCommits(id string) ([]*Commit, *ResponseMeta, error) {
-	url, opaque := g.ResourceUrlRaw(repo_url_commits, map[string]string{":id": id})
+	u := g.ResourceUrl(repo_url_commits, map[string]string{":id": id})
 
 	var commits []*Commit
 
-	contents, meta, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
+	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &commits)
 		if err == nil {
@@ -140,13 +143,16 @@ func (g *Gitlab) RepoCommits(id string) ([]*Commit, *ResponseMeta, error) {
 Get Raw file content
 */
 func (g *Gitlab) RepoRawFile(id, sha, filepath string) ([]byte, *ResponseMeta, error) {
-	url, opaque := g.ResourceUrlRaw(repo_url_raw_file, map[string]string{
+	u := g.ResourceUrl(repo_url_raw_file, map[string]string{
 		":id":  id,
 		":sha": sha,
 	})
-	url += "&filepath=" + filepath
 
-	contents, meta, err := g.buildAndExecRequestRaw("GET", url, opaque, nil)
+	q := u.Query()
+	q.Set("filepath", filepath)
+	u.RawQuery = q.Encode()
+
+	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 
 	return contents, meta, err
 }
