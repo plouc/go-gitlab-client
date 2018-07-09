@@ -14,6 +14,7 @@ It also provides an handy CLI to easily interact with gitlab through CLI.
 - [cli](#cli)
   - [features](#cli-features)
   - [install](#install-cli)
+  - [documentation](#cli-documentation)
 
 ## lib
 
@@ -197,6 +198,18 @@ Visit the docs at http://godoc.org/github.com/plouc/go-gitlab-client
 
 ## CLI
 
+**go-gitlab-client** provides a CLI to easily interact with GitLab API, **glc**.
+
+### install CLI
+
+**glc** is a single binary with no external dependencies, released for several platforms.
+Go to the [releases page](https://github.com/plouc/go-gitlab-client/releases),
+download the package for your OS, and copy the binary to somewhere on your PATH.
+Please make sure to rename the binary to `glc` and make it executable.
+
+You can also install completion for bash or zsh, please run `glc help completion`
+for more info.
+
 ### CLI features
 
 - normalized operations: `ls`, `get`, `add`, `update`
@@ -206,6 +219,6 @@ Visit the docs at http://godoc.org/github.com/plouc/go-gitlab-client
 - interactive pagination mode
 - interactive resource creation
 
-### install CLI
+### CLI documentation
 
-@todo
+The CLI documentation is available [here](https://github.com/plouc/go-gitlab-client/blob/next/cli/doc/glc.md).

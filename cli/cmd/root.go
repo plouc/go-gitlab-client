@@ -40,7 +40,7 @@ var page, perPage int
 var currentAlias string
 
 func cmdRequireClient(cmdName string) bool {
-	if cmdName == "init" || cmdName == "version" {
+	if cmdName == "init" || cmdName == "version" || cmdName == "completion [shell]" {
 		return false
 	}
 

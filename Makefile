@@ -1,5 +1,5 @@
 .PHONY: install update test test_lib _test_lib test_cli _test_cli vet_lib _vet_lib vet_cli _vet_cli \
-        fmt_check cli cli_doc cli_completion cli_build fmt
+        fmt_check cli cli_doc cli_build fmt
 .DEFAULT: help
 
 STACK_NAME      = gogitlab
@@ -248,11 +248,10 @@ _fmt_check:
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 cli: ##@cli Run cli from docker. eg. make cli CMD="ls groups"
-	@${MAKE} run_in_go CMD="./cli/glc ${CMD}"
+	@${MAKE} run_in_go CMD="cd cli && ./glc ${CMD}"
 
 cli_all: ##@cli Run all cli steps
 	@${MAKE} cli_doc
-	@${MAKE} cli_completion
 	@${MAKE} cli_build
 	@${MAKE} cli_build_all
 
@@ -263,14 +262,6 @@ _cli_doc:
 	@echo "${YELLOW}Generating cli documentation${RESET}"
 	@cd cli/doc && rm *.md && go run main.go
 	@echo "${GREEN}✔ cli documentation were successfully generated${RESET}\n"
-
-cli_completion: ##@cli Generate cli bash completion
-	@${MAKE} make_in_go TARGET=_cli_completion
-
-_cli_completion:
-	@echo "${YELLOW}Generating cli bash completion${RESET}"
-	@cd cli/completion && go run main.go
-	@echo "${GREEN}✔ cli bash completion were successfully generated${RESET}\n"
 
 cli_build: ##@cli Build cli
 	@${MAKE} make_in_go TARGET=_cli_build
