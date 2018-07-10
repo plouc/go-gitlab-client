@@ -93,7 +93,7 @@ var RootCmd = &cobra.Command{
 }
 
 func init() {
-	RootCmd.PersistentFlags().StringVarP(&configFile, "config", "c", ".glc.yaml", "Path to configuration file")
+	RootCmd.PersistentFlags().StringVarP(&configFile, "config", "c", ".glc.yml", "Path to configuration file")
 	RootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "verbose output")
 	RootCmd.PersistentFlags().BoolVar(&silent, "silent", false, "silent mode")
 	RootCmd.PersistentFlags().BoolVarP(&isInteractive, "interactive", "i", false, "enable interactive mode when applicable (eg. creation, pagination)")

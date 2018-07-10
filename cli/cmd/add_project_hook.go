@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
 	"github.com/plouc/go-gitlab-client/gitlab"
@@ -14,13 +12,16 @@ func init() {
 }
 
 var addProjectHookCmd = &cobra.Command{
-	Use:     "project-hook [project id]",
+	Use:     resourceCmd("project-hook", "project"),
 	Aliases: []string{"ph"},
 	Short:   "Create a new hook for given project",
-	Run: func(cmd *cobra.Command, args []string) {
-		projectId := args[0]
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project", args)
+		if err != nil {
+			return err
+		}
 
-		color.Yellow("Creating hook for project (project id: %s)…", projectId)
+		color.Yellow("Creating hook for project (project id: %s)…", ids["project_id"])
 
 		hook := gitlab.HookAddPayload{}
 
@@ -29,8 +30,7 @@ var addProjectHookCmd = &cobra.Command{
 		}
 		u, err := prompt.Run()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 		hook.Url = u
 
@@ -40,8 +40,7 @@ var addProjectHookCmd = &cobra.Command{
 		}
 		idx, _, err := selectPrompt.Run()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 		if idx == 0 {
 			hook.PushEvents = true
@@ -53,8 +52,7 @@ var addProjectHookCmd = &cobra.Command{
 		}
 		idx, _, err = selectPrompt.Run()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 		if idx == 0 {
 			hook.IssuesEvents = true
@@ -66,8 +64,7 @@ var addProjectHookCmd = &cobra.Command{
 		}
 		idx, _, err = selectPrompt.Run()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 		if idx == 0 {
 			hook.ConfidentialIssuesEvents = true
@@ -79,8 +76,7 @@ var addProjectHookCmd = &cobra.Command{
 		}
 		idx, _, err = selectPrompt.Run()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 		if idx == 0 {
 			hook.MergeRequestsEvents = true
@@ -92,8 +88,7 @@ var addProjectHookCmd = &cobra.Command{
 		}
 		idx, _, err = selectPrompt.Run()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 		if idx == 0 {
 			hook.TagPushEvents = true
@@ -105,8 +100,7 @@ var addProjectHookCmd = &cobra.Command{
 		}
 		idx, _, err = selectPrompt.Run()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 		if idx == 0 {
 			hook.NoteEvents = true
@@ -118,8 +112,7 @@ var addProjectHookCmd = &cobra.Command{
 		}
 		idx, _, err = selectPrompt.Run()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 		if idx == 0 {
 			hook.JobEvents = true
@@ -131,8 +124,7 @@ var addProjectHookCmd = &cobra.Command{
 		}
 		idx, _, err = selectPrompt.Run()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 		if idx == 0 {
 			hook.PipelineEvents = true
@@ -144,8 +136,7 @@ var addProjectHookCmd = &cobra.Command{
 		}
 		idx, _, err = selectPrompt.Run()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 		if idx == 0 {
 			hook.WikiPageEvents = true
@@ -157,23 +148,23 @@ var addProjectHookCmd = &cobra.Command{
 		}
 		idx, _, err = selectPrompt.Run()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 		if idx == 0 {
 			hook.EnableSslVerification = true
 		}
 
 		loader.Start()
-		createdHook, meta, err := client.AddProjectHook(projectId, &hook)
+		createdHook, meta, err := client.AddProjectHook(ids["project_id"], &hook)
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		hookOutput(createdHook)
 
 		metaOutput(meta, false)
+
+		return nil
 	},
 }

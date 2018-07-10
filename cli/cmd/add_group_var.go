@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
@@ -12,37 +10,33 @@ func init() {
 }
 
 var addGroupVarCmd = &cobra.Command{
-	Use:     "group-var [group id]",
+	Use:     resourceCmd("group-var", "group"),
 	Aliases: []string{"gv"},
 	Short:   "Create a new group variable",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 {
-			return fmt.Errorf("you must specify a group id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "group", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		groupId := args[0]
-
-		color.Yellow("Creating variable for group (group id: %s)…", groupId)
+		color.Yellow("Creating variable for group (group id: %s)…", ids["group_id"])
 
 		variable, err := promptVariable()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		loader.Start()
-		createdVariable, meta, err := client.AddGroupVariable(groupId, variable)
+		createdVariable, meta, err := client.AddGroupVariable(ids["group_id"], variable)
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		varOutput(createdVariable)
 
 		metaOutput(meta, false)
+
+		return nil
 	},
 }

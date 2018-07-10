@@ -12,40 +12,37 @@ func init() {
 }
 
 var rmProjectMergedBranchesCmd = &cobra.Command{
-	Use:     "project-merged-branches [project id]",
+	Use:     resourceCmd("project-merged-branches", "project"),
 	Aliases: []string{"pmb"},
 	Short:   "Remove project merged branches",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 {
-			return fmt.Errorf("you must specify a project id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		projectId := args[0]
-
-		color.Yellow("Removing project merged branch (project id: %s)…", projectId)
+		color.Yellow("Removing project merged branch (project id: %s)…", ids["project_id"])
 
 		confirmed := confirmAction(
-			fmt.Sprintf("Are you sure you want to remove project %s merged branches?", projectId),
+			fmt.Sprintf("Are you sure you want to remove project %s merged branches?", ids["project_id"]),
 			"aborted merged branches removal",
 			autoConfirmRemoval,
 		)
 		if !confirmed {
-			return
+			return nil
 		}
 
 		loader.Start()
-		message, meta, err := client.RemoveProjectMergedBranches(projectId)
+		message, meta, err := client.RemoveProjectMergedBranches(ids["project_id"])
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		color.Green("✔ Project merged branches were successfully removed: %s", message)
 
 		metaOutput(meta, false)
+
+		return nil
 	},
 }

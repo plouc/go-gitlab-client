@@ -41,10 +41,17 @@ func fetchProjectBadges(projectId string) {
 }
 
 var lsProjectBadgesCmd = &cobra.Command{
-	Use:     "project-badges",
+	Use:     resourceCmd("project-badges", "project"),
 	Aliases: []string{"pbdg"},
 	Short:   "List project badges",
-	Run: func(cmd *cobra.Command, args []string) {
-		fetchProjectBadges(args[0])
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project", args)
+		if err != nil {
+			return err
+		}
+
+		fetchProjectBadges(ids["project_id"])
+
+		return nil
 	},
 }

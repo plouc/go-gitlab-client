@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
@@ -12,31 +10,26 @@ func init() {
 }
 
 var addProjectStarCmd = &cobra.Command{
-	Use:     "project-star [project id]",
+	Use:     resourceCmd("project-star", "project"),
 	Aliases: []string{"ps"},
 	Short:   "Stars a given project",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 {
-			return fmt.Errorf("you must specify a project id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		projectId := args[0]
-
-		color.Yellow("Staring project (project id: %s)…", projectId)
+		color.Yellow("Staring project (project id: %s)…", ids["project_id"])
 
 		loader.Start()
-		project, meta, err := client.StarProject(projectId)
+		project, meta, err := client.StarProject(ids["project_id"])
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		if meta.StatusCode == 304 {
-			color.Red("\n  You already stared project %s!", projectId)
+			color.Red("\n  You already stared project %s!", ids["project_id"])
 		}
 
 		if project != nil {
@@ -44,5 +37,7 @@ var addProjectStarCmd = &cobra.Command{
 		}
 
 		metaOutput(meta, false)
+
+		return nil
 	},
 }

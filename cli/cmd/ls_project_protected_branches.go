@@ -11,32 +11,27 @@ func init() {
 }
 
 var lsProtectedBranchesCmd = &cobra.Command{
-	Use:     "project-protected-branches [project id]",
+	Use:     resourceCmd("project-protected-branches", "project"),
 	Aliases: []string{"ppb"},
 	Short:   "List project protected branches",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 {
-			return fmt.Errorf("you must specify a project id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		projectId := args[0]
-
-		color.Yellow("Fetching project protected branches (id: %s)…", projectId)
+		color.Yellow("Fetching project protected branches (id: %s)…", ids["project_id"])
 
 		loader.Start()
-		protectedBranches, meta, err := client.ProtectedBranches(projectId, nil)
+		protectedBranches, meta, err := client.ProtectedBranches(ids["project_id"], nil)
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		fmt.Println("")
 		if len(protectedBranches) == 0 {
-			color.Red("No protected branch found for project %s", projectId)
+			color.Red("No protected branch found for project %s", ids["project_id"])
 		} else {
 			for _, protectedBranch := range protectedBranches {
 				printProtectedBranch(protectedBranch)
@@ -45,5 +40,7 @@ var lsProtectedBranchesCmd = &cobra.Command{
 		}
 
 		metaOutput(meta, true)
+
+		return nil
 	},
 }

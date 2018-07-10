@@ -12,40 +12,36 @@ func init() {
 }
 
 var rmProjectStarCmd = &cobra.Command{
-	Use:     "project-star [project id]",
+	Use:     resourceCmd("project-star", "project"),
 	Aliases: []string{"ps"},
 	Short:   "Unstars a given project",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 {
-			return fmt.Errorf("you must specify a project id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		projectId := args[0]
-
-		color.Yellow("Unstaring project (project id: %s)…", projectId)
+		color.Yellow("Unstaring project (project id: %s)…", ids["project_id"])
 
 		confirmed := confirmAction(
-			fmt.Sprintf("Are you sure you want to unstar project %s?", projectId),
+			fmt.Sprintf("Are you sure you want to unstar project %s?", ids["project_id"]),
 			"aborted project star removal",
 			autoConfirmRemoval,
 		)
 		if !confirmed {
-			return
+			return nil
 		}
 
 		loader.Start()
-		project, meta, err := client.UnstarProject(projectId)
+		project, meta, err := client.UnstarProject(ids["project_id"])
 		loader.Stop()
 		if err != nil {
 			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		if meta.StatusCode == 304 {
-			color.Red("\n  You didn't stared project %s!", projectId)
+			color.Red("\n  You didn't stared project %s!", ids["project_id"])
 		}
 
 		if project != nil {
@@ -53,5 +49,7 @@ var rmProjectStarCmd = &cobra.Command{
 		}
 
 		metaOutput(meta, false)
+
+		return nil
 	},
 }

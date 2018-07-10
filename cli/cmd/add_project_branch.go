@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
@@ -17,31 +15,28 @@ func init() {
 }
 
 var addProjectBranchCmd = &cobra.Command{
-	Use:     "project-branch [project id]",
+	Use:     resourceCmd("project-branch", "project"),
 	Aliases: []string{"pb"},
 	Short:   "Create project branch",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 {
-			return fmt.Errorf("you must specify a project id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		projectId := args[0]
-
-		color.Yellow("Creating project's branch %s from %s (project id: %s)…", branchName, ref, projectId)
+		color.Yellow("Creating project's branch %s from %s (project id: %s)…", branchName, ref, ids["project_id"])
 
 		loader.Start()
-		createdBranch, meta, err := client.AddProjectBranch(projectId, branchName, ref)
+		createdBranch, meta, err := client.AddProjectBranch(ids["project_id"], branchName, ref)
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		branchOutput(createdBranch)
 
 		metaOutput(meta, false)
+
+		return nil
 	},
 }

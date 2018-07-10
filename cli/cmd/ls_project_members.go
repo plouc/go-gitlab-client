@@ -66,10 +66,17 @@ func fetchProjectMembers(projectId string) {
 }
 
 var lsProjectMembersCmd = &cobra.Command{
-	Use:     "project-members [project id]",
+	Use:     resourceCmd("project-members", "project"),
 	Aliases: []string{"pm"},
 	Short:   "List project members",
-	Run: func(cmd *cobra.Command, args []string) {
-		fetchProjectMembers(args[0])
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project", args)
+		if err != nil {
+			return err
+		}
+
+		fetchProjectMembers(ids["project_id"])
+
+		return nil
 	},
 }

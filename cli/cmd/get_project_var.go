@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
@@ -11,32 +10,28 @@ func init() {
 }
 
 var getProjectVarCmd = &cobra.Command{
-	Use:     "project-var [project id] [var key]",
+	Use:     resourceCmd("project-var", "project-var"),
 	Aliases: []string{"pv"},
 	Short:   "Get the details of a project's specific variable",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 2 {
-			return fmt.Errorf("you must specify a project id and variable key")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project-var", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		projectId := args[0]
-		varKey := args[1]
-
-		color.Yellow("Fetching project variable (id: %s, key: %s)…", projectId, varKey)
+		color.Yellow("Fetching project variable (id: %s, key: %s)…", ids["project_id"], ids["var_key"])
 
 		loader.Start()
-		variable, meta, err := client.ProjectVariable(projectId, varKey)
+		variable, meta, err := client.ProjectVariable(ids["project_id"], ids["var_key"])
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		varOutput(variable)
 
 		metaOutput(meta, false)
+
+		return nil
 	},
 }

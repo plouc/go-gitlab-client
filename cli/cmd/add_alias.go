@@ -15,7 +15,7 @@ func init() {
 }
 
 var aliasCmd = &cobra.Command{
-	Use:     "alias [alias] [resource type] [...resource ids]",
+	Use:     "alias ALIAS RESOURCE_TYPE [...resource ids]",
 	Aliases: []string{"a"},
 	Short:   "Create resource alias",
 	Args: func(cmd *cobra.Command, args []string) error {

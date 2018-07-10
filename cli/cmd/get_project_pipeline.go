@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
@@ -12,32 +10,28 @@ func init() {
 }
 
 var getProjectPipelineCmd = &cobra.Command{
-	Use:     "project-pipeline [project id] [pipeline id]",
+	Use:     resourceCmd("project-pipeline", "project-pipeline"),
 	Aliases: []string{"pp"},
 	Short:   "Get project pipeline details",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 2 {
-			return fmt.Errorf("you must specify a project id and a pipeline id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project-pipeline", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		projectId := args[0]
-		pipelineId := args[1]
-
-		color.Yellow("Fetching project's pipeline (project id: %s, pipeline id: %s)…", projectId, pipelineId)
+		color.Yellow("Fetching project's pipeline (project id: %s, pipeline id: %s)…", ids["project_id"], ids["pipeline_id"])
 
 		loader.Start()
-		pipeline, meta, err := client.ProjectPipeline(projectId, pipelineId)
+		pipeline, meta, err := client.ProjectPipeline(ids["project_id"], ids["pipeline_id"])
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		pipelineOutput(pipeline)
 
 		metaOutput(meta, false)
+
+		return nil
 	},
 }

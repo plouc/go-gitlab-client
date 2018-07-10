@@ -12,39 +12,35 @@ func init() {
 }
 
 var rmProjectHookCmd = &cobra.Command{
-	Use:     "project-hook [project id] [hook id]",
+	Use:     resourceCmd("project-hook", "project-hook"),
 	Aliases: []string{"ph"},
 	Short:   "Remove project hook",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 2 {
-			return fmt.Errorf("you must specify a project id and a hook id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project-hook", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		projectId := args[0]
-		hookId := args[1]
-
-		color.Yellow("Removing project hook (project id: %s, hook id: %s)…", projectId, hookId)
+		color.Yellow("Removing project hook (project id: %s, hook id: %s)…", ids["project_id"], ids["hook_id"])
 
 		confirmed := confirmAction(
-			fmt.Sprintf("Are you sure you want to remove project %s hook %s?", projectId, hookId),
+			fmt.Sprintf("Are you sure you want to remove project %s hook %s?", ids["project_id"], ids["hook_id"]),
 			"aborted project hook removal",
 			autoConfirmRemoval,
 		)
 		if !confirmed {
-			return
+			return nil
 		}
 
 		loader.Start()
-		meta, err := client.RemoveProjectHook(projectId, hookId)
+		meta, err := client.RemoveProjectHook(ids["project_id"], ids["hook_id"])
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		metaOutput(meta, false)
+
+		return nil
 	},
 }

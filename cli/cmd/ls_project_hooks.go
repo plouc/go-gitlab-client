@@ -35,17 +35,17 @@ func fetchHooks(projectId string) {
 }
 
 var lsProjectHooksCmd = &cobra.Command{
-	Use:     "project-hooks [project id]",
+	Use:     resourceCmd("project-hooks", "project"),
 	Aliases: []string{"ph"},
 	Short:   "List project's hooks",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 {
-			return fmt.Errorf("you must specify a project id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project", args)
+		if err != nil {
+			return err
 		}
 
+		fetchHooks(ids["project_id"])
+
 		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		fetchHooks(args[0])
 	},
 }

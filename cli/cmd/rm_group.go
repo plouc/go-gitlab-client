@@ -12,40 +12,37 @@ func init() {
 }
 
 var rmGroupCmd = &cobra.Command{
-	Use:     "group [group id]",
+	Use:     resourceCmd("group", "group"),
 	Aliases: []string{"g"},
 	Short:   "Remove group",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 {
-			return fmt.Errorf("you must specify a group id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "group", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		groupId := args[0]
-
-		color.Yellow("Removing group (id: %s)…", groupId)
+		color.Yellow("Removing group (id: %s)…", ids["group_id"])
 
 		confirmed := confirmAction(
-			fmt.Sprintf("Are you sure you want to remove group %s?", groupId),
+			fmt.Sprintf("Are you sure you want to remove group %s?", ids["group_id"]),
 			"aborted group removal",
 			autoConfirmRemoval,
 		)
 		if !confirmed {
-			return
+			return nil
 		}
 
 		loader.Start()
-		message, meta, err := client.RemoveGroup(groupId)
+		message, meta, err := client.RemoveGroup(ids["group_id"])
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		color.Green("✔ Group was successfully removed: %s", message)
 
 		metaOutput(meta, false)
+
+		return nil
 	},
 }

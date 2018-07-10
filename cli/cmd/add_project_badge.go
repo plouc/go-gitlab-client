@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
 	"github.com/plouc/go-gitlab-client/gitlab"
@@ -14,20 +12,16 @@ func init() {
 }
 
 var addProjectBadgeCmd = &cobra.Command{
-	Use:     "project-badge [project id]",
+	Use:     resourceCmd("project-badge", "project"),
 	Aliases: []string{"pbdg"},
 	Short:   "Create project badge",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 {
-			return fmt.Errorf("you must specify a project id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		projectId := args[0]
-
-		color.Yellow("Creating project's badge (project id: %s)…", projectId)
+		color.Yellow("Creating project's badge (project id: %s)…", ids["project_id"])
 
 		badge := new(gitlab.Badge)
 
@@ -36,8 +30,7 @@ var addProjectBadgeCmd = &cobra.Command{
 		}
 		linkUrl, err := prompt.Run()
 		if err != nil {
-			fmt.Printf("Prompt failed %v\n", err)
-			return
+			return err
 		}
 		badge.LinkUrl = linkUrl
 
@@ -46,21 +39,21 @@ var addProjectBadgeCmd = &cobra.Command{
 		}
 		imageUrl, err := prompt.Run()
 		if err != nil {
-			fmt.Printf("Prompt failed %v\n", err)
-			return
+			return err
 		}
 		badge.ImageUrl = imageUrl
 
 		loader.Start()
-		createdBadge, meta, err := client.AddProjectBadge(projectId, badge)
+		createdBadge, meta, err := client.AddProjectBadge(ids["project_id"], badge)
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		badgeOutput(createdBadge)
 
 		metaOutput(meta, false)
+
+		return nil
 	},
 }

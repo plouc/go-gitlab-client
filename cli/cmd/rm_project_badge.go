@@ -12,41 +12,37 @@ func init() {
 }
 
 var rmProjectBadgeCmd = &cobra.Command{
-	Use:     "project-badge [project id] [badge id]",
+	Use:     resourceCmd("project-badge", "project-badge"),
 	Aliases: []string{"pbdg"},
 	Short:   "Remove project badge",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 2 {
-			return fmt.Errorf("you must specify a project id and a badge id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project-badge", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		projectId := args[0]
-		badgeId := args[1]
-
-		color.Yellow("Removing project badge (project id: %s, badge id: %s)…", projectId, badgeId)
+		color.Yellow("Removing project badge (project id: %s, badge id: %s)…", ids["project_id"], ids["badge_id"])
 
 		confirmed := confirmAction(
-			fmt.Sprintf("Are you sure you want to remove project %s badge %s?", projectId, badgeId),
+			fmt.Sprintf("Are you sure you want to remove project %s badge %s?", ids["project_id"], ids["badge_id"]),
 			"aborted project badge removal",
 			autoConfirmRemoval,
 		)
 		if !confirmed {
-			return
+			return nil
 		}
 
 		loader.Start()
-		meta, err := client.RemoveProjectBadge(projectId, badgeId)
+		meta, err := client.RemoveProjectBadge(ids["project_id"], ids["badge_id"])
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		color.Green("✔ Project badge was successfully removed")
 
 		metaOutput(meta, false)
+
+		return nil
 	},
 }

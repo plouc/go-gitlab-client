@@ -220,7 +220,7 @@ test_cli: ##@test Run CLI tests
 _test_cli:
 	@echo "${YELLOW}Running CLI tests${RESET}"
 	@make ensure_wiremock_is_up --no-print-directory
-	@go ${TESTS_OPTS} test ./integration/.
+	@go test ${TESTS_OPTS} ./integration/.
 	@echo "${GREEN}✔ CLI tests successfully passed${RESET}\n"
 
 vet_lib: ##@test Run vet on lib files

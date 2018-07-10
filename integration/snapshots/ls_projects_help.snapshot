@@ -1,27 +1,27 @@
-gitlab Command Line Application
+List projects
 
 Usage:
-  glc [command]
+  glc ls projects [flags]
 
-Available Commands:
-  add         Add resource
-  completion  Output shell completion code for the specified shell (bash or zsh)
-  get         Get resource details
-  help        Help about any command
-  init        Init glc config
-  ls          List resource
-  rm          Remove resource
-  version     Print the version number of glc
+Aliases:
+  projects, p
 
 Flags:
+      --archived        Limit by archived status
+  -h, --help            help for projects
+      --membership      Limit by projects that the current user is a member of
+      --owned           Limit by projects owned by the current user
+  -s, --search string   Search term
+      --starred         Limit by projects starred by the current user
+
+Global Flags:
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
-  -h, --help                        help for glc
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
   -f, --output-format string        Output format, must be one of 'text', 'json'
+  -p, --page int                    Page (default 1)
+  -l, --per-page int                Items per page (default 10)
       --silent                      silent mode
   -v, --verbose                     verbose output
-
-Use "glc [command] --help" for more information about a command.

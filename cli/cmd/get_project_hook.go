@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
@@ -12,32 +10,28 @@ func init() {
 }
 
 var getProjectHookCmd = &cobra.Command{
-	Use:     "project-hook [project id] [hook id]",
+	Use:     resourceCmd("project-hook", "project-hook"),
 	Aliases: []string{"ph"},
 	Short:   "Get project hook info",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 2 {
-			return fmt.Errorf("you must specify a project id and a hook id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project-hook", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		projectId := args[0]
-		hookId := args[1]
-
-		color.Yellow("Fetching project's hook (project id: %s, hook id: %s)…", projectId, hookId)
+		color.Yellow("Fetching project's hook (project id: %s, hook id: %s)…", ids["project_id"], ids["hook_id"])
 
 		loader.Start()
-		hook, meta, err := client.ProjectHook(projectId, hookId)
+		hook, meta, err := client.ProjectHook(ids["project_id"], ids["hook_id"])
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		hookOutput(hook)
 
 		metaOutput(meta, false)
+
+		return nil
 	},
 }

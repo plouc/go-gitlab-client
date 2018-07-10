@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/fatih/color"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
@@ -13,20 +11,16 @@ func init() {
 }
 
 var lsGroupVarsCmd = &cobra.Command{
-	Use:     "group-vars [group id]",
+	Use:     resourceCmd("group-vars", "group"),
 	Aliases: []string{"gv"},
 	Short:   "Get list of a group's variables",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 {
-			return fmt.Errorf("you must specify a group id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "group", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		groupId := args[0]
-
-		color.Yellow("Fetching group variables (id: %s)…", groupId)
+		color.Yellow("Fetching group variables (id: %s)…", ids["group_id"])
 
 		o := &gitlab.PaginationOptions{
 			Page:    page,
@@ -34,19 +28,20 @@ var lsGroupVarsCmd = &cobra.Command{
 		}
 
 		loader.Start()
-		variables, meta, err := client.GroupVariables(groupId, o)
+		variables, meta, err := client.GroupVariables(ids["group_id"], o)
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		if len(variables) == 0 {
-			color.Red("  No variable found for group %s", groupId)
+			color.Red("  No variable found for group %s", ids["group_id"])
 		} else {
 			varsOutput(variables)
 		}
 
 		metaOutput(meta, true)
+
+		return nil
 	},
 }

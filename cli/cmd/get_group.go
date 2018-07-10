@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
@@ -16,38 +14,28 @@ func init() {
 }
 
 var getGroupCmd = &cobra.Command{
-	Use:     "group [group id]",
+	Use:     resourceCmd("group", "group"),
 	Aliases: []string{"g"},
 	Short:   "Get all details of a group",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if currentAlias == "" && len(args) < 1 {
-			return fmt.Errorf("you must specify a group id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "group", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		var groupId string
-		if currentAlias != "" {
-			_, a := config.findAliasE(currentAlias, "group")
-			groupId = a.ResourceIds["id"]
-
-		} else {
-			groupId = args[0]
-		}
-
-		color.Yellow("Fetching group (id: %s)…", groupId)
+		color.Yellow("Fetching group (id: %s)…", ids["group_id"])
 
 		loader.Start()
-		group, meta, err := client.Group(groupId, groupWithCustomAttributes)
+		group, meta, err := client.Group(ids["group_id"], groupWithCustomAttributes)
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		groupOutput(group)
 
 		metaOutput(meta, false)
+
+		return nil
 	},
 }

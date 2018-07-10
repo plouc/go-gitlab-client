@@ -13,20 +13,16 @@ func init() {
 }
 
 var lsProjectVarsCmd = &cobra.Command{
-	Use:     "project-vars [project id]",
+	Use:     resourceCmd("project-vars", "project"),
 	Aliases: []string{"pv"},
 	Short:   "Get list of a project's variables",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 {
-			return fmt.Errorf("you must specify a project id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		projectId := args[0]
-
-		color.Yellow("Fetching project variables (id: %s)…", projectId)
+		color.Yellow("Fetching project variables (id: %s)…", ids["project_id"])
 
 		o := &gitlab.PaginationOptions{
 			Page:    page,
@@ -34,20 +30,21 @@ var lsProjectVarsCmd = &cobra.Command{
 		}
 
 		loader.Start()
-		variables, meta, err := client.ProjectVariables(projectId, o)
+		variables, meta, err := client.ProjectVariables(ids["project_id"], o)
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		fmt.Println("")
 		if len(variables) == 0 {
-			color.Red("  No variable found for project %s", projectId)
+			color.Red("  No variable found for project %s", ids["project_id"])
 		} else {
 			varsOutput(variables)
 		}
 
 		metaOutput(meta, true)
+
+		return nil
 	},
 }

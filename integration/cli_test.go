@@ -80,6 +80,13 @@ func TestCLI(t *testing.T) {
 			false,
 		},
 		{
+			"ls groups help",
+			[]string{"ls", "groups", "-h"},
+			configs["default"],
+			"ls_groups_help",
+			false,
+		},
+		{
 			"ls groups",
 			[]string{"ls", "groups"},
 			configs["default"],
@@ -105,6 +112,13 @@ func TestCLI(t *testing.T) {
 			[]string{"ls", "groups", "-f", "yaml"},
 			configs["default"],
 			"ls_groups_yaml",
+			false,
+		},
+		{
+			"ls users help",
+			[]string{"ls", "users", "-h"},
+			configs["default"],
+			"ls_users_help",
 			false,
 		},
 		{
@@ -136,6 +150,13 @@ func TestCLI(t *testing.T) {
 			false,
 		},
 		{
+			"ls runners help",
+			[]string{"ls", "runners", "-h"},
+			configs["default"],
+			"ls_runners_help",
+			false,
+		},
+		{
 			"ls runners",
 			[]string{"ls", "runners"},
 			configs["default"],
@@ -164,6 +185,13 @@ func TestCLI(t *testing.T) {
 			false,
 		},
 		{
+			"ls projects help",
+			[]string{"ls", "projects", "-h"},
+			configs["default"],
+			"ls_projects_help",
+			false,
+		},
+		{
 			"ls projects",
 			[]string{"ls", "projects"},
 			configs["default"],
@@ -189,6 +217,13 @@ func TestCLI(t *testing.T) {
 			[]string{"ls", "projects", "-f", "yaml"},
 			configs["default"],
 			"ls_projects_yaml",
+			false,
+		},
+		{
+			"ls namespaces help",
+			[]string{"ls", "namespaces", "-h"},
+			configs["default"],
+			"ls_namespaces_help",
 			false,
 		},
 		{
@@ -224,6 +259,20 @@ func TestCLI(t *testing.T) {
 			[]string{"ls", "namespaces", "-f", "yaml"},
 			configs["default"],
 			"ls_namespaces_yaml",
+			false,
+		},
+		{
+			"get user no arg",
+			[]string{"get", "user"},
+			configs["default"],
+			"get_user_help",
+			true,
+		},
+		{
+			"get user help",
+			[]string{"get", "user", "-h"},
+			configs["default"],
+			"get_user_help",
 			false,
 		},
 		{

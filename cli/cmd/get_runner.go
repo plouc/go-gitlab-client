@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/fatih/color"
@@ -13,21 +12,18 @@ func init() {
 }
 
 var getRunnerCmd = &cobra.Command{
-	Use:     "runner [runner id]",
+	Use:     resourceCmd("runner", "runner"),
 	Aliases: []string{"r"},
 	Short:   "Get details of a runner",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 {
-			return fmt.Errorf("you must specify a runner id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "runner", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		runnerId, err := strconv.Atoi(args[0])
+		runnerId, err := strconv.Atoi(ids["runner_id"])
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		color.Yellow("Fetching runner (id: %d)…", runnerId)
@@ -36,12 +32,13 @@ var getRunnerCmd = &cobra.Command{
 		runner, meta, err := client.Runner(runnerId)
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
 		runnerOutput(runner)
 
 		metaOutput(meta, false)
+
+		return nil
 	},
 }

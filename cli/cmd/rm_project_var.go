@@ -11,41 +11,37 @@ func init() {
 }
 
 var rmProjectVarCmd = &cobra.Command{
-	Use:     "project-var [project id] [var key]",
+	Use:     resourceCmd("project-var", "project-var"),
 	Aliases: []string{"pv"},
 	Short:   "Remove a project's variable",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 2 {
-			return fmt.Errorf("you must specify a project id and variable key")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project-var", args)
+		if err != nil {
+			return err
 		}
 
-		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		projectId := args[0]
-		varKey := args[1]
-
-		color.Yellow("Removing project variable (id: %s, key: %s)…", projectId, varKey)
+		color.Yellow("Removing project variable (id: %s, key: %s)…", ids["project_id"], ids["var_key"])
 
 		confirmed := confirmAction(
-			fmt.Sprintf("Are you sure you want to remove project %s variable %s?", projectId, varKey),
+			fmt.Sprintf("Are you sure you want to remove project %s variable %s?", ids["project_id"], ids["var_key"]),
 			"aborted project variable removal",
 			autoConfirmRemoval,
 		)
 		if !confirmed {
-			return
+			return nil
 		}
 
 		loader.Start()
-		meta, err := client.RemoveProjectVariable(projectId, varKey)
+		meta, err := client.RemoveProjectVariable(ids["project_id"], ids["var_key"])
 		loader.Stop()
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
 
-		color.Green("✔ Successfully removed variable: %s", varKey)
+		color.Green("✔ Successfully removed variable: %s", ids["var_key"])
 
 		metaOutput(meta, false)
+
+		return nil
 	},
 }

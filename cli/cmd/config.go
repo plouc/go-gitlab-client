@@ -17,7 +17,7 @@ type Alias struct {
 }
 
 func (a *Alias) IdValues() []string {
-	ids := []string{}
+	var ids []string
 	for _, id := range a.ResourceIds {
 		ids = append(ids, id)
 	}
@@ -104,4 +104,47 @@ func (c *Config) Write(path string) {
 		fmt.Printf("  %v\n\n", err)
 		os.Exit(1)
 	}
+}
+
+func (c *Config) aliasIdsOrArgs(alias, resourceType string, args []string) (map[string]string, error) {
+	if !isValidResourceType(resourceType) {
+		return nil, fmt.Errorf("Invalid resource type %s!", resourceType)
+	}
+
+	idKeys := resources[resourceType]
+	requiredArgCount := len(idKeys)
+
+	_, a := c.findAlias(alias, resourceType)
+	if a == nil {
+		if len(args) < requiredArgCount {
+			return nil, fmt.Errorf(
+				color.RedString("%d argument(s) required for %s resource but got %d:\n  - %s\n"),
+				requiredArgCount,
+				resourceType,
+				len(args),
+				strings.Join(idKeys, "\n  - "),
+			)
+		}
+
+		ids := map[string]string{}
+		for idx, key := range idKeys {
+			ids[key] = args[idx]
+		}
+
+		return ids, nil
+	}
+
+	if len(a.ResourceIds) != requiredArgCount {
+		return nil, fmt.Errorf(
+			color.RedString("%s alias for %s seems to be corrupted,\nexpected %d id(s) but got %d, required id(s):\n  - %s\n"),
+			a.Alias,
+			resourceType,
+			requiredArgCount,
+			len(a.ResourceIds),
+			strings.Join(idKeys, "\n  - "),
+		)
+	}
+	fmt.Printf("%d", len(a.ResourceIds))
+
+	return a.ResourceIds, nil
 }

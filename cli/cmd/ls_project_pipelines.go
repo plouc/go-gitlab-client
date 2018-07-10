@@ -61,17 +61,17 @@ func fetchProjectPipelines(projectId string) {
 }
 
 var lsProjectPipelinesCmd = &cobra.Command{
-	Use:     "project-pipelines [project id]",
+	Use:     resourceCmd("project-pipelines", "project"),
 	Aliases: []string{"pp"},
 	Short:   "List project pipelines",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 {
-			return fmt.Errorf("you must specify a project id")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		ids, err := config.aliasIdsOrArgs(currentAlias, "project", args)
+		if err != nil {
+			return err
 		}
 
+		fetchProjectPipelines(ids["project_id"])
+
 		return nil
-	},
-	Run: func(cmd *cobra.Command, args []string) {
-		fetchProjectPipelines(args[0])
 	},
 }
