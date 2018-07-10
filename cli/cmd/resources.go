@@ -13,6 +13,7 @@ var resources = map[string][]string{
 	"namespace":        {"namespace_id"},
 	"project-branch":   {"project_id", "branch_name"},
 	"project-badge":    {"project_id", "badge_id"},
+	"project-job":      {"project_id", "job_id"},
 	"project-pipeline": {"project_id", "pipeline_id"},
 	"group-var":        {"group_id", "var_key"},
 	"project-var":      {"project_id", "var_key"},

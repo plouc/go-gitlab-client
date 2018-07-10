@@ -98,17 +98,22 @@ Visit the docs at http://godoc.org/github.com/plouc/go-gitlab-client/gitlab
 - list project deploy keys
 - add/get/rm project deploy key
 
-#### Builds
+#### Jobs
 
-[gitlab api doc](http://doc.gitlab.com/ce/api/builds.html)
+[gitlab api doc](http://doc.gitlab.com/ce/api/jobs.html)
 
-- List project builds
-- Get a single build
-- List commit builds
-- Get build artifacts
-- Cancel a build
-- Retry a build
-- Erase a build
+- [x] List project jobs
+- [x] List pipeline jobs
+- [x] Get a single job
+- [ ] Get job artifacts
+- [ ] Download the artifacts archive
+- [ ] Download a single artifact file
+- [x] Get a trace file
+- [x] Cancel a job
+- [x] Retry a job
+- [x] Erase a job
+- [ ] Keep artifacts
+- [ ] Play a job 
 
 #### Runners
 

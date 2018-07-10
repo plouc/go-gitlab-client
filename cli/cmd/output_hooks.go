@@ -12,6 +12,8 @@ import (
 func hooksOutput(hooks []*gitlab.Hook) {
 	if outputFormat == "json" {
 		jsonOutput(hooks)
+	} else if outputFormat == "yaml" {
+		yamlOutput(hooks)
 	} else {
 		fmt.Fprintln(output, "")
 		table := tablewriter.NewWriter(output)
@@ -52,6 +54,8 @@ func hooksOutput(hooks []*gitlab.Hook) {
 func hookOutput(hook *gitlab.Hook) {
 	if outputFormat == "json" {
 		jsonOutput(hook)
+	} else if outputFormat == "yaml" {
+		yamlOutput(hook)
 	} else {
 		fmt.Fprintln(output, "")
 		fmt.Fprintf(output, "  Id                        %s\n", color.YellowString("%d", hook.Id))

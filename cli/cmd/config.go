@@ -144,7 +144,6 @@ func (c *Config) aliasIdsOrArgs(alias, resourceType string, args []string) (map[
 			strings.Join(idKeys, "\n  - "),
 		)
 	}
-	fmt.Printf("%d", len(a.ResourceIds))
 
 	return a.ResourceIds, nil
 }

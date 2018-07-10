@@ -226,7 +226,7 @@ _test_cli:
 vet_lib: ##@test Run vet on lib files
 	@echo "${YELLOW}Running vet on lib${RESET}"
 	@go vet ./gitlab/.
-	@echo "${GREEN}✔ vet successfully pas	sed for lib${RESET}\n"
+	@echo "${GREEN}✔ vet successfully passed for lib${RESET}\n"
 
 vet_cli: ##@test Run vet on cli files
 	@echo "${YELLOW}Running vet on cli${RESET}"

@@ -11,7 +11,9 @@ Available Commands:
   project-badges             List project badges
   project-branches           List project branches
   project-hooks              List project's hooks
+  project-jobs               List project jobs
   project-members            List project members
+  project-pipeline-jobs      List project pipeline jobs
   project-pipelines          List project pipelines
   project-protected-branches List project protected branches
   project-vars               Get list of a project's variables

@@ -25,6 +25,15 @@ make dev
 
 This will automatically run tests and format code when you modify code.
 
+### Without docker
+
+If you do not want to work inside docker, you can also run make targets
+prefixed with an underscore, like `_install_go_deps`, non prefixed targets
+are just proxies to run the former inside docker compose container.
+
+Even if you do not want to use docker for development, you'll have to launch
+the docker compose stack to run tests because of wiremock.
+
 ## Building CLI binary
 
 The following command will generate CLI binary for various platforms:
