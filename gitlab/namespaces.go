@@ -2,12 +2,11 @@ package gitlab
 
 import (
 	"encoding/json"
-	"strconv"
 )
 
 const (
-	namespacesUrl = "/namespaces"
-	namespaceUrl  = "/namespaces/:id"
+	NamespacesApiPath = "/namespaces"
+	NamespaceApiPath  = "/namespaces/:id"
 )
 
 type Namespace struct {
@@ -27,27 +26,15 @@ type Namespace struct {
 
 type NamespacesOptions struct {
 	PaginationOptions
-	Search string // Returns a list of namespaces the user is authorized to see based on the search criteria
+	SortOptions
+
+	// Returns a list of namespaces the user is authorized to see
+	// based on the search criteria
+	Search string `url:"search,omitempty"`
 }
 
 func (g *Gitlab) Namespaces(o *NamespacesOptions) ([]*Namespace, *ResponseMeta, error) {
-	u := g.ResourceUrl(namespacesUrl, nil)
-
-	if o != nil {
-		q := u.Query()
-
-		if o.Page != 1 {
-			q.Set("page", strconv.Itoa(o.Page))
-		}
-		if o.PerPage != 0 {
-			q.Set("per_page", strconv.Itoa(o.PerPage))
-		}
-		if o.Search != "" {
-			q.Set("search", o.Search)
-		}
-
-		u.RawQuery = q.Encode()
-	}
+	u := g.ResourceUrlQ(NamespacesApiPath, nil, o)
 
 	var namespaces []*Namespace
 
@@ -60,7 +47,7 @@ func (g *Gitlab) Namespaces(o *NamespacesOptions) ([]*Namespace, *ResponseMeta, 
 }
 
 func (g *Gitlab) Namespace(id string) (*Namespace, *ResponseMeta, error) {
-	u := g.ResourceUrl(namespaceUrl, map[string]string{":id": id})
+	u := g.ResourceUrl(NamespaceApiPath, map[string]string{":id": id})
 
 	var namespace *Namespace
 

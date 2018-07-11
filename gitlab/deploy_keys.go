@@ -6,8 +6,8 @@ import (
 )
 
 const (
-	projectDeployKeysUrl = "/projects/:id/keys"
-	projectDeployKeyUrl  = "/projects/:id/keys/:key_id"
+	ProjectDeployKeysApiPath = "/projects/:id/keys"
+	ProjectDeployKeyApiPath  = "/projects/:id/keys/:key_id"
 )
 
 /*
@@ -21,7 +21,7 @@ Parameters:
 
 */
 func (g *Gitlab) ProjectDeployKeys(id string) ([]*PublicKey, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectDeployKeysUrl, map[string]string{":id": id})
+	u := g.ResourceUrl(ProjectDeployKeysApiPath, map[string]string{":id": id})
 
 	var deployKeys []*PublicKey
 
@@ -45,7 +45,7 @@ Parameters:
 
 */
 func (g *Gitlab) ProjectDeployKey(id, keyId string) (*PublicKey, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectDeployKeyUrl, map[string]string{
+	u := g.ResourceUrl(ProjectDeployKeyApiPath, map[string]string{
 		":id":     id,
 		":key_id": keyId,
 	})
@@ -73,7 +73,7 @@ Parameters:
 
 */
 func (g *Gitlab) AddProjectDeployKey(id, title, key string) (*ResponseMeta, error) {
-	u := g.ResourceUrl(projectDeployKeysUrl, map[string]string{":id": id})
+	u := g.ResourceUrl(ProjectDeployKeysApiPath, map[string]string{":id": id})
 
 	var err error
 
@@ -100,7 +100,7 @@ Parameters:
 
 */
 func (g *Gitlab) RemoveProjectDeployKey(id, keyId string) (*ResponseMeta, error) {
-	u := g.ResourceUrl(projectDeployKeyUrl, map[string]string{
+	u := g.ResourceUrl(ProjectDeployKeyApiPath, map[string]string{
 		":id":     id,
 		":key_id": keyId,
 	})

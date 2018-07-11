@@ -6,11 +6,9 @@ import (
 )
 
 const (
-	// ID
-	user_keys        = "/user/keys"       // Get current user keys
-	user_key         = "/user/keys/:id"   // Get user key by id
-	list_keys        = "/users/:uid/keys" // Get keys for the user id
-	custom_user_keys = "/user/:id/keys"   // Create key for user with :id
+	CurrentUserKeysApiPath = "/user/keys"
+	CurrentUserKeyApiPath  = "/user/keys/:id"
+	UserKeysApiPath        = "/users/:id/keys"
 )
 
 type PublicKey struct {
@@ -20,8 +18,8 @@ type PublicKey struct {
 	CreatedAtRaw string `json:"created_at,omitempty"`
 }
 
-func (g *Gitlab) UserKeys() ([]*PublicKey, *ResponseMeta, error) {
-	u := g.ResourceUrl(user_keys, nil)
+func (g *Gitlab) UserKeys(userId string) ([]*PublicKey, *ResponseMeta, error) {
+	u := g.ResourceUrl(UserKeysApiPath, map[string]string{":id": userId})
 
 	var keys []*PublicKey
 
@@ -33,8 +31,8 @@ func (g *Gitlab) UserKeys() ([]*PublicKey, *ResponseMeta, error) {
 	return keys, meta, err
 }
 
-func (g *Gitlab) ListKeys(id string) ([]*PublicKey, *ResponseMeta, error) {
-	u := g.ResourceUrl(list_keys, map[string]string{":uid": id})
+func (g *Gitlab) CurrentUserKeys() ([]*PublicKey, *ResponseMeta, error) {
+	u := g.ResourceUrl(CurrentUserKeysApiPath, nil)
 
 	var keys []*PublicKey
 
@@ -46,8 +44,8 @@ func (g *Gitlab) ListKeys(id string) ([]*PublicKey, *ResponseMeta, error) {
 	return keys, meta, err
 }
 
-func (g *Gitlab) UserKey(id string) (*PublicKey, *ResponseMeta, error) {
-	u := g.ResourceUrl(user_key, map[string]string{":id": id})
+func (g *Gitlab) CurrentUserKey(id string) (*PublicKey, *ResponseMeta, error) {
+	u := g.ResourceUrl(CurrentUserKeyApiPath, map[string]string{":id": id})
 
 	var key *PublicKey
 
@@ -59,9 +57,7 @@ func (g *Gitlab) UserKey(id string) (*PublicKey, *ResponseMeta, error) {
 	return key, meta, err
 }
 
-func (g *Gitlab) AddKey(title, key string) (*ResponseMeta, error) {
-	u := g.ResourceUrl(user_keys, nil)
-
+func (g *Gitlab) addKey(u *url.URL, title, key string) (*ResponseMeta, error) {
 	var err error
 
 	v := url.Values{}
@@ -75,25 +71,24 @@ func (g *Gitlab) AddKey(title, key string) (*ResponseMeta, error) {
 	return meta, err
 }
 
-func (g *Gitlab) AddUserKey(id, title, key string) (*ResponseMeta, error) {
-	u := g.ResourceUrl(user_keys, map[string]string{":id": id})
+func (g *Gitlab) AddUserKey(userId, title, key string) (*ResponseMeta, error) {
+	u := g.ResourceUrl(UserKeysApiPath, map[string]string{":id": userId})
 
-	var err error
-
-	v := url.Values{}
-	v.Set("title", title)
-	v.Set("key", key)
-
-	body := v.Encode()
-
-	_, meta, err := g.buildAndExecRequest("POST", u.String(), []byte(body))
-
-	return meta, err
+	return g.addKey(u, title, key)
 }
 
-func (g *Gitlab) DeleteKey(id string) error {
-	u := g.ResourceUrl(user_key, map[string]string{":id": id})
+func (g *Gitlab) AddCurrentUserKey(title, key string) (*ResponseMeta, error) {
+	u := g.ResourceUrl(CurrentUserKeysApiPath, nil)
+
+	return g.addKey(u, title, key)
+
+}
+
+func (g *Gitlab) DeleteCurrentUserKey(id string) error {
+	u := g.ResourceUrl(CurrentUserKeyApiPath, map[string]string{":id": id})
+
 	var err error
 	_, _, err = g.buildAndExecRequest("DELETE", u.String(), nil)
+
 	return err
 }

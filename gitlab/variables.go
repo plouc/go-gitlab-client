@@ -2,12 +2,11 @@ package gitlab
 
 import (
 	"encoding/json"
-	"strconv"
 )
 
 const (
-	variablesUrl = "/:type/:id/variables"      // Get list of a project/group variables.
-	variableUrl  = "/:type/:id/variables/:key" // Get detail of project/group variable.
+	VariablesApiPath = "/:type/:id/variables"
+	VariableApiPath  = "/:type/:id/variables/:key"
 )
 
 type Variable struct {
@@ -18,22 +17,10 @@ type Variable struct {
 }
 
 func (g *Gitlab) getVariables(resourceType, id string, o *PaginationOptions) ([]*Variable, *ResponseMeta, error) {
-	u := g.ResourceUrl(variablesUrl, map[string]string{
+	u := g.ResourceUrlQ(VariablesApiPath, map[string]string{
 		":type": resourceType,
 		":id":   id,
-	})
-	if o != nil {
-		q := u.Query()
-
-		if o.Page != 1 {
-			q.Set("page", strconv.Itoa(o.Page))
-		}
-		if o.PerPage != 0 {
-			q.Set("per_page", strconv.Itoa(o.PerPage))
-		}
-
-		u.RawQuery = q.Encode()
-	}
+	}, o)
 
 	var variables []*Variable
 
@@ -54,7 +41,7 @@ func (g *Gitlab) GroupVariables(groupId string, o *PaginationOptions) ([]*Variab
 }
 
 func (g *Gitlab) getVariable(resourceType, projectId, varKey string) (*Variable, *ResponseMeta, error) {
-	u := g.ResourceUrl(variableUrl, map[string]string{
+	u := g.ResourceUrl(VariableApiPath, map[string]string{
 		":type": "projects",
 		":id":   projectId,
 		":key":  varKey,
@@ -79,7 +66,7 @@ func (g *Gitlab) GroupVariable(groupId, varKey string) (*Variable, *ResponseMeta
 }
 
 func (g *Gitlab) addVariable(resourceType, id string, variable *Variable) (*Variable, *ResponseMeta, error) {
-	u := g.ResourceUrl(variablesUrl, map[string]string{
+	u := g.ResourceUrl(VariablesApiPath, map[string]string{
 		":type": resourceType,
 		":id":   id,
 	})
@@ -107,7 +94,7 @@ func (g *Gitlab) AddGroupVariable(groupId string, variable *Variable) (*Variable
 }
 
 func (g *Gitlab) removeVariable(resourceType, id, varKey string) (*ResponseMeta, error) {
-	u := g.ResourceUrl(variableUrl, map[string]string{
+	u := g.ResourceUrl(VariableApiPath, map[string]string{
 		":type": resourceType,
 		":id":   id,
 		":key":  varKey,

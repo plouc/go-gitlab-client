@@ -2,13 +2,12 @@ package gitlab
 
 import (
 	"encoding/json"
-	"strconv"
 )
 
 const (
-	usersUrl       = "/users"     // Get users list
-	userUrl        = "/users/:id" // Get a single user.
-	currentUserUrl = "/user"      // Get current user
+	UsersApiPath       = "/users"     // Get users list
+	UserApiPath        = "/users/:id" // Get a single user.
+	CurrentUserApiPath = "/user"      // Get current user
 )
 
 type UserIdentity struct {
@@ -49,38 +48,22 @@ type User struct {
 
 type UsersOptions struct {
 	PaginationOptions
-	Search   string // Search users by email or username
-	Username string // Search users by username
-	Active   bool   // Limit to active users
-	Blocked  bool   // Limit to blocked users
+
+	// Search users by email or username
+	Search string `url:"search,omitempty"`
+
+	// Search users by username
+	Username string `url:"username,omitempty"`
+
+	// Limit to active users
+	Active bool `url:"active,omitempty"`
+
+	// Limit to blocked users
+	Blocked bool `url:"blocked,omitempty"`
 }
 
 func (g *Gitlab) Users(o *UsersOptions) ([]*User, *ResponseMeta, error) {
-	u := g.ResourceUrl(usersUrl, nil)
-	if o != nil {
-		q := u.Query()
-
-		if o.Page != 1 {
-			q.Set("page", strconv.Itoa(o.Page))
-		}
-		if o.PerPage != 0 {
-			q.Set("per_page", strconv.Itoa(o.PerPage))
-		}
-		if o.Search != "" {
-			q.Set("search", o.Search)
-		}
-		if o.Username != "" {
-			q.Set("username", o.Username)
-		}
-		if o.Active {
-			q.Set("active", "true")
-		}
-		if o.Blocked {
-			q.Set("blocked", "true")
-		}
-
-		u.RawQuery = q.Encode()
-	}
+	u := g.ResourceUrlQ(UsersApiPath, nil, o)
 
 	var users []*User
 
@@ -93,7 +76,7 @@ func (g *Gitlab) Users(o *UsersOptions) ([]*User, *ResponseMeta, error) {
 }
 
 func (g *Gitlab) User(id string) (*User, *ResponseMeta, error) {
-	u := g.ResourceUrl(userUrl, map[string]string{":id": id})
+	u := g.ResourceUrl(UserApiPath, map[string]string{":id": id})
 
 	user := new(User)
 
@@ -106,7 +89,7 @@ func (g *Gitlab) User(id string) (*User, *ResponseMeta, error) {
 }
 
 func (g *Gitlab) CurrentUser() (*User, *ResponseMeta, error) {
-	u := g.ResourceUrl(currentUserUrl, nil)
+	u := g.ResourceUrl(CurrentUserApiPath, nil)
 
 	user := new(User)
 
@@ -119,7 +102,7 @@ func (g *Gitlab) CurrentUser() (*User, *ResponseMeta, error) {
 }
 
 func (g *Gitlab) RemoveUser(id string) (*ResponseMeta, error) {
-	u := g.ResourceUrl(userUrl, map[string]string{":id": id})
+	u := g.ResourceUrl(UserApiPath, map[string]string{":id": id})
 
 	_, meta, err := g.buildAndExecRequest("DELETE", u.String(), nil)
 

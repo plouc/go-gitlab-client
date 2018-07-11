@@ -2,12 +2,11 @@ package gitlab
 
 import (
 	"encoding/json"
-	"strconv"
 )
 
 const (
-	projectBadgesUrl = "/projects/:id/badges"
-	projectBadgeUrl  = "/projects/:id/badges/:badge_id"
+	ProjectBadgesApiPath = "/projects/:id/badges"
+	ProjectBadgeApiPath  = "/projects/:id/badges/:badge_id"
 )
 
 type Badge struct {
@@ -20,20 +19,7 @@ type Badge struct {
 }
 
 func (g *Gitlab) ProjectBadges(projectId string, o *PaginationOptions) ([]*Badge, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectBadgesUrl, map[string]string{":id": projectId})
-
-	if o != nil {
-		q := u.Query()
-
-		if o.Page != 1 {
-			q.Set("page", strconv.Itoa(o.Page))
-		}
-		if o.PerPage != 0 {
-			q.Set("per_page", strconv.Itoa(o.PerPage))
-		}
-
-		u.RawQuery = q.Encode()
-	}
+	u := g.ResourceUrlQ(ProjectBadgesApiPath, map[string]string{":id": projectId}, o)
 
 	var badges []*Badge
 
@@ -46,7 +32,7 @@ func (g *Gitlab) ProjectBadges(projectId string, o *PaginationOptions) ([]*Badge
 }
 
 func (g *Gitlab) ProjectBadge(projectId, badgeId string) (*Badge, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectBadgeUrl, map[string]string{
+	u := g.ResourceUrl(ProjectBadgeApiPath, map[string]string{
 		":id":       projectId,
 		":badge_id": badgeId,
 	})
@@ -62,7 +48,7 @@ func (g *Gitlab) ProjectBadge(projectId, badgeId string) (*Badge, *ResponseMeta,
 }
 
 func (g *Gitlab) AddProjectBadge(projectId string, badge *Badge) (*Badge, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectBadgesUrl, map[string]string{":id": projectId})
+	u := g.ResourceUrl(ProjectBadgesApiPath, map[string]string{":id": projectId})
 
 	badgeJson, err := json.Marshal(badge)
 	if err != nil {
@@ -79,7 +65,7 @@ func (g *Gitlab) AddProjectBadge(projectId string, badge *Badge) (*Badge, *Respo
 }
 
 func (g *Gitlab) RemoveProjectBadge(projectId, badgeId string) (*ResponseMeta, error) {
-	u := g.ResourceUrl(projectBadgeUrl, map[string]string{
+	u := g.ResourceUrl(ProjectBadgeApiPath, map[string]string{
 		":id":       projectId,
 		":badge_id": badgeId,
 	})

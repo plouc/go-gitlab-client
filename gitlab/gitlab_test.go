@@ -10,12 +10,12 @@ func TestResourceUrl(t *testing.T) {
 
 	assert.Equal(
 		t,
-		gitlab.ResourceUrl(projectsUrl, nil).String(),
+		gitlab.ResourceUrl(ProjectsApiPath, nil).String(),
 		"http://base_url/api_path/projects",
 	)
 	assert.Equal(
 		t,
-		gitlab.ResourceUrl(projectUrl, map[string]string{":id": "123"}).String(),
+		gitlab.ResourceUrl(ProjectApiPath, map[string]string{":id": "123"}).String(),
 		"http://base_url/api_path/projects/123",
 	)
 }

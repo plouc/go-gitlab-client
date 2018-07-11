@@ -6,10 +6,10 @@ import (
 )
 
 const (
-	repo_url_tags     = "/projects/:id/repository/tags"       // List project repository tags
-	repo_url_commits  = "/projects/:id/repository/commits"    // List repository commits
-	repo_url_tree     = "/projects/:id/repository/tree"       // List repository tree
-	repo_url_raw_file = "/projects/:id/repository/blobs/:sha" // Get raw file content for specific commit/branch
+	RepositoryTagsApiPath    = "/projects/:id/repository/tags"       // List project repository tags
+	RepositoryCommitsApiPath = "/projects/:id/repository/commits"    // List repository commits
+	RepositoryTreeApiPath    = "/projects/:id/repository/tree"       // List repository tree
+	RawRepositoryFileApiPath = "/projects/:id/repository/blobs/:sha" // Get raw file content for specific commit/branch
 )
 
 type TreeNode struct {
@@ -51,7 +51,7 @@ Usage:
 		pass nil when not using optional parameters
 */
 func (g *Gitlab) RepoTree(id, path, refName string) ([]*TreeNode, *ResponseMeta, error) {
-	u := g.ResourceUrl(repo_url_tree, map[string]string{":id": id})
+	u := g.ResourceUrl(RepositoryTreeApiPath, map[string]string{":id": id})
 
 	q := u.Query()
 	q.Set("path", path)
@@ -88,7 +88,7 @@ Usage:
 	}
 */
 func (g *Gitlab) RepoTags(id string) ([]*Tag, *ResponseMeta, error) {
-	u := g.ResourceUrl(repo_url_tags, map[string]string{":id": id})
+	u := g.ResourceUrl(RepositoryTagsApiPath, map[string]string{":id": id})
 
 	var tags []*Tag
 
@@ -121,7 +121,7 @@ Usage:
 	}
 */
 func (g *Gitlab) RepoCommits(id string) ([]*Commit, *ResponseMeta, error) {
-	u := g.ResourceUrl(repo_url_commits, map[string]string{":id": id})
+	u := g.ResourceUrl(RepositoryCommitsApiPath, map[string]string{":id": id})
 
 	var commits []*Commit
 
@@ -143,7 +143,7 @@ func (g *Gitlab) RepoCommits(id string) ([]*Commit, *ResponseMeta, error) {
 Get Raw file content
 */
 func (g *Gitlab) RepoRawFile(id, sha, filepath string) ([]byte, *ResponseMeta, error) {
-	u := g.ResourceUrl(repo_url_raw_file, map[string]string{
+	u := g.ResourceUrl(RawRepositoryFileApiPath, map[string]string{
 		":id":  id,
 		":sha": sha,
 	})

@@ -2,13 +2,12 @@ package gitlab
 
 import (
 	"encoding/json"
-	"strconv"
 )
 
 const (
-	projectBranchesUrl       = "/projects/:id/repository/branches"         // List repository branches.
-	projectBranchUrl         = "/projects/:id/repository/branches/:branch" // Get a specific branch of a project.
-	projectMergedBranchesUrl = "/projects/:id/repository/merged_branches"
+	ProjectBranchesApiPath       = "/projects/:id/repository/branches"
+	ProjectBranchApiPath         = "/projects/:id/repository/branches/:branch"
+	ProjectMergedBranchesApiPath = "/projects/:id/repository/merged_branches"
 )
 
 type BranchCommit struct {
@@ -32,27 +31,14 @@ type Branch struct {
 
 type BranchesOptions struct {
 	PaginationOptions
-	Search string // Return list of branches matching the search criteria
+	SortOptions
+
+	// Return list of branches matching the search criteria
+	Search string `url:"search,omitempty"`
 }
 
 func (g *Gitlab) ProjectBranches(projectId string, o *BranchesOptions) ([]*Branch, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectBranchesUrl, map[string]string{":id": projectId})
-
-	if o != nil {
-		q := u.Query()
-
-		if o.Page != 1 {
-			q.Set("page", strconv.Itoa(o.Page))
-		}
-		if o.PerPage != 0 {
-			q.Set("per_page", strconv.Itoa(o.PerPage))
-		}
-		if o.Search != "" {
-			q.Set("search", o.Search)
-		}
-
-		u.RawQuery = q.Encode()
-	}
+	u := g.ResourceUrlQ(ProjectBranchesApiPath, map[string]string{":id": projectId}, o)
 
 	var branches []*Branch
 
@@ -65,7 +51,7 @@ func (g *Gitlab) ProjectBranches(projectId string, o *BranchesOptions) ([]*Branc
 }
 
 func (g *Gitlab) ProjectBranch(projectId, branchName string) (*Branch, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectBranchUrl, map[string]string{
+	u := g.ResourceUrl(ProjectBranchApiPath, map[string]string{
 		":id":     projectId,
 		":branch": branchName,
 	})
@@ -81,7 +67,8 @@ func (g *Gitlab) ProjectBranch(projectId, branchName string) (*Branch, *Response
 }
 
 func (g *Gitlab) AddProjectBranch(projectId string, branchName, ref string) (*Branch, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectBranchesUrl, map[string]string{":id": projectId})
+	u := g.ResourceUrl(ProjectBranchesApiPath, map[string]string{":id": projectId})
+
 	q := u.Query()
 	q.Set("branch", branchName)
 	q.Set("ref", ref)
@@ -97,7 +84,7 @@ func (g *Gitlab) AddProjectBranch(projectId string, branchName, ref string) (*Br
 }
 
 func (g *Gitlab) RemoveProjectBranch(projectId, branchName string) (*ResponseMeta, error) {
-	u := g.ResourceUrl(projectBranchUrl, map[string]string{
+	u := g.ResourceUrl(ProjectBranchApiPath, map[string]string{
 		":id":     projectId,
 		":branch": branchName,
 	})
@@ -109,7 +96,7 @@ func (g *Gitlab) RemoveProjectBranch(projectId, branchName string) (*ResponseMet
 }
 
 func (g *Gitlab) RemoveProjectMergedBranches(projectId string) (string, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectMergedBranchesUrl, map[string]string{":id": projectId})
+	u := g.ResourceUrl(ProjectMergedBranchesApiPath, map[string]string{":id": projectId})
 
 	var responseWithMessage *ResponseWithMessage
 	contents, meta, err := g.buildAndExecRequest("DELETE", u.String(), nil)

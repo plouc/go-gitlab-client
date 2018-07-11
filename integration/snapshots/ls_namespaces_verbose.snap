@@ -10,7 +10,7 @@ Fetching namespaces…
 Response meta
 
   Method          GET
-  Url             http://wiremock:8080/api/v4/namespaces?per_page=10
+  Url             http://wiremock:8080/api/v4/namespaces?page=1&per_page=10
   StatusCode      200
   Request id      
   Runtime         0.000000

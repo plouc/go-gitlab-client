@@ -8,15 +8,15 @@ import (
 )
 
 const (
-	mergeRequestsUrl                  = "/merge_requests"
-	projectMergeRequestsUrl           = "/projects/:id/merge_requests"
-	groupMergeRequestsUrl             = "/groups/:id/merge_requests"
-	projectMergeRequestUrl            = "/projects/:id/merge_requests/:merge_request_id"                                  // Get information about a single merge request
-	projectMergeRequestCommitsUrl     = "/projects/:id/merge_requests/:merge_request_id/commits"                          // Get a list of merge request commits
-	projectMergeRequestChangesUrl     = "/projects/:id/merge_requests/:merge_request_id/changes"                          // Shows information about the merge request including its files and changes
-	projectMergeRequestMergeUrl       = "/projects/:id/merge_requests/:merge_request_id/merge"                            // Merge changes submitted with MR
-	projectMergeRequestCancelMergeUrl = "/projects/:id/merge_requests/:merge_request_id/cancel_merge_when_build_succeeds" // Cancel Merge When Build Succeeds
-	projectMergeRequestCommentsUrl    = "/projects/:id/merge_requests/:merge_request_id/comments"                         // Lists all comments associated with a merge request
+	MergeRequestsApiPath                  = "/merge_requests"
+	ProjectMergeRequestsApiPath           = "/projects/:id/merge_requests"
+	GroupMergeRequestsApiPath             = "/groups/:id/merge_requests"
+	ProjectMergeRequestApiPath            = "/projects/:id/merge_requests/:merge_request_id"                                  // Get information about a single merge request
+	ProjectMergeRequestCommitsApiPath     = "/projects/:id/merge_requests/:merge_request_id/commits"                          // Get a list of merge request commits
+	ProjectMergeRequestChangesApiPath     = "/projects/:id/merge_requests/:merge_request_id/changes"                          // Shows information about the merge request including its files and changes
+	ProjectMergeRequestMergeApiPath       = "/projects/:id/merge_requests/:merge_request_id/merge"                            // Merge changes submitted with MR
+	ProjectMergeRequestCancelMergeApiPath = "/projects/:id/merge_requests/:merge_request_id/cancel_merge_when_build_succeeds" // Cancel Merge When Build Succeeds
+	ProjectMergeRequestCommentsApiPath    = "/projects/:id/merge_requests/:merge_request_id/comments"                         // Lists all comments associated with a merge request
 )
 
 type MergeRequest struct {
@@ -184,20 +184,7 @@ type MergeRequestsOptions struct {
 	Scope MergeRequestScope
 }
 
-func (g *Gitlab) getMergeRequests(u *url.URL, o *MergeRequestsOptions) ([]*MergeRequest, *ResponseMeta, error) {
-	if o != nil {
-		q := u.Query()
-
-		if o.Page != 1 {
-			q.Set("page", strconv.Itoa(o.Page))
-		}
-		if o.PerPage != 0 {
-			q.Set("per_page", strconv.Itoa(o.PerPage))
-		}
-
-		u.RawQuery = q.Encode()
-	}
-
+func (g *Gitlab) getMergeRequests(u *url.URL) ([]*MergeRequest, *ResponseMeta, error) {
 	var err error
 	var mergeRequests []*MergeRequest
 
@@ -210,25 +197,25 @@ func (g *Gitlab) getMergeRequests(u *url.URL, o *MergeRequestsOptions) ([]*Merge
 }
 
 func (g *Gitlab) MergeRequests(o *MergeRequestsOptions) ([]*MergeRequest, *ResponseMeta, error) {
-	u := g.ResourceUrl(mergeRequestsUrl, nil)
+	u := g.ResourceUrlQ(MergeRequestsApiPath, nil, o)
 
-	return g.getMergeRequests(u, o)
+	return g.getMergeRequests(u)
 }
 
 func (g *Gitlab) ProjectMergeRequests(projectId string, o *MergeRequestsOptions) ([]*MergeRequest, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectMergeRequestsUrl, map[string]string{":id": projectId})
+	u := g.ResourceUrlQ(ProjectMergeRequestsApiPath, map[string]string{":id": projectId}, o)
 
-	return g.getMergeRequests(u, o)
+	return g.getMergeRequests(u)
 }
 
 func (g *Gitlab) GroupMergeRequests(groupId int, o *MergeRequestsOptions) ([]*MergeRequest, *ResponseMeta, error) {
-	u := g.ResourceUrl(groupMergeRequestsUrl, map[string]string{":id": strconv.Itoa(groupId)})
+	u := g.ResourceUrlQ(GroupMergeRequestsApiPath, map[string]string{":id": strconv.Itoa(groupId)}, o)
 
-	return g.getMergeRequests(u, o)
+	return g.getMergeRequests(u)
 }
 
 func (g *Gitlab) ProjectMergeRequest(projectId string, mergeRequestId int) (*MergeRequest, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectMergeRequestUrl, map[string]string{
+	u := g.ResourceUrl(ProjectMergeRequestApiPath, map[string]string{
 		":id":               projectId,
 		":merge_request_id": strconv.Itoa(mergeRequestId),
 	})
@@ -256,7 +243,7 @@ Parameters:
 
 */
 func (g *Gitlab) ProjectMergeRequestCommits(id, merge_request_id string) ([]*Commit, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectMergeRequestCommitsUrl, map[string]string{
+	u := g.ResourceUrl(ProjectMergeRequestCommitsApiPath, map[string]string{
 		":id":               id,
 		":merge_request_id": merge_request_id,
 	})
@@ -290,7 +277,7 @@ Parameters:
 
 */
 func (g *Gitlab) ProjectMergeRequestChanges(id, merge_request_id string) (*MergeRequestChanges, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectMergeRequestChangesUrl, map[string]string{
+	u := g.ResourceUrl(ProjectMergeRequestChangesApiPath, map[string]string{
 		":id":               id,
 		":merge_request_id": merge_request_id,
 	})
@@ -317,7 +304,7 @@ Parameters:
 
 */
 func (g *Gitlab) AddMergeRequest(req *AddMergeRequestRequest) (*MergeRequest, error) {
-	u := g.ResourceUrl(projectMergeRequestsUrl, map[string]string{
+	u := g.ResourceUrl(ProjectMergeRequestsApiPath, map[string]string{
 		":id": string(req.TargetProjectId),
 	})
 
@@ -350,7 +337,7 @@ Parameters:
 
 */
 func (g *Gitlab) EditMergeRequest(mr *MergeRequest) error {
-	u := g.ResourceUrl(projectMergeRequestUrl, map[string]string{
+	u := g.ResourceUrl(ProjectMergeRequestApiPath, map[string]string{
 		":id":               string(mr.ProjectId),
 		":merge_request_id": string(mr.Id),
 	})
@@ -385,7 +372,7 @@ Parameters:
 
 */
 func (g *Gitlab) ProjectMergeRequestAccept(id, merge_request_id string, req *AcceptMergeRequestRequest) (*MergeRequest, error) {
-	u := g.ResourceUrl(projectMergeRequestMergeUrl, map[string]string{
+	u := g.ResourceUrl(ProjectMergeRequestMergeApiPath, map[string]string{
 		":id":               id,
 		":merge_request_id": merge_request_id,
 	})
@@ -420,7 +407,7 @@ Parameters:
 
 */
 func (g *Gitlab) ProjectMergeRequestCancelMerge(id, merge_request_id string) (*MergeRequest, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectMergeRequestCancelMergeUrl, map[string]string{
+	u := g.ResourceUrl(ProjectMergeRequestCancelMergeApiPath, map[string]string{
 		":id":               id,
 		":merge_request_id": merge_request_id,
 	})

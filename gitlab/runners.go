@@ -2,16 +2,15 @@ package gitlab
 
 import (
 	"encoding/json"
-	"fmt"
 	"strconv"
 )
 
 const (
-	runnersUrl        = "/runners"                          // Get current users runner list.
-	allRunnersUrl     = "/runners/all"                      // Get ALL runners list.
-	runnerUrl         = "/runners/:id"                      // Get a single runner.
-	projectRunnersUrl = "/projects/:project_id/runners"     // Get ALL project runners.
-	projectRunnerUrl  = "/projects/:project_id/runners/:id" // Get a single project runner.
+	RunnersApiPath        = "/runners"                          // Get current users runner list.
+	AllRunnersApiPath     = "/runners/all"                      // Get ALL runners list.
+	RunnerApiPath         = "/runners/:id"                      // Get a single runner.
+	ProjectRunnersApiPath = "/projects/:project_id/runners"     // Get ALL project runners.
+	ProjectRunnerApiPath  = "/projects/:project_id/runners/:id" // Get a single project runner.
 )
 
 type Runner struct {
@@ -51,31 +50,23 @@ const (
 
 type RunnersOptions struct {
 	PaginationOptions
-	All   bool        // Get a list of all runners in the GitLab instance (specific and shared). Access is restricted to users with admin privileges
-	Scope RunnerScope // The scope of runners to show, one of: specific, shared, active, paused, online; showing all runners if none provided
+	SortOptions
+
+	// Get a list of all runners in the GitLab instance (specific and shared).
+	// Access is restricted to users with admin privileges
+	All bool `url:"-"`
+
+	// The scope of runners to show, one of: specific, shared, active, paused, online;
+	// showing all runners if none provided
+	Scope RunnerScope `url:"scope,omitempty"`
 }
 
 func (g *Gitlab) Runners(o *RunnersOptions) ([]*Runner, *ResponseMeta, error) {
-	p := runnersUrl
+	p := RunnersApiPath
 	if o != nil && o.All {
-		p = allRunnersUrl
+		p = AllRunnersApiPath
 	}
-	u := g.ResourceUrl(p, nil)
-	if o != nil {
-		q := u.Query()
-
-		if o.Page > 1 {
-			q.Set("page", strconv.Itoa(o.Page))
-		}
-		if o.PerPage != 0 {
-			q.Set("per_page", strconv.Itoa(o.PerPage))
-		}
-		if o.Scope != "" {
-			q.Set("scope", fmt.Sprintf("%s", o.Scope))
-		}
-
-		u.RawQuery = q.Encode()
-	}
+	u := g.ResourceUrlQ(p, nil, o)
 
 	var runners []*Runner
 
@@ -88,7 +79,7 @@ func (g *Gitlab) Runners(o *RunnersOptions) ([]*Runner, *ResponseMeta, error) {
 }
 
 func (g *Gitlab) Runner(id int) (*RunnerWithDetails, *ResponseMeta, error) {
-	u := g.ResourceUrl(runnerUrl, map[string]string{":id": strconv.Itoa(id)})
+	u := g.ResourceUrl(RunnerApiPath, map[string]string{":id": strconv.Itoa(id)})
 
 	runner := new(RunnerWithDetails)
 
@@ -101,7 +92,7 @@ func (g *Gitlab) Runner(id int) (*RunnerWithDetails, *ResponseMeta, error) {
 }
 
 func (g *Gitlab) ProjectRunners(projectId string, page, per_page int) ([]*Runner, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectRunnersUrl, map[string]string{":project_id": projectId,
+	u := g.ResourceUrl(ProjectRunnersApiPath, map[string]string{":project_id": projectId,
 		":page":     strconv.Itoa(page),
 		":per_page": strconv.Itoa(per_page),
 	})
@@ -117,7 +108,7 @@ func (g *Gitlab) ProjectRunners(projectId string, page, per_page int) ([]*Runner
 }
 
 func (g *Gitlab) UpdateRunner(id int, runner *Runner) (*Runner, *ResponseMeta, error) {
-	u := g.ResourceUrl(runnerUrl, map[string]string{":id": strconv.Itoa(id)})
+	u := g.ResourceUrl(RunnerApiPath, map[string]string{":id": strconv.Itoa(id)})
 
 	encodedRequest, err := json.Marshal(runner)
 	if err != nil {
@@ -135,7 +126,7 @@ func (g *Gitlab) UpdateRunner(id int, runner *Runner) (*Runner, *ResponseMeta, e
 }
 
 func (g *Gitlab) EnableProjectRunner(projectId string, id int) (*Runner, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectRunnerUrl, map[string]string{":project_id": projectId, ":id": strconv.Itoa(id)})
+	u := g.ResourceUrl(ProjectRunnerApiPath, map[string]string{":project_id": projectId, ":id": strconv.Itoa(id)})
 
 	request := map[string]int{"runner_id": id}
 
@@ -154,7 +145,7 @@ func (g *Gitlab) EnableProjectRunner(projectId string, id int) (*Runner, *Respon
 }
 
 func (g *Gitlab) DisableProjectRunner(projectId string, id int) (*Runner, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectRunnerUrl, map[string]string{":project_id": projectId, ":id": strconv.Itoa(id)})
+	u := g.ResourceUrl(ProjectRunnerApiPath, map[string]string{":project_id": projectId, ":id": strconv.Itoa(id)})
 
 	var result *Runner
 
@@ -167,7 +158,7 @@ func (g *Gitlab) DisableProjectRunner(projectId string, id int) (*Runner, *Respo
 }
 
 func (g *Gitlab) DeleteRunner(id int) (*Runner, *ResponseMeta, error) {
-	u := g.ResourceUrl(runnerUrl, map[string]string{":id": strconv.Itoa(id)})
+	u := g.ResourceUrl(RunnerApiPath, map[string]string{":id": strconv.Itoa(id)})
 
 	var result *Runner
 

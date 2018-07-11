@@ -35,8 +35,7 @@ type FeedCommit struct {
 }
 
 func (g *Gitlab) Activity() (ActivityFeed, error) {
-	url := g.BaseUrl + dashboardFeedPath + "?private_token=" + g.Token
-	fmt.Println(url)
+	url := g.BaseUrl + DashboardFeedPath + "?private_token=" + g.Token
 
 	contents, _, err := g.buildAndExecRequest("GET", url, nil)
 	if err != nil {

@@ -5,8 +5,10 @@ GO_IMAGE        = golang:1.10.3
 MODD_VERSION    = 0.5
 GO_PKG_SRC_PATH = "github.com/plouc/go-gitlab-client"
 
-SHA1 = $(shell git rev-parse HEAD)
 OS   = $(shell uname)
+
+GIT_SHA  = $(shell git rev-parse HEAD)
+GIT_REF ?= $(shell git symbolic-ref -q --short HEAD)
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 #

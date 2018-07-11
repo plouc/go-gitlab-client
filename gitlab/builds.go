@@ -6,8 +6,8 @@ import (
 )
 
 const (
-	projectCommitBuildsUrl   = "/projects/:id/repository/commits/:sha/builds"
-	projectBuildArtifactsUrl = "/projects/:id/builds/:build_id/artifacts"
+	ProjectCommitBuildsApiPath   = "/projects/:id/repository/commits/:sha/builds"
+	ProjectBuildArtifactsApiPath = "/projects/:id/builds/:build_id/artifacts"
 )
 
 type ArtifactsFile struct {
@@ -34,7 +34,7 @@ type Build struct {
 }
 
 func (g *Gitlab) ProjectCommitBuilds(id, sha1 string) ([]*Build, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectCommitBuildsUrl, map[string]string{
+	u := g.ResourceUrl(ProjectCommitBuildsApiPath, map[string]string{
 		":id":  id,
 		":sha": sha1,
 	})
@@ -52,7 +52,7 @@ func (g *Gitlab) ProjectCommitBuilds(id, sha1 string) ([]*Build, *ResponseMeta, 
 }
 
 func (g *Gitlab) ProjectBuildArtifacts(id, buildId string) (io.ReadCloser, error) {
-	u := g.ResourceUrl(projectBuildArtifactsUrl, map[string]string{
+	u := g.ResourceUrl(ProjectBuildArtifactsApiPath, map[string]string{
 		":id":       id,
 		":build_id": buildId,
 	})

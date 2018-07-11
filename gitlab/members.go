@@ -2,12 +2,11 @@ package gitlab
 
 import (
 	"encoding/json"
-	"strconv"
 )
 
 const (
-	membersUrl = "/:type/:id/members"          // List group or project team members
-	memberUrl  = "/:type/:id/members/:user_id" // Get group or project team member
+	MambersApiPath = "/:type/:id/members"          // List group or project team members
+	MamberApiPath  = "/:type/:id/members/:user_id" // Get group or project team member
 )
 
 type Member struct {
@@ -24,29 +23,15 @@ type Member struct {
 
 type MembersOptions struct {
 	PaginationOptions
-	Query string
+
+	Query string `url:"query,omitempty"`
 }
 
 func (g *Gitlab) getResourceMembers(resourceType, projectId string, o *MembersOptions) ([]*Member, *ResponseMeta, error) {
-	u := g.ResourceUrl(membersUrl, map[string]string{
+	u := g.ResourceUrlQ(MambersApiPath, map[string]string{
 		":type": resourceType,
 		":id":   projectId,
-	})
-	if o != nil {
-		q := u.Query()
-
-		if o.Page != 1 {
-			q.Set("page", strconv.Itoa(o.Page))
-		}
-		if o.PerPage != 0 {
-			q.Set("per_page", strconv.Itoa(o.PerPage))
-		}
-		if o.Query != "" {
-			q.Set("query", o.Query)
-		}
-
-		u.RawQuery = q.Encode()
-	}
+	}, o)
 
 	var members []*Member
 

@@ -2,15 +2,14 @@ package gitlab
 
 import (
 	"encoding/json"
-	"strconv"
 )
 
 const (
-	projectsUrl      = "/projects"            // Get a list of projects owned by the authenticated user
-	projectUrl       = "/projects/:id"        // Get a specific project, identified by project ID or NAME
-	starProjectUrl   = "/projects/:id/star"   // Stars a given project. Returns status code 304 if the project is already starred
-	unstarProjectUrl = "/projects/:id/unstar" // Unstars a given project. Returns status code 304 if the project is not starred
-	projectUrlEvents = "/projects/:id/events" // Get project events
+	ProjectsApiPath      = "/projects"            // Get a list of projects owned by the authenticated user
+	ProjectApiPath       = "/projects/:id"        // Get a specific project, identified by project ID or NAME
+	StarProjectApiPath   = "/projects/:id/star"   // Stars a given project. Returns status code 304 if the project is already starred
+	UnstarProjectApiPath = "/projects/:id/unstar" // Unstars a given project. Returns status code 304 if the project is not starred
+	ProjectEventsApiPath = "/projects/:id/events" // Get project events
 )
 
 type Visibility string
@@ -89,68 +88,48 @@ type Project struct {
 
 type ProjectsOptions struct {
 	PaginationOptions
-	Archived                 bool          // Limit by archived status
-	Visibility               Visibility    // Limit by visibility public, internal, or private
-	OrderBy                  ProjectsOrder // Return projects ordered by id, name, path, created_at, updated_at, or last_activity_at fields. Default is created_at
-	Sort                     SortDirection // Return projects sorted in asc or desc order. Default is desc
-	Search                   string        // Return list of projects matching the search criteria
-	Simple                   bool          // Return only the ID, URL, name, and path of each project
-	Owned                    bool          // Limit by projects owned by the current user
-	Membership               bool          // Limit by projects that the current user is a member of
-	Starred                  bool          // Limit by projects starred by the current user
-	Statistics               bool          // Include project statistics
-	WithCustomAttributes     bool          // Include custom attributes in response (admins only)
-	WithIssuesEnabled        bool          // Limit by enabled issues feature
-	WithMergeRequestsEnabled bool          // Limit by enabled merge requests feature
+	SortOptions
+
+	// Limit by archived status
+	Archived bool `url:"archived,omitempty"`
+
+	// Limit by visibility public, internal, or private
+	Visibility Visibility `url:"visibility,omitempty"`
+
+	// Return projects ordered by id, name, path, created_at, updated_at,
+	// or last_activity_at fields. Default is created_at
+	OrderBy ProjectsOrder `url:"order_by,omitempty"`
+
+	// Return list of projects matching the search criteria
+	Search string `url:"search,omitempty"`
+
+	// Return only the ID, URL, name, and path of each project
+	Simple bool `url:"simple,omitempty"`
+
+	// Limit by projects owned by the current user
+	Owned bool `url:"owned,omitempty"`
+
+	// Limit by projects that the current user is a member of
+	Membership bool `url:"membership,omitempty"`
+
+	// Limit by projects starred by the current user
+	Starred bool `url:"starred,omitempty"`
+
+	// Include project statistics
+	Statistics bool `url:"statistics,omitempty"`
+
+	// Include custom attributes in response (admins only)
+	WithCustomAttributes bool `url:"with_custom_attributes,omitempty"`
+
+	// Limit by enabled issues feature
+	WithIssuesEnabled bool `url:"with_issues_enabled,omitempty"`
+
+	// Limit by enabled merge requests feature
+	WithMergeRequestsEnabled bool `url:"with_merge_requests_enabled,omitempty"`
 }
 
 func (g *Gitlab) Projects(o *ProjectsOptions) ([]*Project, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectsUrl, nil)
-	if o != nil {
-		q := u.Query()
-
-		if o.Page != 1 {
-			q.Set("page", strconv.Itoa(o.Page))
-		}
-		if o.PerPage != 0 {
-			q.Set("per_page", strconv.Itoa(o.PerPage))
-		}
-		if o.Archived {
-			q.Set("archived", "true")
-		}
-		// @todo Visibility
-		// @todo OrderBy
-		// @todo Sort
-		if o.Search != "" {
-			q.Set("search", o.Search)
-		}
-		if o.Simple {
-			q.Set("simple", "true")
-		}
-		if o.Owned {
-			q.Set("owned", "true")
-		}
-		if o.Membership {
-			q.Set("membership", "true")
-		}
-		if o.Starred {
-			q.Set("starred", "true")
-		}
-		if o.Statistics {
-			q.Set("statistics", "true")
-		}
-		if o.WithCustomAttributes {
-			q.Set("with_custom_attributes", "true")
-		}
-		if o.WithIssuesEnabled {
-			q.Set("with_issues_enabled", "true")
-		}
-		if o.WithMergeRequestsEnabled {
-			q.Set("with_merge_requests_enabled", "true")
-		}
-
-		u.RawQuery = q.Encode()
-	}
+	u := g.ResourceUrlQ(ProjectsApiPath, nil, o)
 
 	var projects []*Project
 
@@ -168,7 +147,7 @@ type ProjectAddPayload struct {
 }
 
 func (g *Gitlab) AddProject(project *ProjectAddPayload) (*Project, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectsUrl, nil)
+	u := g.ResourceUrl(ProjectsApiPath, nil)
 
 	projectJson, err := json.Marshal(project)
 	if err != nil {
@@ -185,7 +164,7 @@ func (g *Gitlab) AddProject(project *ProjectAddPayload) (*Project, *ResponseMeta
 }
 
 func (g *Gitlab) RemoveProject(id string) (string, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectUrl, map[string]string{":id": id})
+	u := g.ResourceUrl(ProjectApiPath, map[string]string{":id": id})
 
 	var responseWithMessage *ResponseWithMessage
 	contents, meta, err := g.buildAndExecRequest("DELETE", u.String(), nil)
@@ -199,7 +178,7 @@ func (g *Gitlab) RemoveProject(id string) (string, *ResponseMeta, error) {
 }
 
 func (g *Gitlab) Project(id string, withStatistics bool) (*Project, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectUrl, map[string]string{":id": id})
+	u := g.ResourceUrl(ProjectApiPath, map[string]string{":id": id})
 	q := u.Query()
 
 	if withStatistics {
@@ -219,7 +198,7 @@ func (g *Gitlab) Project(id string, withStatistics bool) (*Project, *ResponseMet
 }
 
 func (g *Gitlab) UpdateProject(id string, project *Project) (*Project, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectUrl, map[string]string{":id": id})
+	u := g.ResourceUrl(ProjectApiPath, map[string]string{":id": id})
 
 	encodedRequest, err := json.Marshal(project)
 	if err != nil {
@@ -236,7 +215,7 @@ func (g *Gitlab) UpdateProject(id string, project *Project) (*Project, *Response
 }
 
 func (g *Gitlab) StarProject(id string) (*Project, *ResponseMeta, error) {
-	u := g.ResourceUrl(starProjectUrl, map[string]string{":id": id})
+	u := g.ResourceUrl(StarProjectApiPath, map[string]string{":id": id})
 
 	contents, meta, err := g.buildAndExecRequest("POST", u.String(), nil)
 	if err != nil {
@@ -252,7 +231,7 @@ func (g *Gitlab) StarProject(id string) (*Project, *ResponseMeta, error) {
 }
 
 func (g *Gitlab) UnstarProject(id string) (*Project, *ResponseMeta, error) {
-	u := g.ResourceUrl(unstarProjectUrl, map[string]string{":id": id})
+	u := g.ResourceUrl(UnstarProjectApiPath, map[string]string{":id": id})
 
 	contents, meta, err := g.buildAndExecRequest("POST", u.String(), nil)
 	if err != nil {

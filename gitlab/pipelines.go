@@ -2,12 +2,11 @@ package gitlab
 
 import (
 	"encoding/json"
-	"strconv"
 )
 
 const (
-	projectPipelinesUrl = "/projects/:id/pipelines"
-	projectPipelineUrl  = "/projects/:id/pipelines/:pipeline_id"
+	ProjectPipelinesApiPath = "/projects/:id/pipelines"
+	ProjectPipelineApiPath  = "/projects/:id/pipelines/:pipeline_id"
 )
 
 type Pipeline struct {
@@ -41,32 +40,34 @@ type PipelineWithDetails struct {
 
 type PipelinesOptions struct {
 	PaginationOptions
-	Scope      string // The scope of pipelines, one of: running, pending, finished, branches, tags
-	Status     string // The status of pipelines, one of: running, pending, success, failed, canceled, skipped
-	Ref        string // The ref of pipelines
-	Sha        string // The sha or pipelines
-	YamlErrors bool   // Returns pipelines with invalid configurations
-	Name       string // The name of the user who triggered pipelines
-	Username   string // The username of the user who triggered pipelines
-	OrderBy    string // Order pipelines by id, status, ref, or user_id (default: id)
-	Sort       string // Sort pipelines in asc or desc order (default: desc)
+	SortOptions
+
+	// The scope of pipelines, one of:
+	// running, pending, finished, branches, tags
+	Scope string `url:"scope,omitempty"`
+
+	// The status of pipelines, one of:
+	// running, pending, success, failed, canceled, skipped
+	Status string `url:"status,omitempty"`
+
+	// The ref of pipelines
+	Ref string `url:"ref,omitempty"`
+
+	// The sha or pipelines
+	Sha string `url:"sha,omitempty"`
+
+	// Returns pipelines with invalid configurations
+	YamlErrors bool `url:"yaml_errors,omitempty"`
+
+	// The name of the user who triggered pipelines
+	Name string `url:"name,omitempty"`
+
+	// The username of the user who triggered pipelines
+	Username string `url:"username,omitempty"`
 }
 
 func (g *Gitlab) ProjectPipelines(projectId string, o *PipelinesOptions) ([]*Pipeline, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectPipelinesUrl, map[string]string{":id": projectId})
-
-	if o != nil {
-		q := u.Query()
-
-		if o.Page != 1 {
-			q.Set("page", strconv.Itoa(o.Page))
-		}
-		if o.PerPage != 0 {
-			q.Set("per_page", strconv.Itoa(o.PerPage))
-		}
-
-		u.RawQuery = q.Encode()
-	}
+	u := g.ResourceUrlQ(ProjectPipelinesApiPath, map[string]string{":id": projectId}, o)
 
 	var pipelines []*Pipeline
 
@@ -79,7 +80,7 @@ func (g *Gitlab) ProjectPipelines(projectId string, o *PipelinesOptions) ([]*Pip
 }
 
 func (g *Gitlab) ProjectPipeline(projectId, pipelineId string) (*PipelineWithDetails, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectPipelineUrl, map[string]string{
+	u := g.ResourceUrl(ProjectPipelineApiPath, map[string]string{
 		":id":          projectId,
 		":pipeline_id": pipelineId,
 	})

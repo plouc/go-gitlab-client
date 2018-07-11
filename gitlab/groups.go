@@ -2,14 +2,12 @@ package gitlab
 
 import (
 	"encoding/json"
-	"strconv"
-	"strings"
 )
 
 const (
-	groupsUrl        = "/groups"
-	groupUrl         = "/groups/:id"
-	groupProjectsUrl = "/groups/:id/projects"
+	GroupsApiPath        = "/groups"
+	GroupApiPath         = "/groups/:id"
+	GroupProjectsApiPath = "/groups/:id/projects"
 )
 
 type Group struct {
@@ -36,48 +34,30 @@ type GroupWithDetails struct {
 
 type GroupsOptions struct {
 	PaginationOptions
-	SkipGroups           []string // Skip the group IDs passed
-	AllAvailable         bool     //Show all the groups you have access to (defaults to false for authenticated users, true for admin)
-	Search               string   // Return the list of authorized groups matching the search criteria
-	Statistics           bool     // Include group statistics (admins only)
-	WithCustomAttributes bool     // Include custom attributes in response (admins only)
-	Owned                bool     // Limit to groups owned by the current user
-	// order_by	string	no	Order groups by name, path or id. Default is name
-	// sort	string	no	Order groups in asc or desc order. Default is asc
+	SortOptions
+
+	// Skip the group IDs passed
+	SkipGroups []string `url:"skip_groups,omitempty,comma"`
+
+	// Show all the groups you have access to
+	// (defaults to false for authenticated users, true for admin)
+	AllAvailable bool `url:"all_available,omitempty"`
+
+	// Return the list of authorized groups matching the search criteria
+	Search string `url:"search,omitempty"`
+
+	// Include group statistics (admins only)
+	Statistics bool `url:"statistics,omitempty"`
+
+	// Include custom attributes in response (admins only)
+	WithCustomAttributes bool `url:"with_custom_attributes,omitempty"`
+
+	// Limit to groups owned by the current user
+	Owned bool `url:"owned,omitempty"`
 }
 
 func (g *Gitlab) Groups(o *GroupsOptions) ([]*Group, *ResponseMeta, error) {
-	u := g.ResourceUrl(groupsUrl, nil)
-	if o != nil {
-		q := u.Query()
-
-		if o.Page != 1 {
-			q.Set("page", strconv.Itoa(o.Page))
-		}
-		if o.PerPage != 0 {
-			q.Set("per_page", strconv.Itoa(o.PerPage))
-		}
-		if len(o.SkipGroups) > 0 {
-			q.Set("skip_groups", strings.Join(o.SkipGroups, ","))
-		}
-		if o.AllAvailable {
-			q.Set("all_available", "true")
-		}
-		if o.Search != "" {
-			q.Set("search", o.Search)
-		}
-		if o.Statistics {
-			q.Set("statistics", "true")
-		}
-		if o.WithCustomAttributes {
-			q.Set("with_custom_attributes", "true")
-		}
-		if o.Owned {
-			q.Set("owned", "true")
-		}
-
-		u.RawQuery = q.Encode()
-	}
+	u := g.ResourceUrlQ(GroupsApiPath, nil, o)
 
 	var groups []*Group
 
@@ -90,7 +70,7 @@ func (g *Gitlab) Groups(o *GroupsOptions) ([]*Group, *ResponseMeta, error) {
 }
 
 func (g *Gitlab) Group(id string, withCustomAttributes bool) (*GroupWithDetails, *ResponseMeta, error) {
-	u := g.ResourceUrl(groupUrl, map[string]string{":id": id})
+	u := g.ResourceUrl(GroupApiPath, map[string]string{":id": id})
 	q := u.Query()
 
 	if withCustomAttributes {
@@ -121,7 +101,7 @@ type GroupAddPayload struct {
 }
 
 func (g *Gitlab) AddGroup(group *GroupAddPayload) (*GroupWithDetails, *ResponseMeta, error) {
-	u := g.ResourceUrl(groupsUrl, nil)
+	u := g.ResourceUrl(GroupsApiPath, nil)
 
 	encodedRequest, err := json.Marshal(group)
 	if err != nil {
@@ -151,7 +131,7 @@ type GroupUpdatePayload struct {
 }
 
 func (g *Gitlab) UpdateGroup(id string, group *GroupUpdatePayload) (*GroupWithDetails, error) {
-	u := g.ResourceUrl(groupUrl, map[string]string{":id": id})
+	u := g.ResourceUrl(GroupApiPath, map[string]string{":id": id})
 
 	encodedRequest, err := json.Marshal(group)
 	if err != nil {
@@ -168,7 +148,7 @@ func (g *Gitlab) UpdateGroup(id string, group *GroupUpdatePayload) (*GroupWithDe
 }
 
 func (g *Gitlab) RemoveGroup(id string) (string, *ResponseMeta, error) {
-	u := g.ResourceUrl(groupUrl, map[string]string{":id": id})
+	u := g.ResourceUrl(GroupApiPath, map[string]string{":id": id})
 
 	var responseWithMessage *ResponseWithMessage
 	contents, meta, err := g.buildAndExecRequest("DELETE", u.String(), nil)
@@ -182,7 +162,7 @@ func (g *Gitlab) RemoveGroup(id string) (string, *ResponseMeta, error) {
 }
 
 func (g *Gitlab) GroupProjects(id string) ([]*Project, *ResponseMeta, error) {
-	u := g.ResourceUrl(groupProjectsUrl, map[string]string{":id": id})
+	u := g.ResourceUrl(GroupProjectsApiPath, map[string]string{":id": id})
 
 	var projects []*Project
 

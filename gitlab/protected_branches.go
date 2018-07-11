@@ -2,13 +2,12 @@ package gitlab
 
 import (
 	"encoding/json"
-	"strconv"
 )
 
 const (
-	protectedBranchesUrl = "/projects/:id/protected_branches"                    // Gets a list of protected branches from a project.
-	protectBranchUrl     = "/projects/:id/repository/branches/:branch/protect"   // Protects a single project repository branch.
-	unprotectBranchUrl   = "/projects/:id/repository/branches/:branch/unprotect" // Unprotects a single project repository branch.
+	ProtectedBranchesApiPath = "/projects/:id/protected_branches"                    // Gets a list of protected branches from a project.
+	ProtectBranchApiPath     = "/projects/:id/repository/branches/:branch/protect"   // Protects a single project repository branch.
+	UnprotectBranchApiPath   = "/projects/:id/repository/branches/:branch/unprotect" // Unprotects a single project repository branch.
 )
 
 type AccessLevelInfo struct {
@@ -25,20 +24,7 @@ type ProtectedBranch struct {
 }
 
 func (g *Gitlab) ProtectedBranches(projectId string, o *PaginationOptions) ([]*ProtectedBranch, *ResponseMeta, error) {
-	u := g.ResourceUrl(protectedBranchesUrl, map[string]string{":id": projectId})
-
-	if o != nil {
-		q := u.Query()
-
-		if o.Page != 1 {
-			q.Set("page", strconv.Itoa(o.Page))
-		}
-		if o.PerPage != 0 {
-			q.Set("per_page", strconv.Itoa(o.PerPage))
-		}
-
-		u.RawQuery = q.Encode()
-	}
+	u := g.ResourceUrlQ(ProtectedBranchesApiPath, map[string]string{":id": projectId}, o)
 
 	var protectedBranches []*ProtectedBranch
 
@@ -51,7 +37,7 @@ func (g *Gitlab) ProtectedBranches(projectId string, o *PaginationOptions) ([]*P
 }
 
 func (g *Gitlab) ProtectBranch(projectId, branchName string) (*ResponseMeta, error) {
-	u := g.ResourceUrl(protectBranchUrl, map[string]string{
+	u := g.ResourceUrl(ProtectBranchApiPath, map[string]string{
 		":id":     projectId,
 		":branch": branchName,
 	})
@@ -64,7 +50,7 @@ func (g *Gitlab) ProtectBranch(projectId, branchName string) (*ResponseMeta, err
 }
 
 func (g *Gitlab) UnprotectBranch(projectId, branchName string) (*ResponseMeta, error) {
-	u := g.ResourceUrl(unprotectBranchUrl, map[string]string{
+	u := g.ResourceUrl(UnprotectBranchApiPath, map[string]string{
 		":id":     projectId,
 		":branch": branchName,
 	})

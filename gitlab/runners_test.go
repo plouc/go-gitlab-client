@@ -9,6 +9,7 @@ import (
 func TestRunners(t *testing.T) {
 	g := NewGitlab(testsHost, "/api/v4", "")
 	o := RunnersOptions{}
+	o.Page = 1
 	o.PerPage = 10
 	runners, meta, err := g.Runners(&o)
 

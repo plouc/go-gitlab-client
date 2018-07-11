@@ -11,10 +11,12 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+
+	"github.com/google/go-querystring/query"
 )
 
 const (
-	dashboardFeedPath = "/dashboard.atom"
+	DashboardFeedPath = "/dashboard.atom"
 )
 
 type Gitlab struct {
@@ -26,8 +28,8 @@ type Gitlab struct {
 }
 
 type PaginationOptions struct {
-	Page    int
-	PerPage int
+	Page    int `url:"page,omitempty"`
+	PerPage int `url:"per_page,omitempty"`
 }
 
 type SortDirection string
@@ -36,6 +38,11 @@ const (
 	SortDirectionAsc  SortDirection = "asc"
 	SortDirectionDesc SortDirection = "desc"
 )
+
+type SortOptions struct {
+	OrderBy string        `url:"order_by,omitempty"`
+	Sort    SortDirection `url:"sort,omitempty"`
+}
 
 type ResponseWithMessage struct {
 	Message string `json:"message"`
@@ -64,6 +71,7 @@ var (
 		`If set to true, gitlab client will skip certificate checking for https, possibly exposing your system to MITM attack.`)
 )
 
+// NewGitlab generates a new gitlab service
 func NewGitlab(baseUrl, apiPath, token string) *Gitlab {
 	config := &tls.Config{InsecureSkipVerify: *skipCertVerify}
 	tr := &http.Transport{
@@ -80,16 +88,38 @@ func NewGitlab(baseUrl, apiPath, token string) *Gitlab {
 	}
 }
 
-func (g *Gitlab) ResourceUrl(p string, params map[string]string) *url.URL {
+// ResourceUrl builds an url for given resource path.
+//
+// It replaces path placeholders with values from `params`:
+//
+//   /whatever/:id => /whatever/1
+//
+func (g *Gitlab) ResourceUrl(path string, params map[string]string) *url.URL {
 	if params != nil {
 		for key, val := range params {
-			p = strings.Replace(p, key, val, -1)
+			path = strings.Replace(path, key, val, -1)
 		}
 	}
 
-	u, err := url.Parse(g.BaseUrl + g.ApiPath + p)
+	u, err := url.Parse(g.BaseUrl + g.ApiPath + path)
 	if err != nil {
-		panic("Error while building gitlab url")
+		panic("Error while building gitlab url, unable to parse generated url")
+	}
+
+	return u
+}
+
+// ResourceUrlQ generates an url and appends a query string to it if available
+func (g *Gitlab) ResourceUrlQ(path string, params map[string]string, qs interface{}) *url.URL {
+	u := g.ResourceUrl(path, params)
+
+	if qs != nil {
+		v, err := query.Values(qs)
+		if err != nil {
+			panic("Error while building gitlab url, unable to set query string")
+		}
+
+		u.RawQuery = v.Encode()
 	}
 
 	return u

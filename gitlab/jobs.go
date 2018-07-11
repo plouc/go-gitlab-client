@@ -5,17 +5,16 @@ import (
 	"fmt"
 	"net/url"
 	"strconv"
-	"strings"
 )
 
 const (
-	projectJobsUrl         = "/projects/:id/jobs"
-	projectPipelineJobsUrl = "/projects/:id/pipelines/:pipeline_id/jobs"
-	projectJobUrl          = "/projects/:id/jobs/:job_id"
-	projectJobTraceUrl     = "/projects/:id/jobs/:job_id/trace"
-	cancelProjectJobUrl    = "/projects/:id/jobs/:job_id/cancel"
-	retryProjectJobUrl     = "/projects/:id/jobs/:job_id/retry"
-	eraseProjectJobUrl     = "/projects/:id/jobs/:job_id/erase"
+	ProjectJobsApiPath         = "/projects/:id/jobs"
+	ProjectPipelineJobsApiPath = "/projects/:id/pipelines/:pipeline_id/jobs"
+	ProjectJobApiPath          = "/projects/:id/jobs/:job_id"
+	ProjectJobTraceApiPath     = "/projects/:id/jobs/:job_id/trace"
+	CancelProjectJobApiPath    = "/projects/:id/jobs/:job_id/cancel"
+	RetryProjectJobApiPath     = "/projects/:id/jobs/:job_id/retry"
+	EraseProjectJobApiPath     = "/projects/:id/jobs/:job_id/erase"
 )
 
 type Job struct {
@@ -81,29 +80,15 @@ type Job struct {
 
 type JobsOptions struct {
 	PaginationOptions
+	SortOptions
+
 	// The scope of jobs to show, one or array of:
 	// created, pending, running, failed, success, canceled, skipped, manual;
 	// showing all jobs if none provided
-	Scope []string
+	Scope []string `url:"scope,omitempty"`
 }
 
-func (g *Gitlab) getJobs(u *url.URL, o *JobsOptions) ([]*Job, *ResponseMeta, error) {
-	if o != nil {
-		q := u.Query()
-
-		if o.Page != 1 {
-			q.Set("page", strconv.Itoa(o.Page))
-		}
-		if o.PerPage != 0 {
-			q.Set("per_page", strconv.Itoa(o.PerPage))
-		}
-		if len(o.Scope) > 0 {
-			q.Set("scope", strings.Join(o.Scope, ","))
-		}
-
-		u.RawQuery = q.Encode()
-	}
-
+func (g *Gitlab) getJobs(u *url.URL) ([]*Job, *ResponseMeta, error) {
 	jobs := make([]*Job, 0)
 
 	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
@@ -117,24 +102,24 @@ func (g *Gitlab) getJobs(u *url.URL, o *JobsOptions) ([]*Job, *ResponseMeta, err
 }
 
 func (g *Gitlab) ProjectJobs(projectId string, o *JobsOptions) ([]*Job, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectJobsUrl, map[string]string{
+	u := g.ResourceUrlQ(ProjectJobsApiPath, map[string]string{
 		":id": projectId,
-	})
+	}, o)
 
-	return g.getJobs(u, o)
+	return g.getJobs(u)
 }
 
 func (g *Gitlab) ProjectPipelineJobs(projectId string, pipelineId int, o *JobsOptions) ([]*Job, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectPipelineJobsUrl, map[string]string{
+	u := g.ResourceUrlQ(ProjectPipelineJobsApiPath, map[string]string{
 		":id":          projectId,
 		":pipeline_id": fmt.Sprintf("%d", pipelineId),
-	})
+	}, o)
 
-	return g.getJobs(u, o)
+	return g.getJobs(u)
 }
 
 func (g *Gitlab) ProjectJob(projectId string, jobId int) (*Job, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectJobUrl, map[string]string{
+	u := g.ResourceUrl(ProjectJobApiPath, map[string]string{
 		":id":     projectId,
 		":job_id": strconv.Itoa(jobId),
 	})
@@ -152,7 +137,7 @@ func (g *Gitlab) ProjectJob(projectId string, jobId int) (*Job, *ResponseMeta, e
 }
 
 func (g *Gitlab) ProjectJobTrace(projectId string, jobId int) (string, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectJobTraceUrl, map[string]string{
+	u := g.ResourceUrl(ProjectJobTraceApiPath, map[string]string{
 		":id":     projectId,
 		":job_id": strconv.Itoa(jobId),
 	})
@@ -184,15 +169,15 @@ func (g *Gitlab) projectJobAction(path, projectId string, jobId int) (*Job, *Res
 }
 
 func (g *Gitlab) CancelProjectJob(projectId string, jobId int) (*Job, *ResponseMeta, error) {
-	return g.projectJobAction(cancelProjectJobUrl, projectId, jobId)
+	return g.projectJobAction(CancelProjectJobApiPath, projectId, jobId)
 }
 
 func (g *Gitlab) RetryProjectJob(projectId string, jobId int) (*Job, *ResponseMeta, error) {
-	return g.projectJobAction(retryProjectJobUrl, projectId, jobId)
+	return g.projectJobAction(RetryProjectJobApiPath, projectId, jobId)
 }
 
 func (g *Gitlab) EraseProjectJob(projectId string, jobId int) (*Job, *ResponseMeta, error) {
-	return g.projectJobAction(eraseProjectJobUrl, projectId, jobId)
+	return g.projectJobAction(EraseProjectJobApiPath, projectId, jobId)
 }
 
 // Aggregate jobs by:

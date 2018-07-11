@@ -5,8 +5,8 @@ import (
 )
 
 const (
-	projectHooksUrl = "/projects/:id/hooks"
-	projectHookUrl  = "/projects/:id/hooks/:hook_id"
+	ProjectHooksApiPath = "/projects/:id/hooks"
+	ProjectHookApiPath  = "/projects/:id/hooks/:hook_id"
 )
 
 type HookAddPayload struct {
@@ -32,7 +32,7 @@ type Hook struct {
 }
 
 func (g *Gitlab) ProjectHooks(projectId string) ([]*Hook, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectHooksUrl, map[string]string{":id": projectId})
+	u := g.ResourceUrl(ProjectHooksApiPath, map[string]string{":id": projectId})
 
 	var err error
 	var hooks []*Hook
@@ -48,7 +48,7 @@ func (g *Gitlab) ProjectHooks(projectId string) ([]*Hook, *ResponseMeta, error) 
 }
 
 func (g *Gitlab) ProjectHook(projectId, hookId string) (*Hook, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectHookUrl, map[string]string{
+	u := g.ResourceUrl(ProjectHookApiPath, map[string]string{
 		":id":      projectId,
 		":hook_id": hookId,
 	})
@@ -67,7 +67,7 @@ func (g *Gitlab) ProjectHook(projectId, hookId string) (*Hook, *ResponseMeta, er
 }
 
 func (g *Gitlab) AddProjectHook(projectId string, hook *HookAddPayload) (*Hook, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectHooksUrl, map[string]string{":id": projectId})
+	u := g.ResourceUrl(ProjectHooksApiPath, map[string]string{":id": projectId})
 
 	hookJson, err := json.Marshal(hook)
 	if err != nil {
@@ -85,7 +85,7 @@ func (g *Gitlab) AddProjectHook(projectId string, hook *HookAddPayload) (*Hook, 
 
 /*
 func (g *Gitlab) UpdateProjectHook(id, hook_id, hook_url string, push_events, issues_events, merge_requests_events bool) (*ResponseMeta, error) {
-	u := g.ResourceUrl(projectHookUrl, map[string]string{
+	u := g.ResourceUrl(ProjectHookApiPath, map[string]string{
 		":id":      id,
 		":hook_id": hook_id,
 	})
@@ -100,7 +100,7 @@ func (g *Gitlab) UpdateProjectHook(id, hook_id, hook_url string, push_events, is
 */
 
 func (g *Gitlab) RemoveProjectHook(projectId, hookId string) (*ResponseMeta, error) {
-	u := g.ResourceUrl(projectHookUrl, map[string]string{
+	u := g.ResourceUrl(ProjectHookApiPath, map[string]string{
 		":id":      projectId,
 		":hook_id": hookId,
 	})

@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	projectIssuesUrl = "/projects/:id/issues"
+	ProjectIssuesApiPath = "/projects/:id/issues"
 )
 
 type Issue struct {
@@ -35,7 +35,7 @@ func (g *Gitlab) AddIssue(projectId string, req *IssueRequest) (issue *Issue, me
 	params := map[string]string{
 		":id": projectId,
 	}
-	u := g.ResourceUrl(projectIssuesUrl, params)
+	u := g.ResourceUrl(ProjectIssuesApiPath, params)
 
 	encodedRequest, err := json.Marshal(req)
 	if err != nil {

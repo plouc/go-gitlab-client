@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	projectCommitStatusesUrl = "/projects/:id/repository/commits/:sha/statuses"
+	ProjectCommitStatusesApiPath = "/projects/:id/repository/commits/:sha/statuses"
 )
 
 type CommitStatus struct {
@@ -25,7 +25,7 @@ type CommitStatus struct {
 }
 
 func (g *Gitlab) ProjectCommitStatuses(id, sha1 string) ([]*CommitStatus, *ResponseMeta, error) {
-	u := g.ResourceUrl(projectCommitStatusesUrl, map[string]string{
+	u := g.ResourceUrl(ProjectCommitStatusesApiPath, map[string]string{
 		":id":  id,
 		":sha": sha1,
 	})
