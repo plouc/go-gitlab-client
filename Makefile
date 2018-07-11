@@ -1,13 +1,9 @@
-.PHONY: install update test test_lib _test_lib test_cli _test_cli vet_lib _vet_lib vet_cli _vet_cli \
-        fmt_check cli cli_doc cli_build fmt
-.DEFAULT: help
 
 STACK_NAME      = gogitlab
 WIREMOCK_IMAGE  = ekino/wiremock:2.7.1
 GO_IMAGE        = golang:1.10.3
 MODD_VERSION    = 0.5
 GO_PKG_SRC_PATH = "github.com/plouc/go-gitlab-client"
-test_args      ?=
 
 SHA1 = $(shell git rev-parse HEAD)
 OS   = $(shell uname)
@@ -17,6 +13,8 @@ OS   = $(shell uname)
 #  HELP
 #
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+.DEFAULT: help
 
 # COLORS
 RED    = $(shell printf "\33[31m")
@@ -75,17 +73,17 @@ install_go_deps: ##@setup Install go dependencies
 
 _install_go_deps:
 	@echo "${YELLOW}Installing dependencies${RESET}"
-	go get ${INSTALL_OPTS} gopkg.in/alecthomas/gometalinter.v2
+	go get ${install_flags} gopkg.in/alecthomas/gometalinter.v2
 	gometalinter.v2 --install
-	go list -f '{{range .Imports}}{{.}} {{end}}' ./... | xargs go get ${INSTALL_OPTS}
-	go list -f '{{range .TestImports}}{{.}} {{end}}' ./... | xargs go get ${INSTALL_OPTS}
+	go list -f '{{range .Imports}}{{.}} {{end}}' ./... | xargs go get ${install_flags}
+	go list -f '{{range .TestImports}}{{.}} {{end}}' ./... | xargs go get ${install_flags}
 	@echo "${GREEN}✔ successfully installed dependencies${RESET}\n"
 
 update_go_deps: ##@setup Update dependencies
 	@${MAKE} make_in_go TARGET=_update_go_deps
 
 _update_go_deps:
-	@${MAKE} _install_go_deps INSTALL_OPTS=-u
+	@${MAKE} _install_go_deps install_flags=-u
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 #
@@ -316,7 +314,7 @@ _cli_checksums:
             | awk '{ printf("%s\n%s\n\n", $$2, $$1) }' \
             >> checksums.txt
     endif
-	@echo "${GREEN}✔ successfully generated CLI build checksums${RESET}\n"
+	@echo "${GREEN}✔ successfully generated CLI build checksums to ${WHITE}cli/build/checksums.txt${RESET}\n"
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 #
@@ -335,3 +333,11 @@ _fmt:
 
 dev: ##@misc Start watcher for development, auto run tests, fmt…
 	@./bin/modd
+
+
+
+.PHONY: setup install_modd install_go_deps update_go_deps \
+        up restart stop log ensure_wiremock_is_up clean status \
+        test test_lib test_cli update_cli_snapshots vet_cli vet_lib fmt_check \
+        cli cli_all cli_doc cli_build cli_build_all cli_checksums \
+        fmt dev

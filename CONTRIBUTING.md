@@ -1,5 +1,9 @@
 # Contributing to go-gitlab-client
 
+- [Requirements](#requirements)
+- [Setup](#setting-up-working-environment)
+- [Build](#building-cli-binary)
+
 ## Requirements
 
 - docker
@@ -48,3 +52,12 @@ Please note that because this project use docker as a working environment,
 the generated binary used for integration tests (`cli/glc`) might not work
 on your host as it's generated for the golang docker image.
 You can use one of the generated build in `cli/build` according to your platform.
+
+You can also generate checksums for the binaries:
+
+```
+make cli_checksums
+```
+
+Which will then be available in `cli/build/checksums.txt`.
+
