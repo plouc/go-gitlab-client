@@ -8,18 +8,6 @@ const (
 	projectIssuesUrl = "/projects/:id/issues"
 )
 
-type Milestone struct {
-	Id          int    `json:"id,omitempty"`
-	IId         int    `json:"iid,omitempty"`
-	ProjectId   int    `json:"project_id,omitempty"`
-	Title       string `json:"title,omitempty"`
-	Description string `json:"description,omitempty"`
-	DueDate     string `json:"due_date,omitempty"`
-	State       string `json:"state,omitempty"`
-	CreatedAt   string `json:"created_at"`
-	UpdatedAt   string `json:"updated_at,omitempty"`
-}
-
 type Issue struct {
 	Id          int        `json:"id"`
 	IId         int        `json:"iid"`

@@ -31,14 +31,17 @@ List resource
 
 * [glc](glc.md)	 - gitlab cli
 * [glc ls aliases](glc_ls_aliases.md)	 - List resource aliases
+* [glc ls group-merge-requests](glc_ls_group-merge-requests.md)	 - List group merge requests
 * [glc ls group-vars](glc_ls_group-vars.md)	 - Get list of a group's variables
 * [glc ls groups](glc_ls_groups.md)	 - List groups
+* [glc ls merge-requests](glc_ls_merge-requests.md)	 - List merge requests
 * [glc ls namespaces](glc_ls_namespaces.md)	 - List namespaces
 * [glc ls project-badges](glc_ls_project-badges.md)	 - List project badges
 * [glc ls project-branches](glc_ls_project-branches.md)	 - List project branches
 * [glc ls project-hooks](glc_ls_project-hooks.md)	 - List project's hooks
 * [glc ls project-jobs](glc_ls_project-jobs.md)	 - List project jobs
 * [glc ls project-members](glc_ls_project-members.md)	 - List project members
+* [glc ls project-merge-requests](glc_ls_project-merge-requests.md)	 - List project merge requests
 * [glc ls project-pipeline-jobs](glc_ls_project-pipeline-jobs.md)	 - List project pipeline jobs
 * [glc ls project-pipelines](glc_ls_project-pipelines.md)	 - List project pipelines
 * [glc ls project-protected-branches](glc_ls_project-protected-branches.md)	 - List project protected branches

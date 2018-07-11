@@ -51,6 +51,7 @@ help: ##prints help
 
 setup: ##@setup Install all required components
 	@echo "${YELLOW}Setting up project${RESET}"
+	@${MAKE} clean
 	@${MAKE} install_modd
 	@${MAKE} up
 	@${MAKE} install_go_deps
@@ -249,23 +250,23 @@ _fmt_check:
 #
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-cli: ##@cli Run cli from docker. eg. make cli CMD="ls groups"
+cli: ##@cli Run CLI from docker. eg. make cli CMD="ls groups"
 	@${MAKE} run_in_go CMD="cd cli && ./glc ${CMD}"
 
-cli_all: ##@cli Run all cli steps
+cli_all: ##@cli Run all CLI steps
 	@${MAKE} cli_doc
 	@${MAKE} cli_build
 	@${MAKE} cli_build_all
 
-cli_doc: ##@cli Generate cli documentation
+cli_doc: ##@cli Generate CLI documentation
 	@${MAKE} make_in_go TARGET=_cli_doc
 
 _cli_doc:
-	@echo "${YELLOW}Generating cli documentation${RESET}"
+	@echo "${YELLOW}Generating CLI documentation${RESET}"
 	@cd cli/doc && rm *.md && go run main.go
-	@echo "${GREEN}✔ cli documentation were successfully generated${RESET}\n"
+	@echo "${GREEN}✔ CLI documentation were successfully generated${RESET}\n"
 
-cli_build: ##@cli Build cli
+cli_build: ##@cli Build CLI
 	@${MAKE} make_in_go TARGET=_cli_build
 
 _cli_build:
@@ -273,17 +274,49 @@ _cli_build:
 	@cd cli && go build -o glc
 	@echo "${GREEN}✔ successfully built CLI${RESET}\n"
 
-cli_build_all: ##@cli Build cli for various platforms
+cli_build_all: ##@cli Build CLI for various platforms
 	@${MAKE} make_in_go TARGET=_cli_build_all
 
 _cli_build_all:
-	@echo "${YELLOW}Building cli for various platforms${RESET}"
+	@echo "${YELLOW}Building CLI for various platforms${RESET}"
 	cd cli && GOOS=darwin GOARCH=amd64 go build -o build/darwin-amd64-glc
 	cd cli && GOOS=linux  GOARCH=amd64 go build -o build/linux-amd64-glc
 	cd cli && GOOS=linux  GOARCH=386   go build -o build/linux-386-glc
 	cd cli && GOOS=linux  GOARCH=arm   go build -o build/linux-arm-glc
 	cd cli && GOOS=linux  GOARCH=arm64 go build -o build/linux-arm64-glc
 	@echo "${GREEN}✔ successfully built CLI flavors${RESET}\n"
+
+cli_checksums: ##@cli Generate checksums for CLI builds
+	@${MAKE} make_in_go TARGET=_cli_checksums
+
+_cli_checksums:
+	@echo "${YELLOW}Generating CLI build checksums${RESET}"
+	@rm -f cli/build/checksums.txt
+
+    # for OSX users where you have md5 instead of md5sum
+    ifeq (${OS}, Darwin)
+        # md5 output has the following format:
+        #
+        # MD5 (darwin-amd64-glc) = 8eb317789e5d08e1c800cc469c20325a
+        #
+        # that's why sed and awk are used to cleanup
+		@cd cli/build && ls . | grep glc \
+            | xargs md5 \
+            | awk '{ printf("%s\n%s\n\n", $$2, $$4) }' \
+            | sed 's/[()]//g' \
+            >> checksums.txt
+    else
+        # md5sum output has the following format:
+        #
+        # 8eb317789e5d08e1c800cc469c20325a darwin-amd64-glc
+        #
+        # that's why awk is used to cleanup
+		@cd cli/build && ls . | grep glc \
+            | xargs md5sum \
+            | awk '{ printf("%s\n%s\n\n", $$2, $$1) }' \
+            >> checksums.txt
+    endif
+	@echo "${GREEN}✔ successfully generated CLI build checksums${RESET}\n"
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 #
@@ -298,6 +331,7 @@ _fmt:
 	@echo "${YELLOW}Formatting code${RESET}"
 	@gofmt -l -w -s .
 	@go fix ./...
+	@echo "${GREEN}✔ code was successfully formatted${RESET}\n"
 
 dev: ##@misc Start watcher for development, auto run tests, fmt…
 	@./bin/modd

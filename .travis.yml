@@ -8,6 +8,7 @@ script:
   - make install_go_deps --no-print-directory
   - make test --no-print-directory
   - make cli_build_all --no-print-directory
+  - make cli_checksums --no-print-directory
 
 deploy:
   provider: releases
@@ -20,6 +21,7 @@ deploy:
     - cli/build/linux-arm-glc
     - cli/build/linux-arm64-glc
     - cli/build/alpine-amd64-glc
+    - cli/build/checksums.txt
   on:
     repo: plouc/go-gitlab-client
     tags: true

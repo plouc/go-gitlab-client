@@ -2,38 +2,71 @@ package gitlab
 
 import (
 	"encoding/json"
+	"net/url"
+	"strconv"
 	"time"
 )
 
 const (
-	project_url_merge_requests             = "/projects/:id/merge_requests"                                                    // Get project merge requests
-	project_url_merge_request              = "/projects/:id/merge_requests/:merge_request_id"                                  // Get information about a single merge request
-	project_url_merge_request_commits      = "/projects/:id/merge_requests/:merge_request_id/commits"                          // Get a list of merge request commits
-	project_url_merge_request_changes      = "/projects/:id/merge_requests/:merge_request_id/changes"                          // Shows information about the merge request including its files and changes
-	project_url_merge_request_merge        = "/projects/:id/merge_requests/:merge_request_id/merge"                            // Merge changes submitted with MR
-	project_url_merge_request_cancel_merge = "/projects/:id/merge_requests/:merge_request_id/cancel_merge_when_build_succeeds" // Cancel Merge When Build Succeeds
-	project_url_merge_request_comments     = "/projects/:id/merge_requests/:merge_request_id/comments"                         // Lists all comments associated with a merge request
+	mergeRequestsUrl                  = "/merge_requests"
+	projectMergeRequestsUrl           = "/projects/:id/merge_requests"
+	groupMergeRequestsUrl             = "/groups/:id/merge_requests"
+	projectMergeRequestUrl            = "/projects/:id/merge_requests/:merge_request_id"                                  // Get information about a single merge request
+	projectMergeRequestCommitsUrl     = "/projects/:id/merge_requests/:merge_request_id/commits"                          // Get a list of merge request commits
+	projectMergeRequestChangesUrl     = "/projects/:id/merge_requests/:merge_request_id/changes"                          // Shows information about the merge request including its files and changes
+	projectMergeRequestMergeUrl       = "/projects/:id/merge_requests/:merge_request_id/merge"                            // Merge changes submitted with MR
+	projectMergeRequestCancelMergeUrl = "/projects/:id/merge_requests/:merge_request_id/cancel_merge_when_build_succeeds" // Cancel Merge When Build Succeeds
+	projectMergeRequestCommentsUrl    = "/projects/:id/merge_requests/:merge_request_id/comments"                         // Lists all comments associated with a merge request
 )
 
 type MergeRequest struct {
-	Id              int    `json:"id,omitempty"`
-	Iid             int    `json:"iid,omitempty"`
-	TargetBranch    string `json:"target_branch,omitempty"`
-	SourceBranch    string `json:"source_branch,omitempty"`
-	ProjectId       int    `json:"project_id,omitempty"`
-	Title           string `json:"title,omitempty"`
-	State           string `json:"state,omitempty"`
-	CreatedAt       string `json:"created_at,omitempty"`
-	UpdatedAt       string `json:"updated_at,omitempty"`
-	Upvotes         int    `json:"upvotes,omitempty"`
-	Downvotes       int    `json:"downvotes,omitempty"`
-	Author          *User  `json:"author,omitempty"`
-	Assignee        *User  `json:"assignee,omitempty"`
-	Description     string `json:"description,omitempty"`
-	WorkInProgress  bool   `json:"work_in_progress,omitempty"`
-	MergeStatus     string `json:"merge_status,omitempty"`
-	SourceProjectID int    `json:"source_project_id,omitempty"`
-	TargetProjectID int    `json:"target_project_id,omitempty"`
+	Id                        int               `json:"id,omitempty" yaml:"id,omitempty"`
+	Iid                       int               `json:"iid,omitempty" yaml:"iid,omitempty"`
+	ProjectId                 int               `json:"project_id,omitempty" yaml:"project_id,omitempty"`
+	WebUrl                    string            `json:"web_url,omitempty" yaml:"web_url,omitempty"`
+	Title                     string            `json:"title,omitempty" yaml:"title,omitempty"`
+	Description               string            `json:"description,omitempty" yaml:"description,omitempty"`
+	State                     string            `json:"state,omitempty" yaml:"state,omitempty"`
+	CreatedAt                 string            `json:"created_at,omitempty" yaml:"created_at,omitempty"`
+	UpdatedAt                 string            `json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
+	SourceBranch              string            `json:"source_branch,omitempty" yaml:"source_branch,omitempty"`
+	TargetBranch              string            `json:"target_branch,omitempty" yaml:"target_branch,omitempty"`
+	Upvotes                   int               `json:"upvotes,omitempty" yaml:"upvotes,omitempty"`
+	Downvotes                 int               `json:"downvotes,omitempty" yaml:"downvotes,omitempty"`
+	SourceProjectID           int               `json:"source_project_id,omitempty" yaml:"source_project_id,omitempty"`
+	TargetProjectID           int               `json:"target_project_id,omitempty" yaml:"target_project_id,omitempty"`
+	Sha                       string            `json:"sha,omitempty" yaml:"sha,omitempty"`
+	MergeCommitSha            string            `json:"merge_commit_sha,omitempty" yaml:"merge_commit_sha,omitempty"`
+	WorkInProgress            bool              `json:"work_in_progress,omitempty" yaml:"work_in_progress,omitempty"`
+	MergeStatus               string            `json:"merge_status,omitempty" yaml:"merge_status,omitempty"`
+	Squash                    bool              `json:"squash,omitempty" yaml:"squash,omitempty"`
+	MergeWhenPipelineSucceeds bool              `json:"merge_when_pipeline_succeeds,omitempty" yaml:"merge_when_pipeline_succeeds,omitempty"`
+	ShouldRemoveSourceBranch  bool              `json:"should_remove_source_branch,omitempty" yaml:"should_remove_source_branch,omitempty"`
+	ForceRemoveSourceBranch   bool              `json:"force_remove_source_branch,omitempty" yaml:"force_remove_source_branch,omitempty"`
+	DiscussionLocked          bool              `json:"discussion_locked,omitempty" yaml:"discussion_locked,omitempty"`
+	UserNotesCount            int               `json:"user_notes_count,omitempty" yaml:"user_notes_count,omitempty"`
+	Pipeline                  *Pipeline         `json:"pipeline,omitempty" yaml:"pipeline,omitempty"`
+	Author                    *MergeRequestUser `json:"author,omitempty" yaml:"author,omitempty"`
+	Assignee                  *MergeRequestUser `json:"assignee,omitempty" yaml:"assignee,omitempty"`
+	Labels                    []string          `json:"labels,omitempty" yaml:"labels,omitempty"`
+	TimeStats                 *TimeStats        `json:"time_stats,omitempty" yaml:"time_stats,omitempty"`
+	Milestone                 *Milestone        `json:"milestone,omitempty" yaml:"milestone,omitempty"`
+}
+
+type MergeRequestUser struct {
+	Id        int    `json:"id,omitempty" yaml:"id,omitempty"`
+	Username  string `json:"username,omitempty" yaml:"username,omitempty"`
+	Name      string `json:"name,omitempty" yaml:"name,omitempty"`
+	State     string `json:"state,omitempty" yaml:"state,omitempty"`
+	AvatarUrl string `json:"avatar_url,omitempty" yaml:"avatar_url,omitempty"`
+	WebUrl    string `json:"web_url,omitempty" yaml:"web_url,omitempty"`
+}
+
+type TimeStats struct {
+	TimeEstimate        int    `json:"time_estimate,omitempty" yaml:"time_estimate,omitempty"`
+	TotalTimeSpent      int    `json:"total_time_spent,omitempty" yaml:"total_time_spent,omitempty"`
+	HumanTimeEstimate   string `json:"human_time_estimate,omitempty" yaml:"human_time_estimate,omitempty"`
+	HumanTotalTimeSpent string `json:"human_total_time_spent,omitempty" yaml:"human_total_time_spent,omitempty"`
 }
 
 type ChangeItem struct {
@@ -74,29 +107,96 @@ type AcceptMergeRequestRequest struct {
 	MergedWhenBuildSucceeds  bool   `json:"merged_when_build_succeeds,omitempty"`
 }
 
-/*
-Get list of project merge requests.
+type MergeRequestScope string
 
-    GET /projects/:id/merge_requests
+// For versions before 11.0, use the now deprecated
+// created-by-me or assigned-to-me scopes
+const (
+	MergeRequestScopeCreatedByMe        MergeRequestScope = "created_by_me"
+	LegacyMergeRequestScopeCreatedByMe  MergeRequestScope = "created-by-me"
+	MergeRequestScopeAssignedToMe       MergeRequestScope = "assigned_to_me"
+	LegacyMergeRequestScopeAssignedToMe MergeRequestScope = "assigned-to-me"
+	MergeRequestScopeAll                MergeRequestScope = "all"
+)
 
-Parameters:
+type MergeRequestsOptions struct {
+	PaginationOptions
 
-    id The ID of a project
+	// Return the request having the given iid
+	// only available for generic merge requests API endpoint
+	iids []int
 
-Params:
-	iid (optional) - Return the request having the given iid
-	state (optional) - Return all requests or just those that are merged, opened or closed
-	order_by (optional) - Return requests ordered by created_at or updated_at fields. Default is created_at
-	sort (optional) - Return requests sorted in asc or desc order. Default is desc
+	// Return all merge requests or just those that are
+	// opened, closed, locked, or merged
+	State string
 
-*/
-func (g *Gitlab) ProjectMergeRequests(id string, params map[string]string) ([]*MergeRequest, *ResponseMeta, error) {
-	u := g.ResourceUrl(project_url_merge_requests, map[string]string{":id": id})
-	q := u.Query()
-	for name, value := range params {
-		q.Set(name, value)
+	// Return merge requests ordered by created_at or
+	// updated_at fields. Default is created_at
+	OrderBY string
+
+	// sort	string	no	Return requests sorted in asc or desc order
+	// Default is desc
+	Sort string
+
+	// Return merge requests for a specific milestone
+	Milestone string
+
+	// If simple, returns the iid, URL, title, description,
+	// and basic state of merge request
+	View string
+
+	// Return merge requests matching a comma separated
+	// list of labels
+	Labels []string
+
+	// Return merge requests created on or after the given time
+	CreatedAfter *time.Time
+
+	// Return merge requests created on or before the given time
+	CreatedBefore *time.Time
+
+	// Return merge requests updated on or after the given time
+	UpdatedAfter *time.Time
+
+	// Return merge requests updated on or before the given time
+	UpdatedBefore *time.Time
+
+	// Return merge requests with the given source branch
+	SourceBranch string
+
+	// Return merge requests with the given target branch
+	TargetBranch string
+
+	// Search merge requests against their title and description
+	Search string
+
+	// Returns merge requests created by the given user id
+	AuthorId int
+
+	// Returns merge requests assigned to the given user id
+	AssigneeId int
+
+	// Return merge requests reacted by the authenticated user by the given emoji
+	MyReactionEmoji string
+
+	// Return merge requests for the given scope: created_by_me, assigned_to_me or all,
+	// For versions before 11.0, use the now deprecated created-by-me or assigned-to-me scopes instead.
+	Scope MergeRequestScope
+}
+
+func (g *Gitlab) getMergeRequests(u *url.URL, o *MergeRequestsOptions) ([]*MergeRequest, *ResponseMeta, error) {
+	if o != nil {
+		q := u.Query()
+
+		if o.Page != 1 {
+			q.Set("page", strconv.Itoa(o.Page))
+		}
+		if o.PerPage != 0 {
+			q.Set("per_page", strconv.Itoa(o.PerPage))
+		}
+
+		u.RawQuery = q.Encode()
 	}
-	u.RawQuery = q.Encode()
 
 	var err error
 	var mergeRequests []*MergeRequest
@@ -109,21 +209,28 @@ func (g *Gitlab) ProjectMergeRequests(id string, params map[string]string) ([]*M
 	return mergeRequests, meta, err
 }
 
-/*
-Get single project merge request.
+func (g *Gitlab) MergeRequests(o *MergeRequestsOptions) ([]*MergeRequest, *ResponseMeta, error) {
+	u := g.ResourceUrl(mergeRequestsUrl, nil)
 
-    GET /projects/:id/merge_requests/:merge_request_id
+	return g.getMergeRequests(u, o)
+}
 
-Parameters:
+func (g *Gitlab) ProjectMergeRequests(projectId string, o *MergeRequestsOptions) ([]*MergeRequest, *ResponseMeta, error) {
+	u := g.ResourceUrl(projectMergeRequestsUrl, map[string]string{":id": projectId})
 
-    id               The ID of a project
-    merge_request_id The ID of a merge request
+	return g.getMergeRequests(u, o)
+}
 
-*/
-func (g *Gitlab) ProjectMergeRequest(id, merge_request_id string) (*MergeRequest, *ResponseMeta, error) {
-	u := g.ResourceUrl(project_url_merge_request, map[string]string{
-		":id":               id,
-		":merge_request_id": merge_request_id,
+func (g *Gitlab) GroupMergeRequests(groupId int, o *MergeRequestsOptions) ([]*MergeRequest, *ResponseMeta, error) {
+	u := g.ResourceUrl(groupMergeRequestsUrl, map[string]string{":id": strconv.Itoa(groupId)})
+
+	return g.getMergeRequests(u, o)
+}
+
+func (g *Gitlab) ProjectMergeRequest(projectId string, mergeRequestId int) (*MergeRequest, *ResponseMeta, error) {
+	u := g.ResourceUrl(projectMergeRequestUrl, map[string]string{
+		":id":               projectId,
+		":merge_request_id": strconv.Itoa(mergeRequestId),
 	})
 
 	var err error
@@ -149,7 +256,7 @@ Parameters:
 
 */
 func (g *Gitlab) ProjectMergeRequestCommits(id, merge_request_id string) ([]*Commit, *ResponseMeta, error) {
-	u := g.ResourceUrl(project_url_merge_request_commits, map[string]string{
+	u := g.ResourceUrl(projectMergeRequestCommitsUrl, map[string]string{
 		":id":               id,
 		":merge_request_id": merge_request_id,
 	})
@@ -183,7 +290,7 @@ Parameters:
 
 */
 func (g *Gitlab) ProjectMergeRequestChanges(id, merge_request_id string) (*MergeRequestChanges, *ResponseMeta, error) {
-	u := g.ResourceUrl(project_url_merge_request_changes, map[string]string{
+	u := g.ResourceUrl(projectMergeRequestChangesUrl, map[string]string{
 		":id":               id,
 		":merge_request_id": merge_request_id,
 	})
@@ -210,7 +317,7 @@ Parameters:
 
 */
 func (g *Gitlab) AddMergeRequest(req *AddMergeRequestRequest) (*MergeRequest, error) {
-	u := g.ResourceUrl(project_url_merge_requests, map[string]string{
+	u := g.ResourceUrl(projectMergeRequestsUrl, map[string]string{
 		":id": string(req.TargetProjectId),
 	})
 
@@ -243,7 +350,7 @@ Parameters:
 
 */
 func (g *Gitlab) EditMergeRequest(mr *MergeRequest) error {
-	u := g.ResourceUrl(project_url_merge_request, map[string]string{
+	u := g.ResourceUrl(projectMergeRequestUrl, map[string]string{
 		":id":               string(mr.ProjectId),
 		":merge_request_id": string(mr.Id),
 	})
@@ -278,7 +385,7 @@ Parameters:
 
 */
 func (g *Gitlab) ProjectMergeRequestAccept(id, merge_request_id string, req *AcceptMergeRequestRequest) (*MergeRequest, error) {
-	u := g.ResourceUrl(project_url_merge_request_merge, map[string]string{
+	u := g.ResourceUrl(projectMergeRequestMergeUrl, map[string]string{
 		":id":               id,
 		":merge_request_id": merge_request_id,
 	})
@@ -313,7 +420,7 @@ Parameters:
 
 */
 func (g *Gitlab) ProjectMergeRequestCancelMerge(id, merge_request_id string) (*MergeRequest, *ResponseMeta, error) {
-	u := g.ResourceUrl(project_url_merge_request_cancel_merge, map[string]string{
+	u := g.ResourceUrl(projectMergeRequestCancelMergeUrl, map[string]string{
 		":id":               id,
 		":merge_request_id": merge_request_id,
 	})

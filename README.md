@@ -201,6 +201,37 @@ Visit the docs at http://godoc.org/github.com/plouc/go-gitlab-client/gitlab
 - [x] Search for namespace
 - [x] Get namespace by ID
 
+#### Merge requests
+
+[gitlab api doc](https://docs.gitlab.com/ee/api/merge_requests.html)
+
+- [x] List merge requests
+- [x] List project merge requests
+- [x] List group merge requests
+- [ ] Get single MR
+- [ ] Get single MR participants
+- [ ] Get single MR commits
+- [ ] Get single MR changes
+- [ ] List MR pipelines
+- [ ] Create MR
+- [ ] Update MR
+- [ ] Delete a merge request
+- [ ] Accept MR
+- [ ] Cancel Merge When Pipeline Succeeds
+- [ ] Comments on merge requests
+- [ ] List issues that will close on merge
+- [ ] Subscribe to a merge request
+- [ ] Unsubscribe from a merge request
+- [ ] Create a todo
+- [ ] Get MR diff versions
+- [ ] Get a single MR diff version
+- [ ] Set a time estimate for a merge request
+- [ ] Reset the time estimate for a merge request
+- [ ] Add spent time for a merge request
+- [ ] Reset spent time for a merge request
+- [ ] Get time tracking stats
+- [ ] Approvals
+
 ## CLI
 
 **go-gitlab-client** provides a CLI to easily interact with GitLab API, **glc**.
