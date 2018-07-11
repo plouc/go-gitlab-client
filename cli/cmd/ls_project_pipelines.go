@@ -2,10 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"os"
-
 	"github.com/fatih/color"
-	"github.com/olekukonko/tablewriter"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
@@ -29,29 +26,11 @@ func fetchProjectPipelines(projectId string) {
 		return
 	}
 
-	fmt.Println("")
 	if len(pipelines) == 0 {
 		color.Red("No pipeline found for project %s", projectId)
 	} else {
-		table := tablewriter.NewWriter(os.Stdout)
-		table.SetHeader([]string{
-			"Id",
-			"Ref",
-			"Sha",
-			"Status",
-		})
-		table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-		for _, pipeline := range pipelines {
-			table.Append([]string{
-				fmt.Sprintf("%d", pipeline.Id),
-				pipeline.Ref,
-				pipeline.Sha,
-				pipeline.Status,
-			})
-		}
-		table.Render()
+		pipelinesOutput(pipelines)
 	}
-	fmt.Println("")
 
 	metaOutput(meta, true)
 

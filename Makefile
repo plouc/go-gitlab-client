@@ -7,7 +7,7 @@ WIREMOCK_IMAGE  = ekino/wiremock:2.7.1
 GO_IMAGE        = golang:1.10.3
 MODD_VERSION    = 0.5
 GO_PKG_SRC_PATH = "github.com/plouc/go-gitlab-client"
-TESTS_OPTS     ?=
+test_args      ?=
 
 SHA1 = $(shell git rev-parse HEAD)
 OS   = $(shell uname)
@@ -74,17 +74,17 @@ install_go_deps: ##@setup Install go dependencies
 
 _install_go_deps:
 	@echo "${YELLOW}Installing dependencies${RESET}"
-	go list -f '{{range .Imports}}{{.}} {{end}}' ./... | xargs go get -v
-	go list -f '{{range .TestImports}}{{.}} {{end}}' ./... | xargs go get -v
+	go get ${INSTALL_OPTS} gopkg.in/alecthomas/gometalinter.v2
+	gometalinter.v2 --install
+	go list -f '{{range .Imports}}{{.}} {{end}}' ./... | xargs go get ${INSTALL_OPTS}
+	go list -f '{{range .TestImports}}{{.}} {{end}}' ./... | xargs go get ${INSTALL_OPTS}
 	@echo "${GREEN}✔ successfully installed dependencies${RESET}\n"
 
 update_go_deps: ##@setup Update dependencies
 	@${MAKE} make_in_go TARGET=_update_go_deps
 
 _update_go_deps:
-	@echo "${YELLOW}Updating dependencies${RESET}"
-	go get -u all
-	@echo "${GREEN}✔ successfully updated dependencies${RESET}\n"
+	@${MAKE} _install_go_deps INSTALL_OPTS=-u
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 #
@@ -138,12 +138,8 @@ log: ##@docker Print stdout of all services
 	@${DOCKER_COMPOSE} logs -f --tail=$${TAIL_LENGTH:-50}
 
 run_in_%: ##@docker Run a command inside % service
-    ifdef NO_DOCKER
-		@${CMD}
-    else
-		@${MAKE} is_${*}_up
-		@${DOCKER_COMPOSE} exec ${*} /bin/sh -c "${CMD}"
-    endif
+	@${MAKE} is_${*}_up
+	@${DOCKER_COMPOSE} exec ${*} /bin/sh -c "${CMD}"
 
 make_in_%: ##@docker Run a make command in % service
 	@${MAKE} run_in_${*} CMD="${ENV} make ${TARGET}"
@@ -210,18 +206,24 @@ test_lib: ##@test Run lib tests
 
 _test_lib:
 	@echo "${YELLOW}Running lib tests${RESET}"
-	@make ensure_wiremock_is_up --no-print-directory
-	@go test ${TESTS_OPTS} ./gitlab/.
+	@${MAKE} ensure_wiremock_is_up --no-print-directory
+	@go test -v ${TESTS_OPTS} ./gitlab/.
 	@echo "${GREEN}✔ Lib tests successfully passed${RESET}\n"
 
 test_cli: ##@test Run CLI tests
-	@${MAKE} make_in_go TARGET=_test_cli
+	@${MAKE} make_in_go TARGET=_test_cli ENV="test_args='${test_args}'"
 
 _test_cli:
 	@echo "${YELLOW}Running CLI tests${RESET}"
-	@make ensure_wiremock_is_up --no-print-directory
-	@go test ${TESTS_OPTS} ./integration/.
+	@${MAKE} ensure_wiremock_is_up --no-print-directory
+	go test -v ./integration/. -args ${test_args}
 	@echo "${GREEN}✔ CLI tests successfully passed${RESET}\n"
+
+update_cli_snapshots: ##@test Update CLI test snapshots
+	@${MAKE} make_in_go TARGET=_update_cli_snapshots
+
+_update_cli_snapshots:
+	@${MAKE} _test_cli test_args="-u all" --no-print-directory
 
 vet_lib: ##@test Run vet on lib files
 	@echo "${YELLOW}Running vet on lib${RESET}"

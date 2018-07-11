@@ -194,3 +194,35 @@ func (g *Gitlab) RetryProjectJob(projectId string, jobId int) (*Job, *ResponseMe
 func (g *Gitlab) EraseProjectJob(projectId string, jobId int) (*Job, *ResponseMeta, error) {
 	return g.projectJobAction(eraseProjectJobUrl, projectId, jobId)
 }
+
+// Aggregate jobs by:
+//   - pipeline
+//   - stage
+//   - job name
+//
+// The resulting aggregation can be used to built something similar as the GitLab's UI
+// used to display pipeline details.
+func (g *Gitlab) AggregateJobs(jobs []*Job) map[int]map[string]map[string][]*Job {
+	agg := map[int]map[string]map[string][]*Job{}
+
+	for _, job := range jobs {
+		_, ok := agg[job.Pipeline.Id]
+		if !ok {
+			agg[job.Pipeline.Id] = map[string]map[string][]*Job{}
+		}
+
+		_, ok = agg[job.Pipeline.Id][job.Stage]
+		if !ok {
+			agg[job.Pipeline.Id][job.Stage] = map[string][]*Job{}
+		}
+
+		_, ok = agg[job.Pipeline.Id][job.Stage][job.Name]
+		if !ok {
+			agg[job.Pipeline.Id][job.Stage][job.Name] = []*Job{}
+		}
+
+		agg[job.Pipeline.Id][job.Stage][job.Name] = append(agg[job.Pipeline.Id][job.Stage][job.Name], job)
+	}
+
+	return agg
+}

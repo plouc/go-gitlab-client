@@ -1,20 +1,17 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
-	"reflect"
 	"runtime"
 	"testing"
 
 	"github.com/fatih/color"
 	"github.com/plouc/go-gitlab-client/integration/utils"
+	"github.com/plouc/gosnap"
 )
-
-var update = flag.Bool("update", true, "update golden files")
 
 const cliPath = "cli"
 const binaryName = "glc"
@@ -265,7 +262,7 @@ func TestCLI(t *testing.T) {
 			"get user no arg",
 			[]string{"get", "user"},
 			configs["default"],
-			"get_user_help",
+			"get_user_no_arg",
 			true,
 		},
 		{
@@ -305,6 +302,8 @@ func TestCLI(t *testing.T) {
 		},
 	}
 
+	ctx := gosnap.NewContext(t, snapshotsDir)
+
 	for _, testCase := range testCases {
 		t.Run(testCase.name, func(t *testing.T) {
 			if !testCase.config.Exists() {
@@ -313,8 +312,6 @@ func TestCLI(t *testing.T) {
 
 			args := append(testCase.args, "-c", testCase.config.File)
 
-			fmt.Printf("%s\n", args)
-
 			c := exec.Command(binaryPath, args...)
 			output, err := c.CombinedOutput()
 			if (err != nil) != testCase.wantErr {
@@ -322,15 +319,8 @@ func TestCLI(t *testing.T) {
 			}
 			actual := string(output)
 
-			snapshot := utils.NewSnapshotFile(t, testCase.snapshot, snapshotsDir)
-			if *update {
-				snapshot.Write(actual)
-			}
-			expected := snapshot.Load()
-
-			if !reflect.DeepEqual(expected, actual) {
-				t.Fatalf("diff:\n%v", utils.StringsDiff(expected, actual))
-			}
+			snapshot := ctx.NewSnapshot(testCase.snapshot)
+			snapshot.AssertString(actual)
 		})
 	}
 }

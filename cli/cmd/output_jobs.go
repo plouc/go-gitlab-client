@@ -2,14 +2,74 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
 	"github.com/plouc/go-gitlab-client/gitlab"
+	"github.com/plouc/textree"
 )
 
-func jobsOutput(jobs []*gitlab.Job) {
-	if outputFormat == "json" {
+func jobLabel(job *gitlab.Job) string {
+	statusIcon := color.YellowString("?")
+	if job.Status == "skipped" {
+		statusIcon = "-"
+	} else if job.Status == "success" {
+		statusIcon = color.GreenString("✔")
+	} else if job.Status == "failed" {
+		statusIcon = color.RedString("✘")
+	}
+
+	return fmt.Sprintf(
+		"%s %-16s %3ds [%-7s] %d",
+		statusIcon,
+		job.Name,
+		int64(job.Duration),
+		job.Status,
+		job.Id,
+	)
+}
+
+func jobsOutput(jobs []*gitlab.Job, pretty bool) {
+	if pretty {
+		agg := client.AggregateJobs(jobs)
+
+		root := textree.NewNode("PIPELINES")
+
+		for pipelineId, stages := range agg {
+			p := textree.NewNode(fmt.Sprintf("PIPELINE [%d]", pipelineId))
+			root.Append(p)
+
+			for stage, jobsByName := range stages {
+				s := textree.NewNode(strings.ToUpper(stage))
+				p.Append(s)
+
+				for _, similarJobs := range jobsByName {
+					if len(similarJobs) > 0 {
+						n := textree.NewNode(jobLabel(similarJobs[0]))
+						s.Append(n)
+
+						for _, job := range similarJobs[1:] {
+							n.Append(textree.NewNode(jobLabel(job)))
+						}
+					}
+				}
+			}
+		}
+
+		o := textree.NewRenderOptions()
+		o.ChildrenMarginTop = 1
+		enableCustomStyle := false
+		if enableCustomStyle {
+			o.HorizontalLink = color.YellowString(o.HorizontalLink)
+			o.VerticalLink = color.YellowString(o.VerticalLink)
+			o.ChildrenLink = color.YellowString(o.ChildrenLink)
+			o.ChildLink = color.YellowString(o.ChildLink)
+			o.LastChildLink = color.YellowString(o.LastChildLink)
+		}
+		root.Render(output, o)
+
+	} else if outputFormat == "json" {
 		jsonOutput(jobs)
 	} else if outputFormat == "yaml" {
 		yamlOutput(jobs)

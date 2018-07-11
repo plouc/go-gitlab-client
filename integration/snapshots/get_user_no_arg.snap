@@ -1,17 +1,14 @@
-List users
+Error: ✘ 1 argument(s) required for user resource but got 0:
+  - user_id
 
 Usage:
-  glc ls users [flags]
+  glc get user USER_ID [flags]
 
 Aliases:
-  users, u
+  user, u
 
 Flags:
-      --active            Limit to active users
-      --blocked           Limit to blocked users
-  -h, --help              help for users
-  -s, --search string     Search users by email or username
-  -u, --username string   Search users by username
+  -h, --help   help for user
 
 Global Flags:
   -a, --alias string                Use resource alias
@@ -19,8 +16,10 @@ Global Flags:
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
-  -f, --output-format string        Output format, must be one of 'text', 'json'
-  -p, --page int                    Page (default 1)
-  -l, --per-page int                Items per page (default 10)
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
       --silent                      silent mode
   -v, --verbose                     verbose output
+
+✘ 1 argument(s) required for user resource but got 0:
+  - user_id
+

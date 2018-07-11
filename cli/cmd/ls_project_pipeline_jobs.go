@@ -9,11 +9,13 @@ import (
 )
 
 var projectPipelineJobsScope string
+var projectPipelineJobsPrettyOutput bool
 
 func init() {
 	lsCmd.AddCommand(lsProjectPipelineJobsCmd)
 
 	lsProjectPipelineJobsCmd.Flags().StringVarP(&projectPipelineJobsScope, "scope", "s", "", "Scope")
+	lsProjectPipelineJobsCmd.Flags().BoolVar(&projectPipelineJobsPrettyOutput, "pretty", false, "Use custom output formatting")
 }
 
 func fetchProjectPipelineJobs(projectId string, pipelineId int) {
@@ -37,7 +39,7 @@ func fetchProjectPipelineJobs(projectId string, pipelineId int) {
 	if len(jobs) == 0 {
 		color.Red("No job found for project %s pipeline %d", projectId, pipelineId)
 	} else {
-		jobsOutput(jobs)
+		jobsOutput(jobs, projectPipelineJobsPrettyOutput)
 	}
 
 	metaOutput(meta, true)

@@ -98,7 +98,7 @@ func init() {
 	RootCmd.PersistentFlags().BoolVar(&silent, "silent", false, "silent mode")
 	RootCmd.PersistentFlags().BoolVarP(&isInteractive, "interactive", "i", false, "enable interactive mode when applicable (eg. creation, pagination)")
 	RootCmd.PersistentFlags().BoolVar(&noColor, "no-color", false, "disable color output")
-	RootCmd.PersistentFlags().StringVarP(&outputFormat, "output-format", "f", "", "Output format, must be one of 'text', 'json'")
+	RootCmd.PersistentFlags().StringVarP(&outputFormat, "output-format", "f", "", "Output format, must be one of 'text', 'json', 'yaml'")
 	RootCmd.PersistentFlags().StringVarP(&outputDestination, "output-destination", "o", "", "Output result to file if specified")
 	RootCmd.PersistentFlags().StringVarP(&currentAlias, "alias", "a", "", "Use resource alias")
 }

@@ -108,7 +108,7 @@ func (c *Config) Write(path string) {
 
 func (c *Config) aliasIdsOrArgs(alias, resourceType string, args []string) (map[string]string, error) {
 	if !isValidResourceType(resourceType) {
-		return nil, fmt.Errorf("Invalid resource type %s!", resourceType)
+		return nil, fmt.Errorf("✘ Invalid resource type %s!", resourceType)
 	}
 
 	idKeys := resources[resourceType]
@@ -118,7 +118,7 @@ func (c *Config) aliasIdsOrArgs(alias, resourceType string, args []string) (map[
 	if a == nil {
 		if len(args) < requiredArgCount {
 			return nil, fmt.Errorf(
-				color.RedString("%d argument(s) required for %s resource but got %d:\n  - %s\n"),
+				color.RedString("✘ %d argument(s) required for %s resource but got %d:\n  - %s\n"),
 				requiredArgCount,
 				resourceType,
 				len(args),
@@ -136,7 +136,7 @@ func (c *Config) aliasIdsOrArgs(alias, resourceType string, args []string) (map[
 
 	if len(a.ResourceIds) != requiredArgCount {
 		return nil, fmt.Errorf(
-			color.RedString("%s alias for %s seems to be corrupted,\nexpected %d id(s) but got %d, required id(s):\n  - %s\n"),
+			color.RedString("✘ %s alias for %s seems to be corrupted,\nexpected %d id(s) but got %d, required id(s):\n  - %s\n"),
 			a.Alias,
 			resourceType,
 			requiredArgCount,

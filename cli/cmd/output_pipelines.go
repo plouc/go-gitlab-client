@@ -4,12 +4,15 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
+	"github.com/olekukonko/tablewriter"
 	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
 func pipelineOutput(pipeline *gitlab.PipelineWithDetails) {
 	if outputFormat == "json" {
 		jsonOutput(pipeline)
+	} else if outputFormat == "yaml" {
+		yamlOutput(pipeline)
 	} else {
 		fmt.Fprintln(output, "")
 
@@ -36,6 +39,34 @@ func pipelineOutput(pipeline *gitlab.PipelineWithDetails) {
 		fmt.Fprintf(output, "    AvatarUrl  %s\n", color.YellowString(pipeline.User.AvatarUrl))
 		fmt.Fprintf(output, "    WebUrl     %s\n", color.YellowString(pipeline.User.WebUrl))
 
+		fmt.Fprintln(output, "")
+	}
+}
+
+func pipelinesOutput(pipelines []*gitlab.Pipeline) {
+	if outputFormat == "json" {
+		jsonOutput(pipelines)
+	} else if outputFormat == "yaml" {
+		yamlOutput(pipelines)
+	} else {
+		fmt.Fprintln(output, "")
+		table := tablewriter.NewWriter(output)
+		table.SetHeader([]string{
+			"Id",
+			"Ref",
+			"Sha",
+			"Status",
+		})
+		table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
+		for _, pipeline := range pipelines {
+			table.Append([]string{
+				fmt.Sprintf("%d", pipeline.Id),
+				pipeline.Ref,
+				pipeline.Sha,
+				pipeline.Status,
+			})
+		}
+		table.Render()
 		fmt.Fprintln(output, "")
 	}
 }
