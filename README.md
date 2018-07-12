@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/plouc/go-gitlab-client.png?branch=v2)](https://travis-ci.org/plouc/go-gitlab-client)
 
-**go-gitlab-client** is a simple client written in golang to consume gitlab API.
+**go-gitlab-client** is a client written in golang to consume gitlab API.
 
 It also provides an handy CLI to easily interact with gitlab API.
 
@@ -269,4 +269,4 @@ for more info.
 
 ### CLI documentation
 
-The CLI documentation is available [here](https://github.com/plouc/go-gitlab-client/blob/next/cli/doc/glc.md).
+The CLI documentation is available [here](https://github.com/plouc/go-gitlab-client/blob/v2/cli/doc/glc.md).
