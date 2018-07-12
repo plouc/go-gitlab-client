@@ -10,14 +10,13 @@ Fetching projects…
     "default_branch": "master",
     "owner": {
       "id": 3,
-      "username": "",
       "name": "Diaspora",
+      "username": "",
       "state": "",
       "avatar_url": "",
       "web_url": "",
-      "created_at": "2013-09-30T13: 46: 02Z",
-      "expires_at": "",
-      "access_level": 0
+      "access_level": 0,
+      "expires_at": ""
     },
     "public": false,
     "visibility": "",
@@ -59,14 +58,13 @@ Fetching projects…
     "default_branch": "master",
     "owner": {
       "id": 4,
-      "username": "",
       "name": "Brightbox",
+      "username": "",
       "state": "",
       "avatar_url": "",
       "web_url": "",
-      "created_at": "2013-09-30T13:46:02Z",
-      "expires_at": "",
-      "access_level": 0
+      "access_level": 0,
+      "expires_at": ""
     },
     "public": false,
     "visibility": "",

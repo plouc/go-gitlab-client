@@ -1,0 +1,42 @@
+[
+  {
+    "link_url": "https://gitlab.com/%{project_path}/commits/%{default_branch}",
+    "image_url": "https://gitlab.com/%{project_path}/badges/%{default_branch}/pipeline.svg",
+    "rendered_link_url": "https://gitlab.com/gitlab-org/gitlab-ce/commits/master",
+    "rendered_image_url": "https://gitlab.com/gitlab-org/gitlab-ce/badges/master/pipeline.svg",
+    "id": 3661,
+    "kind": "project"
+  },
+  {
+    "link_url": "https://gitlab.com/%{project_path}/commits/%{default_branch}",
+    "image_url": "https://gitlab.com/%{project_path}/badges/%{default_branch}/coverage.svg",
+    "rendered_link_url": "https://gitlab.com/gitlab-org/gitlab-ce/commits/master",
+    "rendered_image_url": "https://gitlab.com/gitlab-org/gitlab-ce/badges/master/coverage.svg",
+    "id": 3662,
+    "kind": "project"
+  },
+  {
+    "link_url": "https://bestpractices.coreinfrastructure.org/projects/42",
+    "image_url": "https://bestpractices.coreinfrastructure.org/projects/42/badge",
+    "rendered_link_url": "https://bestpractices.coreinfrastructure.org/projects/42",
+    "rendered_image_url": "https://bestpractices.coreinfrastructure.org/projects/42/badge",
+    "id": 3671,
+    "kind": "project"
+  },
+  {
+    "link_url": "https://codeclimate.com/github/gitlabhq/gitlabhq",
+    "image_url": "https://codeclimate.com/github/gitlabhq/gitlabhq.svg",
+    "rendered_link_url": "https://codeclimate.com/github/gitlabhq/gitlabhq",
+    "rendered_image_url": "https://codeclimate.com/github/gitlabhq/gitlabhq.svg",
+    "id": 3672,
+    "kind": "project"
+  },
+  {
+    "link_url": "https://gitter.im/gitlabhq/gitlabhq?utm_source=badge\u0026utm_medium=badge\u0026utm_campaign=pr-badge",
+    "image_url": "https://badges.gitter.im/gitlabhq/gitlabhq.svg",
+    "rendered_link_url": "https://gitter.im/gitlabhq/gitlabhq?utm_source=badge\u0026utm_medium=badge\u0026utm_campaign=pr-badge",
+    "rendered_image_url": "https://badges.gitter.im/gitlabhq/gitlabhq.svg",
+    "id": 3673,
+    "kind": "project"
+  }
+]

@@ -22,6 +22,8 @@ Available Commands:
   project-vars               Get list of a project's variables
   projects                   List projects
   runners                    List runners
+  ssh-keys                   List current user ssh keys
+  user-ssh-keys              List specific user ssh keys
   users                      List users
 
 Flags:

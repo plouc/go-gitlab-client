@@ -207,7 +207,6 @@ test_lib: ##@test Run lib tests
 
 _test_lib:
 	@echo "${YELLOW}Running lib tests${RESET}"
-	@${MAKE} ensure_wiremock_is_up --no-print-directory
 	@go test -v ${TESTS_OPTS} ./gitlab/.
 	@echo "${GREEN}✔ Lib tests successfully passed${RESET}\n"
 

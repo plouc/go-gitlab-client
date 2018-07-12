@@ -121,67 +121,60 @@ const (
 
 type MergeRequestsOptions struct {
 	PaginationOptions
+	SortOptions
 
 	// Return the request having the given iid
 	// only available for generic merge requests API endpoint
-	iids []int
+	Iids []int `url:"iids,omitempty,comma"`
 
 	// Return all merge requests or just those that are
 	// opened, closed, locked, or merged
-	State string
-
-	// Return merge requests ordered by created_at or
-	// updated_at fields. Default is created_at
-	OrderBY string
-
-	// sort	string	no	Return requests sorted in asc or desc order
-	// Default is desc
-	Sort string
+	State string `url:"state,omitempty"`
 
 	// Return merge requests for a specific milestone
-	Milestone string
+	Milestone string `url:"milestone,omitempty"`
 
 	// If simple, returns the iid, URL, title, description,
 	// and basic state of merge request
-	View string
+	View string `url:"view,omitempty"`
 
 	// Return merge requests matching a comma separated
 	// list of labels
-	Labels []string
+	Labels []string `url:"labels,omitempty,comma"`
 
 	// Return merge requests created on or after the given time
-	CreatedAfter *time.Time
+	CreatedAfter *time.Time `url:"created_after,omitempty"`
 
 	// Return merge requests created on or before the given time
-	CreatedBefore *time.Time
+	CreatedBefore *time.Time `url:"created_before,omitempty"`
 
 	// Return merge requests updated on or after the given time
-	UpdatedAfter *time.Time
+	UpdatedAfter *time.Time `url:"updated_after,omitempty"`
 
 	// Return merge requests updated on or before the given time
-	UpdatedBefore *time.Time
+	UpdatedBefore *time.Time `url:"updated_before,omitempty"`
 
 	// Return merge requests with the given source branch
-	SourceBranch string
+	SourceBranch string `url:"source_branch,omitempty"`
 
 	// Return merge requests with the given target branch
-	TargetBranch string
+	TargetBranch string `url:"target_branch,omitempty"`
 
 	// Search merge requests against their title and description
-	Search string
+	Search string `url:"search,omitempty"`
 
 	// Returns merge requests created by the given user id
-	AuthorId int
+	AuthorId int `url:"author_id,omitempty"`
 
 	// Returns merge requests assigned to the given user id
-	AssigneeId int
+	AssigneeId int `url:"assignee_id,omitempty"`
 
 	// Return merge requests reacted by the authenticated user by the given emoji
-	MyReactionEmoji string
+	MyReactionEmoji string `url:"my_reaction_emoji,omitempty"`
 
 	// Return merge requests for the given scope: created_by_me, assigned_to_me or all,
 	// For versions before 11.0, use the now deprecated created-by-me or assigned-to-me scopes instead.
-	Scope MergeRequestScope
+	Scope MergeRequestScope `url:"scope,omitempty"`
 }
 
 func (g *Gitlab) getMergeRequests(u *url.URL) ([]*MergeRequest, *ResponseMeta, error) {

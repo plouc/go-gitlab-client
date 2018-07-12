@@ -1,0 +1,44 @@
+Fetching merge requests…
+
+| PROJECT ID |    ID    |             TITLE              |                             SOURCE                             | TARGET | STATE  |   ASSIGNEE    |  WIP  |   MERGE STATUS   |        CREATED AT        |
++------------+----------+--------------------------------+----------------------------------------------------------------+--------+--------+---------------+-------+------------------+--------------------------+
+|      13083 | 13932943 | WIP: Fix autosave issues for   | _acet-fix-mr-autosave                                          | master | opened | fatihacet     | true  | can_be_merged    | 2018-07-11T22:39:55.571Z |
+|            |          | MR discussions                 |                                                                |        |        |               |       |                  |                          |
+|      13083 | 13932747 | add initial smoke tests and    | qa-smoke-tests                                                 | master | opened | meks          | false | can_be_merged    | 2018-07-11T22:18:59.366Z |
+|            |          | documentation                  |                                                                |        |        |               |       |                  |                          |
+|      13083 | 13931916 | WIP: Resolve "Remove ghost     | 44824-remove-ghost-notification-settings-for-group-and-project | master | opened | jacopo-beschi | true  | cannot_be_merged | 2018-07-11T21:06:10.653Z |
+|            |          | notification settings for      |                                                                |        |        |               |       |                  |                          |
+|            |          | groups and projects"           |                                                                |        |        |               |       |                  |                          |
+|      13083 | 13929701 | Fix archived parameter for     | fix-project-api-archived                                       | master | opened |               | false | can_be_merged    | 2018-07-11T19:55:40.907Z |
+|            |          | projects API                   |                                                                |        |        |               |       |                  |                          |
+|      13083 | 13929032 | Remove healthchecks from       | an/no-healthcheck-until-brooklyn                               | master | opened |               | false | can_be_merged    | 2018-07-11T19:08:21.900Z |
+|            |          | prometheus endpoint            |                                                                |        |        |               |       |                  |                          |
+|      13083 | 13928405 | Revert "Log push output on     | mk/remove-push-output-logging                                  | master | opened | rymai         | false | can_be_merged    | 2018-07-11T18:44:19.250Z |
+|            |          | exception" because it is no    |                                                                |        |        |               |       |                  |                          |
+|            |          | longer needed                  |                                                                |        |        |               |       |                  |                          |
+|      13083 | 13927668 | Resolve "Follow-up from        | 48690-follow-up-from-milestone-tests                           | master | opened | rymai         | false | can_be_merged    | 2018-07-11T18:17:37.205Z |
+|            |          | "Milestone tests""             |                                                                |        |        |               |       |                  |                          |
+|      13083 | 13925429 | Fix MR widget border           | fix-mr-widget-border                                           | master | merged | filipa        | false | can_be_merged    | 2018-07-11T17:08:41.143Z |
+|      13083 | 13925353 | Resolve "QA: False failure     | 48241-fix-invalid-byte-sequence-in-qa                          | master | opened | rymai         | false | can_be_merged    | 2018-07-11T17:02:36.349Z |
+|            |          | on QA test "Push to protected  |                                                                |        |        |               |       |                  |                          |
+|            |          | branch when allowed" during    |                                                                |        |        |               |       |                  |                          |
+|            |          | staging failover rehearsal"    |                                                                |        |        |               |       |                  |                          |
+|      13083 | 13924879 | Revert "Merge branch           | revert-todos-epic                                              | master | merged | yorickpeterse | false | can_be_merged    | 2018-07-11T16:34:45.542Z |
+|            |          | 'ee-5481-epic-todos' into      |                                                                |        |        |               |       |                  |                          |
+|            |          | 'master'"                      |                                                                |        |        |               |       |                  |                          |
+
+
+Response meta
+
+  Method          GET
+  Url             http://wiremock:8080/api/v4/merge_requests?page=1&per_page=10
+  StatusCode      200
+  Request id      
+  Runtime         0.000000
+  Page            1
+  Items per page  10
+  Previous page   0
+  Next page       0
+  Total pages     0
+  Total           0
+

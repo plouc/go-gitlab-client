@@ -6,21 +6,30 @@ import (
 )
 
 func TestUsers(t *testing.T) {
-	ts, gitlab := Stub("stubs/users/index.json")
-	users, _, err := gitlab.Users(nil)
+	ts, gitlab := mockServerFromMapping(t, "users/users.json")
+	defer ts.Close()
+
+	users, meta, err := gitlab.Users(nil)
 
 	assert.NoError(t, err)
+
 	assert.Equal(t, len(users), 2)
-	defer ts.Close()
+
+	assert.IsType(t, new(ResponseMeta), meta)
+	assert.Equal(t, 1, meta.Page)
+	assert.Equal(t, 10, meta.PerPage)
 }
 
 func TestUser(t *testing.T) {
-	ts, gitlab := Stub("stubs/users/show.json")
+	ts, gitlab := mockServerFromMapping(t, "users/user_1.json")
+	defer ts.Close()
+
 	user, _, err := gitlab.User("plouc")
 
 	assert.NoError(t, err)
+
 	assert.IsType(t, new(User), user)
-	assert.Equal(t, user.Id, 6)
+	assert.Equal(t, user.Id, 1)
 	assert.Equal(t, user.Username, "plouc")
 	assert.Equal(t, user.Name, "Raphaël Benitte")
 	assert.Equal(t, user.Bio, "")
@@ -30,9 +39,9 @@ func TestUser(t *testing.T) {
 	assert.Equal(t, user.ThemeId, 2)
 	assert.Equal(t, user.State, "active")
 	assert.Equal(t, user.CreatedAt, "2001-01-01T00:00:00Z")
-	defer ts.Close()
 }
 
+/*
 func TestDeleteUser(t *testing.T) {
 	ts, gitlab := Stub("")
 	_, err := gitlab.RemoveUser("1")
@@ -49,3 +58,4 @@ func TestCurrentUser(t *testing.T) {
 	assert.Equal(t, user.Username, "john_smith")
 	defer ts.Close()
 }
+*/

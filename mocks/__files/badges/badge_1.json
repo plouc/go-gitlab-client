@@ -1,0 +1,8 @@
+{
+  "link_url": "https://gitlab.com/%{project_path}/commits/%{default_branch}",
+  "image_url": "https://gitlab.com/%{project_path}/badges/%{default_branch}/pipeline.svg",
+  "rendered_link_url": "https://gitlab.com/gitlab-org/gitlab-ce/commits/master",
+  "rendered_image_url": "https://gitlab.com/gitlab-org/gitlab-ce/badges/master/pipeline.svg",
+  "id": 1,
+  "kind": "project"
+}

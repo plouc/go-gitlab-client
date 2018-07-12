@@ -11,14 +11,13 @@ const (
 
 type Member struct {
 	Id          int    `json:"id"`
-	Username    string `json:"username"`
 	Name        string `json:"name"`
+	Username    string `json:"username"`
 	State       string `json:"state"`
 	AvatarUrl   string `json:"avatar_url"`
 	WebUrl      string `json:"web_url"`
-	CreatedAt   string `json:"created_at"`
-	ExpiresAt   string `json:"expires_at"`
 	AccessLevel int    `json:"access_level"`
+	ExpiresAt   string `json:"expires_at"`
 }
 
 type MembersOptions struct {

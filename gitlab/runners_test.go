@@ -7,17 +7,20 @@ import (
 )
 
 func TestRunners(t *testing.T) {
-	g := NewGitlab(testsHost, "/api/v4", "")
-	o := RunnersOptions{}
-	o.Page = 1
-	o.PerPage = 10
-	runners, meta, err := g.Runners(&o)
+	ts, gitlab := mockServerFromMapping(t, "runners/runners.json")
+	defer ts.Close()
+
+	runners, meta, err := gitlab.Runners(nil)
+
+	assert.NoError(t, err)
 
 	assert.NotNil(t, runners)
-	assert.NotNil(t, meta)
 	assert.Equal(t, meta.StatusCode, 200)
-	assert.NoError(t, err)
 	assert.Equal(t, len(runners), 2)
+
+	assert.IsType(t, new(ResponseMeta), meta)
+	assert.Equal(t, 1, meta.Page)
+	assert.Equal(t, 10, meta.PerPage)
 }
 
 /*

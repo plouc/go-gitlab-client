@@ -76,6 +76,18 @@ Visit the docs at http://godoc.org/github.com/plouc/go-gitlab-client/gitlab
 - [x] Single user
 - [x] Current user
 
+#### SSH Keys
+
+[gitlab api doc](http://api.gitlab.org/users.html#list-ssh-keys)
+
+- [x] List SSH keys
+- [x] List SSH keys for user
+- [x] Single SSH key
+- [x] Add SSH key
+- [x] Add SSH key for user
+- [x] Delete SSH key for current user
+- [x] Delete SSH key for given user
+
 #### Groups
 
 [gitlab api doc](https://docs.gitlab.com/ce/api/groups.html)

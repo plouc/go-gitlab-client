@@ -9,14 +9,13 @@ Fetching projects…
   defaultbranch: master
   owner:
     id: 3
-    username: ""
     name: Diaspora
+    username: ""
     state: ""
     avatarurl: ""
     weburl: ""
-    createdat: '2013-09-30T13: 46: 02Z'
-    expiresat: ""
     accesslevel: 0
+    expiresat: ""
   public: false
   visibility: ""
   issuesenabled: true
@@ -63,14 +62,13 @@ Fetching projects…
   defaultbranch: master
   owner:
     id: 4
-    username: ""
     name: Brightbox
+    username: ""
     state: ""
     avatarurl: ""
     weburl: ""
-    createdat: "2013-09-30T13:46:02Z"
-    expiresat: ""
     accesslevel: 0
+    expiresat: ""
   public: false
   visibility: ""
   issuesenabled: true

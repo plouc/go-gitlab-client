@@ -1,0 +1,8 @@
+Fetching user 1 ssh keys…
+
+| ID |       TITLE        |        KEY        |        CREATED AT        |
++----+--------------------+-------------------+--------------------------+
+|  1 | Public key         | ssh-rsa AAAAB3Nz… | 2014-08-01T14:47:39.080Z |
+|  2 | Whatever key       | ssh-rsa AAAAB3Nz… | 2014-08-01T14:47:39.080Z |
+|  3 | Another Public key | ssh-rsa AAAAB3Nz… | 2014-08-01T14:47:39.080Z |
+

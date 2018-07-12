@@ -1,0 +1,102 @@
+[
+  {
+    "id": 5497,
+    "name": "🚄 Job van der Voort 🚀",
+    "username": "JobV",
+    "state": "active",
+    "avatar_url": "https://secure.gravatar.com/avatar/07e1e9ffdda52d8c519ac5c49929d7dc?s=80\u0026d=identicon",
+    "web_url": "https://gitlab.com/JobV",
+    "access_level": 30,
+    "expires_at": null
+  },
+  {
+    "id": 58926,
+    "name": "Haydn Mackay",
+    "username": "Haydn",
+    "state": "active",
+    "avatar_url": "https://assets.gitlab-static.net/uploads/-/system/user/avatar/58926/H_head_shot2.png",
+    "web_url": "https://gitlab.com/Haydn",
+    "access_level": 30,
+    "expires_at": null
+  },
+  {
+    "id": 268956,
+    "name": "Matthew Wilkinson",
+    "username": "matthew.wilkinson",
+    "state": "active",
+    "avatar_url": "https://assets.gitlab-static.net/uploads/-/system/user/avatar/268956/prime.jpg",
+    "web_url": "https://gitlab.com/matthew.wilkinson",
+    "access_level": 10,
+    "expires_at": null
+  },
+  {
+    "id": 370493,
+    "name": "Luke Babb",
+    "username": "luke",
+    "state": "active",
+    "avatar_url": "https://secure.gravatar.com/avatar/5290ebc0843bd3b1df1c7c1620e63295?s=80\u0026d=identicon",
+    "web_url": "https://gitlab.com/luke",
+    "access_level": 30,
+    "expires_at": null
+  },
+  {
+    "id": 128633,
+    "name": "Rémy Coutable",
+    "username": "rymai",
+    "state": "active",
+    "avatar_url": "https://secure.gravatar.com/avatar/263da227929cc0035cb0eba512bcf81a?s=80\u0026d=identicon",
+    "web_url": "https://gitlab.com/rymai",
+    "access_level": 40,
+    "expires_at": null
+  },
+  {
+    "id": 273486,
+    "name": "James Lopez",
+    "username": "jameslopez",
+    "state": "active",
+    "avatar_url": "https://secure.gravatar.com/avatar/3731e7dd4f2b4fa8ae184c0a7519dd58?s=80\u0026d=identicon",
+    "web_url": "https://gitlab.com/jameslopez",
+    "access_level": 40,
+    "expires_at": null
+  },
+  {
+    "id": 402401,
+    "name": "Bot",
+    "username": "jobbot",
+    "state": "active",
+    "avatar_url": "https://secure.gravatar.com/avatar/aaa6738f1ebf25404010884af511b0e7?s=80\u0026d=identicon",
+    "web_url": "https://gitlab.com/jobbot",
+    "access_level": 20,
+    "expires_at": null
+  },
+  {
+    "id": 300478,
+    "name": "Jacob Schatz",
+    "username": "jschatz1",
+    "state": "active",
+    "avatar_url": "https://assets.gitlab-static.net/uploads/-/system/user/avatar/300478/avatar.png",
+    "web_url": "https://gitlab.com/jschatz1",
+    "access_level": 40,
+    "expires_at": null
+  },
+  {
+    "id": 444,
+    "name": "Dmitriy Zaporozhets",
+    "username": "dzaporozhets",
+    "state": "active",
+    "avatar_url": "https://assets.gitlab-static.net/uploads/-/system/user/avatar/444/avatar.png",
+    "web_url": "https://gitlab.com/dzaporozhets",
+    "access_level": 40,
+    "expires_at": null
+  },
+  {
+    "id": 424775,
+    "name": "Mark Pundsack",
+    "username": "markpundsack",
+    "state": "active",
+    "avatar_url": "https://secure.gravatar.com/avatar/26cf0d1d89d41b47dc9a9d70a20d721d?s=80\u0026d=identicon",
+    "web_url": "https://gitlab.com/markpundsack",
+    "access_level": 30,
+    "expires_at": null
+  }
+]

@@ -7,6 +7,8 @@
     "status": 200,
     "bodyFileName": "users/users.json",
     "headers": {
+      "X-Page": "1",
+      "X-Per-Page": "10"
     }
   }
 }

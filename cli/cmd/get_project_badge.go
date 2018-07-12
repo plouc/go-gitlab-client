@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
+	"strconv"
 )
 
 func init() {
@@ -19,10 +20,15 @@ var getProjectBadgeCmd = &cobra.Command{
 			return err
 		}
 
-		color.Yellow("Fetching project's badge (project id: %s, badge id: %s)…", ids["project_id"], ids["badge_id"])
+		badgeId, err := strconv.Atoi(ids["badge_id"])
+		if err != nil {
+			return err
+		}
+
+		color.Yellow("Fetching project's badge (project id: %s, badge id: %s)…", ids["project_id"], badgeId)
 
 		loader.Start()
-		badge, meta, err := client.ProjectBadge(ids["project_id"], ids["badge_id"])
+		badge, meta, err := client.ProjectBadge(ids["project_id"], badgeId)
 		loader.Stop()
 		if err != nil {
 			return err

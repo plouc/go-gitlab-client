@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"encoding/json"
+	"strconv"
 )
 
 const (
@@ -31,10 +32,10 @@ func (g *Gitlab) ProjectBadges(projectId string, o *PaginationOptions) ([]*Badge
 	return badges, meta, err
 }
 
-func (g *Gitlab) ProjectBadge(projectId, badgeId string) (*Badge, *ResponseMeta, error) {
+func (g *Gitlab) ProjectBadge(projectId string, badgeId int) (*Badge, *ResponseMeta, error) {
 	u := g.ResourceUrl(ProjectBadgeApiPath, map[string]string{
 		":id":       projectId,
-		":badge_id": badgeId,
+		":badge_id": strconv.Itoa(badgeId),
 	})
 
 	badge := new(Badge)
