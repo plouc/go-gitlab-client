@@ -37,6 +37,15 @@ var getGroupCmd = &cobra.Command{
 
 		printMeta(meta, false)
 
+		relatedCommands([]*relatedCommand{
+			newRelatedCommand(lsGroupMergeRequestsCmd, map[string]string{
+				"group_id": ids["group_id"],
+			}),
+			newRelatedCommand(lsGroupVariablesCmd, map[string]string{
+				"group_id": ids["group_id"],
+			}),
+		})
+
 		return nil
 	},
 }

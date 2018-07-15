@@ -10,12 +10,12 @@ import (
 )
 
 func init() {
-	lsCmd.AddCommand(lsProjectVarsCmd)
+	lsCmd.AddCommand(lsProjectVariablesCmd)
 }
 
-var lsProjectVarsCmd = &cobra.Command{
-	Use:     resourceCmd("project-vars", "project"),
-	Aliases: []string{"pv"},
+var lsProjectVariablesCmd = &cobra.Command{
+	Use:     resourceCmd("project-variables", "project"),
+	Aliases: []string{"project-vars", "pv"},
 	Short:   "Get list of a project's variables",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ids, err := config.aliasIdsOrArgs(currentAlias, "project", args)

@@ -37,6 +37,45 @@ var getProjectCmd = &cobra.Command{
 
 		printMeta(meta, false)
 
+		relatedCommands([]*relatedCommand{
+			newRelatedCommand(lsProjectBranchesCmd, map[string]string{
+				"project_id": ids["project_id"],
+			}),
+			newRelatedCommand(addProjectBranchCmd, map[string]string{
+				"project_id": ids["project_id"],
+			}),
+			newRelatedCommand(lsProjectHooksCmd, map[string]string{
+				"project_id": ids["project_id"],
+			}),
+			newRelatedCommand(addProjectHookCmd, map[string]string{
+				"project_id": ids["project_id"],
+			}),
+			newRelatedCommand(lsProjectMembersCmd, map[string]string{
+				"project_id": ids["project_id"],
+			}),
+			newRelatedCommand(lsProjectPipelinesCmd, map[string]string{
+				"project_id": ids["project_id"],
+			}),
+			newRelatedCommand(lsProjectJobsCmd, map[string]string{
+				"project_id": ids["project_id"],
+			}),
+			newRelatedCommand(lsProjectMergeRequestsCmd, map[string]string{
+				"project_id": ids["project_id"],
+			}),
+			newRelatedCommand(lsProjectEnvironmentsCmd, map[string]string{
+				"project_id": ids["project_id"],
+			}),
+			newRelatedCommand(addProjectEnvironmentCmd, map[string]string{
+				"project_id": ids["project_id"],
+			}),
+			newRelatedCommand(lsProjectVariablesCmd, map[string]string{
+				"project_id": ids["project_id"],
+			}),
+			newRelatedCommand(addProjectBadgeCmd, map[string]string{
+				"project_id": ids["project_id"],
+			}),
+		})
+
 		return nil
 	},
 }

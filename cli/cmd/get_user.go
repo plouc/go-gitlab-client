@@ -33,6 +33,12 @@ var getUserCmd = &cobra.Command{
 
 		printMeta(meta, false)
 
+		relatedCommands([]*relatedCommand{
+			newRelatedCommand(lsUserSshKeysCmd, map[string]string{
+				"user_id": ids["user_id"],
+			}),
+		})
+
 		return nil
 	},
 }

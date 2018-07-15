@@ -6,6 +6,7 @@ import (
 	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
+	"strconv"
 )
 
 func init() {
@@ -165,6 +166,16 @@ var addProjectHookCmd = &cobra.Command{
 		out.Hook(output, outputFormat, createdHook)
 
 		printMeta(meta, false)
+
+		relatedCommands([]*relatedCommand{
+			newRelatedCommand(lsProjectHooksCmd, map[string]string{
+				"project_id": ids["project_id"],
+			}),
+			newRelatedCommand(getProjectHookCmd, map[string]string{
+				"project_id": ids["project_id"],
+				"hook_id":    strconv.Itoa(createdHook.Id),
+			}),
+		})
 
 		return nil
 	},

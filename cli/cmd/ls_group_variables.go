@@ -8,12 +8,12 @@ import (
 )
 
 func init() {
-	lsCmd.AddCommand(lsGroupVarsCmd)
+	lsCmd.AddCommand(lsGroupVariablesCmd)
 }
 
-var lsGroupVarsCmd = &cobra.Command{
-	Use:     resourceCmd("group-vars", "group"),
-	Aliases: []string{"gv"},
+var lsGroupVariablesCmd = &cobra.Command{
+	Use:     resourceCmd("group-variables", "group"),
+	Aliases: []string{"group-vars", "gv"},
 	Short:   "Get list of a group's variables",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		ids, err := config.aliasIdsOrArgs(currentAlias, "group", args)

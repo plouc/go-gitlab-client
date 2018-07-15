@@ -55,6 +55,12 @@ var addProjectEnvironmentCmd = &cobra.Command{
 
 		printMeta(meta, false)
 
+		relatedCommands([]*relatedCommand{
+			newRelatedCommand(lsProjectEnvironmentsCmd, map[string]string{
+				"project_id": ids["project_id"],
+			}),
+		})
+
 		return nil
 	},
 }
