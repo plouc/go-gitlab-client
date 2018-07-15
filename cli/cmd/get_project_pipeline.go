@@ -31,7 +31,7 @@ var getProjectPipelineCmd = &cobra.Command{
 
 		out.Pipeline(output, outputFormat, pipeline)
 
-		out.Meta(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

@@ -2,11 +2,12 @@ package cmd
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
-	"strconv"
 )
 
 func init() {
@@ -21,20 +22,20 @@ func fetchUserSshKeys(userId int) {
 	o.PerPage = perPage
 
 	loader.Start()
-	keys, meta, err := client.CurrentUserSshKeys(o)
+	collection, meta, err := client.CurrentUserSshKeys(o)
 	loader.Stop()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	if len(keys) == 0 {
+	if len(collection.Items) == 0 {
 		color.Red("No ssh key found for user: %d", userId)
 	} else {
-		sshKeysOutput(keys)
+		out.SshKeys(output, outputFormat, collection)
 	}
 
-	metaOutput(meta, true)
+	printMeta(meta, true)
 
 	handlePaginatedResult(meta, func() {
 		fetchUserSshKeys(userId)

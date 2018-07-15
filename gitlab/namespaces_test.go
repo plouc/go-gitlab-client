@@ -14,10 +14,10 @@ func TestNamespaces(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	assert.IsType(t, new(Namespace), namespaces[0])
-	assert.Equal(t, 3, len(namespaces))
-	assert.Equal(t, 1, namespaces[0].Id)
-	assert.Equal(t, "group1", namespaces[1].Path)
+	assert.IsType(t, new(Namespace), namespaces.Items[0])
+	assert.Equal(t, 3, len(namespaces.Items))
+	assert.Equal(t, 1, namespaces.Items[0].Id)
+	assert.Equal(t, "group1", namespaces.Items[1].Path)
 
 	assert.IsType(t, new(ResponseMeta), meta)
 	assert.Equal(t, 1, meta.Page)
@@ -34,10 +34,10 @@ func TestSearchNamespaces(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	assert.IsType(t, new(Namespace), namespaces[0])
-	assert.Equal(t, 1, len(namespaces))
-	assert.Equal(t, 4, namespaces[0].Id)
-	assert.Equal(t, "twitter", namespaces[0].Path)
+	assert.IsType(t, new(Namespace), namespaces.Items[0])
+	assert.Equal(t, 1, len(namespaces.Items))
+	assert.Equal(t, 4, namespaces.Items[0].Id)
+	assert.Equal(t, "twitter", namespaces.Items[0].Path)
 
 	assert.IsType(t, new(ResponseMeta), meta)
 	assert.Equal(t, 1, meta.Page)

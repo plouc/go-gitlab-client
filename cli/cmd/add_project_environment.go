@@ -53,7 +53,7 @@ var addProjectEnvironmentCmd = &cobra.Command{
 
 		out.Environment(output, outputFormat, createdEnvironment)
 
-		out.Meta(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

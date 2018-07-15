@@ -2,10 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"os"
-
 	"github.com/fatih/color"
-	"github.com/olekukonko/tablewriter"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
@@ -29,36 +27,20 @@ func fetchProjectMembers(projectId string) {
 	}
 
 	loader.Start()
-	members, meta, err := client.ProjectMembers(projectId, o)
+	collection, meta, err := client.ProjectMembers(projectId, o)
 	loader.Stop()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	fmt.Println("")
-	if len(members) == 0 {
+	if len(collection.Items) == 0 {
 		color.Red("No member found in project")
 	} else {
-		table := tablewriter.NewWriter(os.Stdout)
-		table.SetHeader([]string{"Id", "Username", "Name", "State", "Expires at", "Access level", "Web url"})
-		table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-		for _, member := range members {
-			table.Append([]string{
-				fmt.Sprintf("%d", member.Id),
-				member.Username,
-				member.Name,
-				member.State,
-				member.ExpiresAt,
-				fmt.Sprintf("%d", member.AccessLevel),
-				member.WebUrl,
-			})
-		}
-		table.Render()
+		out.Members(output, outputFormat, collection)
 	}
-	fmt.Println("")
 
-	metaOutput(meta, true)
+	printMeta(meta, true)
 
 	handlePaginatedResult(meta, func() {
 		fetchProjectMembers(projectId)

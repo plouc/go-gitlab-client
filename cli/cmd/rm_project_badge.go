@@ -41,7 +41,7 @@ var rmProjectBadgeCmd = &cobra.Command{
 
 		color.Green("✔ Project badge was successfully removed")
 
-		metaOutput(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

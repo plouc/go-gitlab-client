@@ -16,7 +16,7 @@ func TestRunners(t *testing.T) {
 
 	assert.NotNil(t, runners)
 	assert.Equal(t, meta.StatusCode, 200)
-	assert.Equal(t, len(runners), 2)
+	assert.Equal(t, len(runners.Items), 2)
 
 	assert.IsType(t, new(ResponseMeta), meta)
 	assert.Equal(t, 1, meta.Page)

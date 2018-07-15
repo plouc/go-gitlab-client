@@ -10,11 +10,11 @@ import (
 	"io"
 )
 
-func Hooks(w io.Writer, format string, hooks []*gitlab.Hook) {
+func Hooks(w io.Writer, format string, collection *gitlab.HookCollection) {
 	if format == "json" {
-		Json(w, hooks)
+		collection.RenderJson(w)
 	} else if format == "yaml" {
-		Yaml(w, hooks)
+		collection.RenderYaml(w)
 	} else {
 		fmt.Fprintln(w, "")
 		table := tablewriter.NewWriter(w)
@@ -32,7 +32,7 @@ func Hooks(w io.Writer, format string, hooks []*gitlab.Hook) {
 			"SSL check",
 		})
 		table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-		for _, hook := range hooks {
+		for _, hook := range collection.Items {
 			table.Append([]string{
 				strconv.Itoa(hook.Id),
 				hook.Url,
@@ -54,9 +54,9 @@ func Hooks(w io.Writer, format string, hooks []*gitlab.Hook) {
 
 func Hook(w io.Writer, format string, hook *gitlab.Hook) {
 	if format == "json" {
-		Json(w, hook)
+		hook.RenderJson(w)
 	} else if format == "yaml" {
-		Yaml(w, hook)
+		hook.RenderYaml(w)
 	} else {
 		fmt.Fprintln(w, "")
 		fmt.Fprintf(w, "  Id                        %s\n", color.YellowString("%d", hook.Id))

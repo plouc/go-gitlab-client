@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
@@ -28,19 +29,19 @@ var lsGroupVarsCmd = &cobra.Command{
 		}
 
 		loader.Start()
-		variables, meta, err := client.GroupVariables(ids["group_id"], o)
+		collection, meta, err := client.GroupVariables(ids["group_id"], o)
 		loader.Stop()
 		if err != nil {
 			return err
 		}
 
-		if len(variables) == 0 {
+		if len(collection.Items) == 0 {
 			color.Red("  No variable found for group %s", ids["group_id"])
 		} else {
-			varsOutput(variables)
+			out.Variables(output, outputFormat, collection)
 		}
 
-		metaOutput(meta, true)
+		printMeta(meta, true)
 
 		return nil
 	},

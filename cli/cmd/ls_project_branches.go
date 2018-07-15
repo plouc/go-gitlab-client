@@ -2,10 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/fatih/color"
-	"github.com/olekukonko/tablewriter"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
@@ -29,40 +28,20 @@ func fetchProjectBranches(projectId string) {
 	}
 
 	loader.Start()
-	branches, meta, err := client.ProjectBranches(projectId, o)
+	collection, meta, err := client.ProjectBranches(projectId, o)
 	loader.Stop()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	fmt.Println("")
-	if len(branches) == 0 {
+	if len(collection.Items) == 0 {
 		color.Red("No branch found for project %s", projectId)
 	} else {
-		table := tablewriter.NewWriter(os.Stdout)
-		table.SetHeader([]string{
-			"Name",
-			"Protected",
-			"Merged",
-			"Developers Can Push",
-			"Developers Can Merge",
-		})
-		table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-		for _, branch := range branches {
-			table.Append([]string{
-				branch.Name,
-				fmt.Sprintf("%t", branch.Protected),
-				fmt.Sprintf("%t", branch.Merged),
-				fmt.Sprintf("%t", branch.DevelopersCanPush),
-				fmt.Sprintf("%t", branch.DevelopersCanMerge),
-			})
-		}
-		table.Render()
+		out.Branches(output, outputFormat, collection)
 	}
-	fmt.Println("")
 
-	metaOutput(meta, true)
+	printMeta(meta, true)
 
 	handlePaginatedResult(meta, func() {
 		fetchProjectBranches(projectId)

@@ -37,7 +37,7 @@ var getProjectJobCancelCmd = &cobra.Command{
 
 		out.Job(output, outputFormat, job)
 
-		out.Meta(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

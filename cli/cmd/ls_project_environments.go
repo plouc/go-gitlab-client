@@ -21,21 +21,21 @@ func fetchProjectEnvironments(projectId string) {
 	o.PerPage = perPage
 
 	loader.Start()
-	environments, meta, err := client.ProjectEnvironments(projectId, o)
+	collection, meta, err := client.ProjectEnvironments(projectId, o)
 	loader.Stop()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	i := len(environments)
+	i := len(collection.Items)
 	if i == 0 {
 		color.Red("No environment found for project %s", projectId)
 	} else {
-		out.Environments(output, outputFormat, environments)
+		out.Environments(output, outputFormat, collection)
 	}
 
-	out.Meta(meta, true)
+	printMeta(meta, true)
 
 	handlePaginatedResult(meta, func() {
 		fetchProjectEnvironments(projectId)

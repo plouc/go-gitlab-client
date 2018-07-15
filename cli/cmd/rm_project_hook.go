@@ -39,7 +39,7 @@ var rmProjectHookCmd = &cobra.Command{
 			return err
 		}
 
-		metaOutput(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

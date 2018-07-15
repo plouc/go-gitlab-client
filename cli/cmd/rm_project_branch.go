@@ -41,7 +41,7 @@ var rmProjectBranchCmd = &cobra.Command{
 
 		color.Green("✔ Branch %s was successfully removed", ids["branch_name"])
 
-		metaOutput(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

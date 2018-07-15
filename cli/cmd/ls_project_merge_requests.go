@@ -21,20 +21,20 @@ func fetchProjectMergeRequests(projectId string) {
 	o.PerPage = perPage
 
 	loader.Start()
-	mergeRequests, meta, err := client.ProjectMergeRequests(projectId, o)
+	collection, meta, err := client.ProjectMergeRequests(projectId, o)
 	loader.Stop()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	if len(mergeRequests) == 0 {
+	if len(collection.Items) == 0 {
 		color.Red("No merge request found for project %s", projectId)
 	} else {
-		out.MergeRequests(output, outputFormat, mergeRequests)
+		out.MergeRequests(output, outputFormat, collection)
 	}
 
-	metaOutput(meta, true)
+	printMeta(meta, true)
 
 	handlePaginatedResult(meta, func() {
 		fetchProjectMergeRequests(projectId)

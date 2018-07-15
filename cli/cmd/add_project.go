@@ -5,6 +5,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
@@ -46,8 +47,8 @@ var addProjectCmd = &cobra.Command{
 		createdProject, meta, err := client.AddProject(&project)
 		loader.Stop()
 
-		projectOutput(createdProject, false)
+		out.Project(output, outputFormat, createdProject, false)
 
-		metaOutput(meta, false)
+		printMeta(meta, false)
 	},
 }

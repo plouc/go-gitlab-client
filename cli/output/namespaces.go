@@ -9,11 +9,11 @@ import (
 	"io"
 )
 
-func Namespaces(w io.Writer, format string, namespaces []*gitlab.Namespace) {
+func Namespaces(w io.Writer, format string, collection *gitlab.NamespaceCollection) {
 	if format == "json" {
-		Json(w, namespaces)
+		collection.RenderJson(w)
 	} else if format == "yaml" {
-		Yaml(w, namespaces)
+		collection.RenderYaml(w)
 	} else {
 		fmt.Fprintln(w, "")
 		table := tablewriter.NewWriter(w)
@@ -25,7 +25,7 @@ func Namespaces(w io.Writer, format string, namespaces []*gitlab.Namespace) {
 			"Full path",
 		})
 		table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-		for _, namespace := range namespaces {
+		for _, namespace := range collection.Items {
 			table.Append([]string{
 				fmt.Sprintf("%d", namespace.Id),
 				namespace.Name,
@@ -41,9 +41,9 @@ func Namespaces(w io.Writer, format string, namespaces []*gitlab.Namespace) {
 
 func Namespace(w io.Writer, format string, namespace *gitlab.Namespace) {
 	if format == "json" {
-		Json(w, namespace)
+		namespace.RenderJson(w)
 	} else if format == "yaml " {
-		Yaml(w, namespace)
+		namespace.RenderYaml(w)
 	} else {
 		fmt.Fprintln(w, "")
 		fmt.Fprintf(w, "  Id                           %s\n", color.YellowString("%d", namespace.Id))

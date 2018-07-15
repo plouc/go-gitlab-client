@@ -13,7 +13,7 @@ func TestUsers(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	assert.Equal(t, len(users), 2)
+	assert.Equal(t, len(users.Items), 2)
 
 	assert.IsType(t, new(ResponseMeta), meta)
 	assert.Equal(t, 1, meta.Page)

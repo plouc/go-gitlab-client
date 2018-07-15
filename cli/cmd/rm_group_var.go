@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
@@ -40,7 +41,7 @@ var rmGroupVarCmd = &cobra.Command{
 
 		color.Green("✔ Successfully removed variable: %s", ids["var_key"])
 
-		metaOutput(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

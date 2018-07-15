@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"encoding/json"
+	"io"
 )
 
 const (
@@ -9,42 +10,62 @@ const (
 	ProjectHookApiPath  = "/projects/:id/hooks/:hook_id"
 )
 
-type HookAddPayload struct {
-	Url                      string `json:"url"`
-	PushEvents               bool   `json:"push_events"`
-	IssuesEvents             bool   `json:"issues_events"`
-	ConfidentialIssuesEvents bool   `json:"confidential_issues_events"`
-	MergeRequestsEvents      bool   `json:"merge_requests_events"`
-	TagPushEvents            bool   `json:"tag_push_events"`
-	NoteEvents               bool   `json:"note_events"`
-	JobEvents                bool   `json:"job_events"`
-	PipelineEvents           bool   `json:"pipeline_events"`
-	WikiPageEvents           bool   `json:"wiki_page_events"`
-	EnableSslVerification    bool   `json:"enable_ssl_verification"`
-	Token                    string `json:"token"`
-}
-
 type Hook struct {
 	HookAddPayload
-	Id        int    `json:"id,omitempty"`
-	ProjectId int    `json:"project_id,omitempty"`
-	CreatedAt string `json:"created_at,omitempty"`
+	Id        int    `json:"id,omitempty" yaml:"id,omitempty"`
+	ProjectId int    `json:"project_id,omitempty" yaml:"project_id,omitempty"`
+	CreatedAt string `json:"created_at,omitempty" yaml:"created_at,omitempty"`
 }
 
-func (g *Gitlab) ProjectHooks(projectId string) ([]*Hook, *ResponseMeta, error) {
+type HookCollection struct {
+	Items []*Hook
+}
+
+type HookAddPayload struct {
+	Url                      string `json:"url" yaml:"url"`
+	PushEvents               bool   `json:"push_events" yaml:"push_events"`
+	IssuesEvents             bool   `json:"issues_events" yaml:"issues_events"`
+	ConfidentialIssuesEvents bool   `json:"confidential_issues_events" yaml:"confidential_issues_events"`
+	MergeRequestsEvents      bool   `json:"merge_requests_events" yaml:"merge_requests_events"`
+	TagPushEvents            bool   `json:"tag_push_events" yaml:"tag_push_events"`
+	NoteEvents               bool   `json:"note_events" yaml:"note_events"`
+	JobEvents                bool   `json:"job_events" yaml:"job_events"`
+	PipelineEvents           bool   `json:"pipeline_events" yaml:"pipeline_events"`
+	WikiPageEvents           bool   `json:"wiki_page_events" yaml:"wiki_page_events"`
+	EnableSslVerification    bool   `json:"enable_ssl_verification" yaml:"enable_ssl_verification"`
+	Token                    string `json:"token" yaml:"token"`
+}
+
+func (h *Hook) RenderJson(w io.Writer) error {
+	return renderJson(w, h)
+}
+
+func (h *Hook) RenderYaml(w io.Writer) error {
+	return renderYaml(w, h)
+}
+
+func (c *HookCollection) RenderJson(w io.Writer) error {
+	return renderJson(w, c.Items)
+}
+
+func (c *HookCollection) RenderYaml(w io.Writer) error {
+	return renderYaml(w, c.Items)
+}
+
+func (g *Gitlab) ProjectHooks(projectId string) (*HookCollection, *ResponseMeta, error) {
 	u := g.ResourceUrl(ProjectHooksApiPath, map[string]string{":id": projectId})
 
+	collection := new(HookCollection)
 	var err error
-	var hooks []*Hook
 
 	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err != nil {
-		return hooks, meta, err
+		return collection, meta, err
 	}
 
-	err = json.Unmarshal(contents, &hooks)
+	err = json.Unmarshal(contents, &collection.Items)
 
-	return hooks, meta, err
+	return collection, meta, err
 }
 
 func (g *Gitlab) ProjectHook(projectId, hookId string) (*Hook, *ResponseMeta, error) {

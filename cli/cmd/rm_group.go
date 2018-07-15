@@ -41,7 +41,7 @@ var rmGroupCmd = &cobra.Command{
 
 		color.Green("✔ Group was successfully removed: %s", message)
 
-		metaOutput(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

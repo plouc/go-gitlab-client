@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
@@ -44,20 +45,20 @@ func fetchProjects() {
 	}
 
 	loader.Start()
-	projects, meta, err := client.Projects(o)
+	collection, meta, err := client.Projects(o)
 	loader.Stop()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	if len(projects) == 0 {
+	if len(collection.Items) == 0 {
 		color.Red("  No project found")
 	} else {
-		projectsOutput(projects)
+		out.Projects(output, outputFormat, collection)
 	}
 
-	metaOutput(meta, true)
+	printMeta(meta, true)
 
 	handlePaginatedResult(meta, fetchProjects)
 }

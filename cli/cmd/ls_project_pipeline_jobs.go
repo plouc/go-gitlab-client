@@ -31,20 +31,20 @@ func fetchProjectPipelineJobs(projectId string, pipelineId int) {
 	}
 
 	loader.Start()
-	jobs, meta, err := client.ProjectPipelineJobs(projectId, pipelineId, o)
+	collection, meta, err := client.ProjectPipelineJobs(projectId, pipelineId, o)
 	loader.Stop()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	if len(jobs) == 0 {
+	if len(collection.Items) == 0 {
 		color.Red("No job found for project %s pipeline %d", projectId, pipelineId)
 	} else {
-		out.Jobs(output, outputFormat, jobs, projectPipelineJobsPrettyOutput)
+		out.Jobs(output, outputFormat, collection, projectPipelineJobsPrettyOutput)
 	}
 
-	out.Meta(meta, true)
+	printMeta(meta, true)
 
 	handlePaginatedResult(meta, func() {
 		fetchProjectPipelineJobs(projectId, pipelineId)

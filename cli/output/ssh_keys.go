@@ -1,20 +1,21 @@
-package cmd
+package output
 
 import (
 	"fmt"
 
 	"github.com/olekukonko/tablewriter"
 	"github.com/plouc/go-gitlab-client/gitlab"
+	"io"
 )
 
-func sshKeysOutput(keys []*gitlab.SshKey) {
-	if outputFormat == "json" {
-		jsonOutput(keys)
-	} else if outputFormat == "yaml" {
-		yamlOutput(keys)
+func SshKeys(w io.Writer, format string, collection *gitlab.SshKeyCollection) {
+	if format == "json" {
+		collection.RenderJson(w)
+	} else if format == "yaml" {
+		collection.RenderYaml(w)
 	} else {
-		fmt.Fprintln(output, "")
-		table := tablewriter.NewWriter(output)
+		fmt.Fprintln(w, "")
+		table := tablewriter.NewWriter(w)
 		table.SetHeader([]string{
 			"Id",
 			"Title",
@@ -22,7 +23,7 @@ func sshKeysOutput(keys []*gitlab.SshKey) {
 			"Created at",
 		})
 		table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-		for _, key := range keys {
+		for _, key := range collection.Items {
 			table.Append([]string{
 				fmt.Sprintf("%d", key.Id),
 				key.Title,
@@ -31,6 +32,6 @@ func sshKeysOutput(keys []*gitlab.SshKey) {
 			})
 		}
 		table.Render()
-		fmt.Fprintln(output, "")
+		fmt.Fprintln(w, "")
 	}
 }

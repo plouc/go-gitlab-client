@@ -21,20 +21,20 @@ func fetchProjectBadges(projectId string) {
 	o.PerPage = perPage
 
 	loader.Start()
-	badges, meta, err := client.ProjectBadges(projectId, o)
+	collection, meta, err := client.ProjectBadges(projectId, o)
 	loader.Stop()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	if len(badges) == 0 {
+	if len(collection.Items) == 0 {
 		color.Red("No badge found for project %s", projectId)
 	} else {
-		out.Badges(output, outputFormat, badges)
+		out.Badges(output, outputFormat, collection)
 	}
 
-	out.Meta(meta, true)
+	printMeta(meta, true)
 
 	handlePaginatedResult(meta, func() {
 		fetchProjectBadges(projectId)

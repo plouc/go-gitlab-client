@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"encoding/json"
+	"io"
 	"strconv"
 )
 
@@ -41,19 +42,39 @@ type EnvironmentProject struct {
 	LastActivityAtRaw string   `json:"last_activity_at,omitempty" yaml:"last_activity_at,omitempty"`
 }
 
-func (g *Gitlab) ProjectEnvironments(projectId string, o *PaginationOptions) ([]*Environment, *ResponseMeta, error) {
+type EnvironmentCollection struct {
+	Items []*Environment
+}
+
+func (e *Environment) RenderJson(w io.Writer) error {
+	return renderJson(w, e)
+}
+
+func (e *Environment) RenderYaml(w io.Writer) error {
+	return renderYaml(w, e)
+}
+
+func (c *EnvironmentCollection) RenderJson(w io.Writer) error {
+	return renderJson(w, c.Items)
+}
+
+func (c *EnvironmentCollection) RenderYaml(w io.Writer) error {
+	return renderYaml(w, c.Items)
+}
+
+func (g *Gitlab) ProjectEnvironments(projectId string, o *PaginationOptions) (*EnvironmentCollection, *ResponseMeta, error) {
 	u := g.ResourceUrlQ(ProjectEnvironmentsApiPath, map[string]string{
 		":id": projectId,
 	}, o)
 
-	var environments []*Environment
+	collection := new(EnvironmentCollection)
 
 	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
-		err = json.Unmarshal(contents, &environments)
+		err = json.Unmarshal(contents, &collection.Items)
 	}
 
-	return environments, meta, err
+	return collection, meta, err
 }
 
 func (g *Gitlab) AddProjectEnvironment(projectId string, environment *EnvironmentAddPayload) (*Environment, *ResponseMeta, error) {

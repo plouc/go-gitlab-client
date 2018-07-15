@@ -38,7 +38,7 @@ var getProjectBadgeCmd = &cobra.Command{
 
 		out.Badge(output, outputFormat, badge)
 
-		out.Meta(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

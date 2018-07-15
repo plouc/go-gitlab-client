@@ -14,12 +14,12 @@ func TestGroups(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	assert.Equal(t, len(groups), 2)
-	assert.Equal(t, groups[0].Id, 1)
-	assert.Equal(t, groups[0].Name, "Foobar Group")
-	assert.Equal(t, groups[0].Path, "foo-bar")
-	assert.Equal(t, groups[1].ParentId, 1)
-	assert.Equal(t, groups[1].FullPath, "foo-bar/another")
+	assert.Equal(t, len(groups.Items), 2)
+	assert.Equal(t, groups.Items[0].Id, 1)
+	assert.Equal(t, groups.Items[0].Name, "Foobar Group")
+	assert.Equal(t, groups.Items[0].Path, "foo-bar")
+	assert.Equal(t, groups.Items[1].ParentId, 1)
+	assert.Equal(t, groups.Items[1].FullPath, "foo-bar/another")
 
 	assert.IsType(t, new(ResponseMeta), meta)
 	assert.Equal(t, 1, meta.Page)

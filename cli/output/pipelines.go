@@ -11,9 +11,9 @@ import (
 
 func Pipeline(w io.Writer, format string, pipeline *gitlab.PipelineWithDetails) {
 	if format == "json" {
-		Json(w, pipeline)
+		pipeline.RenderJson(w)
 	} else if format == "yaml" {
-		Yaml(w, pipeline)
+		pipeline.RenderYaml(w)
 	} else {
 		fmt.Fprintln(w, "")
 
@@ -44,11 +44,11 @@ func Pipeline(w io.Writer, format string, pipeline *gitlab.PipelineWithDetails) 
 	}
 }
 
-func Pipelines(w io.Writer, format string, pipelines []*gitlab.Pipeline) {
+func Pipelines(w io.Writer, format string, collection *gitlab.PipelineCollection) {
 	if format == "json" {
-		Json(w, pipelines)
+		collection.RenderJson(w)
 	} else if format == "yaml" {
-		Yaml(w, pipelines)
+		collection.RenderYaml(w)
 	} else {
 		fmt.Fprintln(w, "")
 		table := tablewriter.NewWriter(w)
@@ -59,7 +59,7 @@ func Pipelines(w io.Writer, format string, pipelines []*gitlab.Pipeline) {
 			"Status",
 		})
 		table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-		for _, pipeline := range pipelines {
+		for _, pipeline := range collection.Items {
 			table.Append([]string{
 				fmt.Sprintf("%d", pipeline.Id),
 				pipeline.Ref,

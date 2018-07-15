@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/spf13/cobra"
 )
 
@@ -45,10 +46,10 @@ var rmProjectStarCmd = &cobra.Command{
 		}
 
 		if project != nil {
-			projectOutput(project, false)
+			out.Project(output, outputFormat, project, false)
 		}
 
-		metaOutput(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

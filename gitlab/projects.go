@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"encoding/json"
+	"io"
 )
 
 const (
@@ -33,57 +34,61 @@ const (
 	ProjectsOrderPath ProjectsOrder = "path"
 )
 
-type ProjectGroupSharing struct {
-	GroupId          int    `json:"group_id"`
-	GroupName        string `json:"group_name"`
-	GroupAccessLevel int    `json:"group_access_level"`
-}
-
-type ProjectStatistics struct {
-	CommitCount      int `json:"commit_count"`
-	StorageSize      int `json:"storage_size"`
-	RepositorySize   int `json:"repository_size"`
-	LfsObjectsSize   int `json:"lfs_objects_size"`
-	JobArtifactsSize int `json:"job_artifacts_size"`
-}
-
 type MinimalProject struct {
-	Id                int    `json:"id"`
-	Name              string `json:"name"`
-	NameWithNamespace string `json:"name_with_namespace"`
-	Path              string `json:"path"`
-	PathWithNamespace string `json:"path_with_namespace"`
+	Id                int    `json:"id" yaml:"id"`
+	Name              string `json:"name" yaml:"name"`
+	NameWithNamespace string `json:"name_with_namespace" yaml:"name_with_namespace"`
+	Path              string `json:"path" yaml:"path"`
+	PathWithNamespace string `json:"path_with_namespace" yaml:"path_with_namespace"`
 }
 
 type Project struct {
 	MinimalProject
-	Description                               string                 `json:"description"`
-	DefaultBranch                             string                 `json:"default_branch"`
-	Owner                                     *Member                `json:"owner"`
-	Public                                    bool                   `json:"public"`
-	Visibility                                Visibility             `json:"visibility"`
-	IssuesEnabled                             bool                   `json:"issues_enabled"`
-	OpenIssuesCount                           int                    `json:"open_issues_count"`
-	MergeRequestsEnabled                      bool                   `json:"merge_requests_enabled"`
-	WallEnabled                               bool                   `json:"wall_enabled"`
-	WikiEnabled                               bool                   `json:"wiki_enabled"`
-	CreatedAtRaw                              string                 `json:"created_at,omitempty"`
-	Namespace                                 *Namespace             `json:"namespace,omitempty"`
-	NamespaceId                               int                    `json:"namespace_id"`
-	SshRepoUrl                                string                 `json:"ssh_url_to_repo"`
-	HttpRepoUrl                               string                 `json:"http_url_to_repo"`
-	WebUrl                                    string                 `json:"web_url"`
-	ReadmeUrl                                 string                 `json:"readme_url"`
-	SharedRunnersEnabled                      bool                   `json:"shared_runners_enabled"`
-	Archived                                  bool                   `json:"archived"`
-	OnlyAllowMergeIfPipelineSucceeds          bool                   `json:"only_allow_merge_if_pipeline_succeeds"`
-	OnlyAllowMergeIfAllDiscussionsAreResolved bool                   `json:"only_allow_merge_if_all_discussions_are_resolved"`
-	MergeMethod                               string                 `json:"merge_method"`
-	TagList                                   []string               `json:"tag_list"`
-	SharedWithGroups                          []*ProjectGroupSharing `json:"shared_with_groups"`
-	ForksCount                                int                    `json:"forks_count"`
-	StarCount                                 int                    `json:"star_count"`
-	Statistics                                *ProjectStatistics     `json:"statistics"`
+	Description                               string                 `json:"description" yaml:"description"`
+	DefaultBranch                             string                 `json:"default_branch" yaml:"default_branch"`
+	Owner                                     *Member                `json:"owner" yaml:"owner"`
+	Public                                    bool                   `json:"public" yaml:"public"`
+	Visibility                                Visibility             `json:"visibility" yaml:"visibility"`
+	IssuesEnabled                             bool                   `json:"issues_enabled" yaml:"issues_enabled"`
+	OpenIssuesCount                           int                    `json:"open_issues_count" yaml:"open_issues_count"`
+	MergeRequestsEnabled                      bool                   `json:"merge_requests_enabled" yaml:"merge_requests_enabled"`
+	WallEnabled                               bool                   `json:"wall_enabled" yaml:"wall_enabled"`
+	WikiEnabled                               bool                   `json:"wiki_enabled" yaml:"wiki_enabled"`
+	CreatedAtRaw                              string                 `json:"created_at,omitempty" yaml:"created_at,omitempty"`
+	Namespace                                 *Namespace             `json:"namespace,omitempty" yaml:"namespace,omitempty"`
+	NamespaceId                               int                    `json:"namespace_id" yaml:"namespace_id"`
+	SshRepoUrl                                string                 `json:"ssh_url_to_repo" yaml:"ssh_url_to_repo"`
+	HttpRepoUrl                               string                 `json:"http_url_to_repo" yaml:"http_url_to_repo"`
+	WebUrl                                    string                 `json:"web_url" yaml:"web_url"`
+	ReadmeUrl                                 string                 `json:"readme_url" yaml:"readme_url"`
+	SharedRunnersEnabled                      bool                   `json:"shared_runners_enabled" yaml:"shared_runners_enabled"`
+	Archived                                  bool                   `json:"archived" yaml:"archived"`
+	OnlyAllowMergeIfPipelineSucceeds          bool                   `json:"only_allow_merge_if_pipeline_succeeds" yaml:"only_allow_merge_if_pipeline_succeeds"`
+	OnlyAllowMergeIfAllDiscussionsAreResolved bool                   `json:"only_allow_merge_if_all_discussions_are_resolved" yaml:"only_allow_merge_if_all_discussions_are_resolved"`
+	MergeMethod                               string                 `json:"merge_method" yaml:"merge_method"`
+	TagList                                   []string               `json:"tag_list" yaml:"tag_list"`
+	SharedWithGroups                          []*ProjectGroupSharing `json:"shared_with_groups" yaml:"shared_with_groups"`
+	ForksCount                                int                    `json:"forks_count" yaml:"forks_count"`
+	StarCount                                 int                    `json:"star_count" yaml:"star_count"`
+	Statistics                                *ProjectStatistics     `json:"statistics" yaml:"statistics"`
+}
+
+type ProjectGroupSharing struct {
+	GroupId          int    `json:"group_id" yaml:"group_id"`
+	GroupName        string `json:"group_name" yaml:"group_name"`
+	GroupAccessLevel int    `json:"group_access_level" yaml:"group_access_level"`
+}
+
+type ProjectStatistics struct {
+	CommitCount      int `json:"commit_count" yaml:"commit_count"`
+	StorageSize      int `json:"storage_size" yaml:"storage_size"`
+	RepositorySize   int `json:"repository_size" yaml:"repository_size"`
+	LfsObjectsSize   int `json:"lfs_objects_size" yaml:"lfs_objects_size"`
+	JobArtifactsSize int `json:"job_artifacts_size" yaml:"job_artifacts_size"`
+}
+
+type ProjectCollection struct {
+	Items []*Project
 }
 
 type ProjectsOptions struct {
@@ -128,17 +133,33 @@ type ProjectsOptions struct {
 	WithMergeRequestsEnabled bool `url:"with_merge_requests_enabled,omitempty"`
 }
 
-func (g *Gitlab) Projects(o *ProjectsOptions) ([]*Project, *ResponseMeta, error) {
+func (p *Project) RenderJson(w io.Writer) error {
+	return renderJson(w, p)
+}
+
+func (p *Project) RenderYaml(w io.Writer) error {
+	return renderYaml(w, p)
+}
+
+func (c *ProjectCollection) RenderJson(w io.Writer) error {
+	return renderJson(w, c.Items)
+}
+
+func (c *ProjectCollection) RenderYaml(w io.Writer) error {
+	return renderYaml(w, c.Items)
+}
+
+func (g *Gitlab) Projects(o *ProjectsOptions) (*ProjectCollection, *ResponseMeta, error) {
 	u := g.ResourceUrlQ(ProjectsApiPath, nil, o)
 
-	var projects []*Project
+	collection := new(ProjectCollection)
 
 	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
-		err = json.Unmarshal(contents, &projects)
+		err = json.Unmarshal(contents, &collection.Items)
 	}
 
-	return projects, meta, err
+	return collection, meta, err
 }
 
 type ProjectAddPayload struct {

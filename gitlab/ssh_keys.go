@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"encoding/json"
+	"io"
 	"net/url"
 	"strconv"
 )
@@ -20,18 +21,38 @@ type SshKey struct {
 	CreatedAtRaw string `json:"created_at,omitempty" yaml:"created_at,omitempty"`
 }
 
-func (g *Gitlab) getSshKeys(u *url.URL) ([]*SshKey, *ResponseMeta, error) {
-	var keys []*SshKey
+type SshKeyCollection struct {
+	Items []*SshKey
+}
+
+func (s *SshKey) RenderJson(w io.Writer) error {
+	return renderJson(w, s)
+}
+
+func (s *SshKey) RenderYaml(w io.Writer) error {
+	return renderYaml(w, s)
+}
+
+func (c *SshKeyCollection) RenderJson(w io.Writer) error {
+	return renderJson(w, c.Items)
+}
+
+func (c *SshKeyCollection) RenderYaml(w io.Writer) error {
+	return renderYaml(w, c.Items)
+}
+
+func (g *Gitlab) getSshKeys(u *url.URL) (*SshKeyCollection, *ResponseMeta, error) {
+	collection := new(SshKeyCollection)
 
 	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
-		err = json.Unmarshal(contents, &keys)
+		err = json.Unmarshal(contents, &collection.Items)
 	}
 
-	return keys, meta, err
+	return collection, meta, err
 }
 
-func (g *Gitlab) UserSshKeys(userId int, o *PaginationOptions) ([]*SshKey, *ResponseMeta, error) {
+func (g *Gitlab) UserSshKeys(userId int, o *PaginationOptions) (*SshKeyCollection, *ResponseMeta, error) {
 	u := g.ResourceUrlQ(UserSshKeysApiPath, map[string]string{
 		":id": strconv.Itoa(userId),
 	}, o)
@@ -39,7 +60,7 @@ func (g *Gitlab) UserSshKeys(userId int, o *PaginationOptions) ([]*SshKey, *Resp
 	return g.getSshKeys(u)
 }
 
-func (g *Gitlab) CurrentUserSshKeys(o *PaginationOptions) ([]*SshKey, *ResponseMeta, error) {
+func (g *Gitlab) CurrentUserSshKeys(o *PaginationOptions) (*SshKeyCollection, *ResponseMeta, error) {
 	u := g.ResourceUrlQ(CurrentUserSshKeysApiPath, nil, o)
 
 	return g.getSshKeys(u)

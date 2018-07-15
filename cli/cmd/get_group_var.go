@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/spf13/cobra"
 )
 
@@ -28,9 +29,9 @@ var getGroupVarCmd = &cobra.Command{
 			return err
 		}
 
-		varOutput(variable)
+		out.Variable(output, outputFormat, variable)
 
-		metaOutput(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

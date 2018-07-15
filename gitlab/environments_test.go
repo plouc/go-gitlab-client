@@ -14,7 +14,7 @@ func TestProjectEnvironments(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	assert.Equal(t, 5, len(environments))
+	assert.Equal(t, 5, len(environments.Items))
 
 	assert.IsType(t, new(ResponseMeta), meta)
 	assert.Equal(t, 1, meta.Page)

@@ -30,20 +30,20 @@ func fetchProjectJobs(projectId string) {
 	}
 
 	loader.Start()
-	jobs, meta, err := client.ProjectJobs(projectId, o)
+	collection, meta, err := client.ProjectJobs(projectId, o)
 	loader.Stop()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	if len(jobs) == 0 {
+	if len(collection.Items) == 0 {
 		color.Red("No job found for project %s", projectId)
 	} else {
-		out.Jobs(output, outputFormat, jobs, projectJobsPrettyOutput)
+		out.Jobs(output, outputFormat, collection, projectJobsPrettyOutput)
 	}
 
-	out.Meta(meta, true)
+	printMeta(meta, true)
 
 	handlePaginatedResult(meta, func() {
 		fetchProjectJobs(projectId)

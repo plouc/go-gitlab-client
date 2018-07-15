@@ -38,7 +38,7 @@ var lsProtectedBranchesCmd = &cobra.Command{
 			out.ProtectedBranches(output, outputFormat, protectedBranches)
 		}
 
-		out.Meta(meta, true)
+		printMeta(meta, true)
 
 		return nil
 	},

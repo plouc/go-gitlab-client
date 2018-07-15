@@ -14,7 +14,7 @@ func TestProjectBadges(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	assert.Equal(t, 5, len(badges))
+	assert.Equal(t, 5, len(badges.Items))
 
 	assert.IsType(t, new(ResponseMeta), meta)
 	assert.Equal(t, 1, meta.Page)

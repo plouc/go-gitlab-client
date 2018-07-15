@@ -53,7 +53,7 @@ var addProjectBadgeCmd = &cobra.Command{
 
 		out.Badge(output, outputFormat, createdBadge)
 
-		out.Meta(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

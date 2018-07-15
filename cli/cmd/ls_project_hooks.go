@@ -16,20 +16,20 @@ func fetchHooks(projectId string) {
 	color.Yellow("Fetching project's hooks (id: %s)…", projectId)
 
 	loader.Start()
-	hooks, meta, err := client.ProjectHooks(projectId)
+	collection, meta, err := client.ProjectHooks(projectId)
 	loader.Stop()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	if len(hooks) == 0 {
+	if len(collection.Items) == 0 {
 		color.Red("  No hook found for project %s", projectId)
 	} else {
-		out.Hooks(output, outputFormat, hooks)
+		out.Hooks(output, outputFormat, collection)
 	}
 
-	out.Meta(meta, true)
+	printMeta(meta, true)
 
 	handlePaginatedResult(meta, func() {
 		fetchHooks(projectId)

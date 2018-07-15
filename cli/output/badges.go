@@ -9,11 +9,11 @@ import (
 	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
-func Badges(w io.Writer, format string, badges []*gitlab.Badge) {
+func Badges(w io.Writer, format string, collection *gitlab.BadgeCollection) {
 	if format == "json" {
-		Json(w, badges)
+		collection.RenderJson(w)
 	} else if format == "yaml" {
-		Yaml(w, badges)
+		collection.RenderYaml(w)
 	} else {
 		fmt.Fprintln(w, "")
 		table := tablewriter.NewWriter(w)
@@ -23,7 +23,7 @@ func Badges(w io.Writer, format string, badges []*gitlab.Badge) {
 			"Image Url",
 		})
 		table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-		for _, badge := range badges {
+		for _, badge := range collection.Items {
 			table.Append([]string{
 				fmt.Sprintf("%d", badge.Id),
 				badge.LinkUrl,
@@ -37,9 +37,9 @@ func Badges(w io.Writer, format string, badges []*gitlab.Badge) {
 
 func Badge(w io.Writer, format string, badge *gitlab.Badge) {
 	if format == "json" {
-		Json(w, badge)
+		badge.RenderJson(w)
 	} else if format == "yaml" {
-		Yaml(w, badge)
+		badge.RenderYaml(w)
 	} else {
 		fmt.Fprintln(w, "")
 		fmt.Fprintf(w, "  Id                %s\n", color.YellowString("%d", badge.Id))

@@ -2,9 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"strconv"
+
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
-	"strconv"
 )
 
 func init() {
@@ -46,7 +47,7 @@ var rmProjectEnvironmentCmd = &cobra.Command{
 
 		color.Green("✔ Project environment was successfully removed")
 
-		metaOutput(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

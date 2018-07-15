@@ -45,20 +45,20 @@ func fetchGroups() {
 	}
 
 	loader.Start()
-	groups, meta, err := client.Groups(o)
+	collection, meta, err := client.Groups(o)
 	loader.Stop()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	if len(groups) == 0 {
+	if len(collection.Items) == 0 {
 		color.Red("No group found")
 	} else {
-		out.Groups(output, outputFormat, groups)
+		out.Groups(output, outputFormat, collection)
 	}
 
-	out.Meta(meta, true)
+	printMeta(meta, true)
 
 	handlePaginatedResult(meta, fetchGroups)
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
@@ -40,20 +41,20 @@ func fetchUsers() {
 	}
 
 	loader.Start()
-	users, meta, err := client.Users(o)
+	collection, meta, err := client.Users(o)
 	loader.Stop()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	if len(users) == 0 {
+	if len(collection.Items) == 0 {
 		color.Red("  No user found")
 	} else {
-		usersOutput(users)
+		out.Users(output, outputFormat, collection)
 	}
 
-	metaOutput(meta, true)
+	printMeta(meta, true)
 
 	handlePaginatedResult(meta, fetchUsers)
 }

@@ -39,7 +39,7 @@ var getProjectJobCmd = &cobra.Command{
 
 		out.Job(output, outputFormat, job)
 
-		out.Meta(meta, false)
+		printMeta(meta, false)
 
 		fmt.Println("")
 		color.Yellow("Related")

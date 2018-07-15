@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
@@ -30,20 +31,20 @@ var lsProjectVarsCmd = &cobra.Command{
 		}
 
 		loader.Start()
-		variables, meta, err := client.ProjectVariables(ids["project_id"], o)
+		collection, meta, err := client.ProjectVariables(ids["project_id"], o)
 		loader.Stop()
 		if err != nil {
 			return err
 		}
 
 		fmt.Println("")
-		if len(variables) == 0 {
+		if len(collection.Items) == 0 {
 			color.Red("  No variable found for project %s", ids["project_id"])
 		} else {
-			varsOutput(variables)
+			out.Variables(output, outputFormat, collection)
 		}
 
-		metaOutput(meta, true)
+		printMeta(meta, true)
 
 		return nil
 	},

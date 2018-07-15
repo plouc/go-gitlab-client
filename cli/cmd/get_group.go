@@ -35,7 +35,7 @@ var getGroupCmd = &cobra.Command{
 
 		out.Group(output, outputFormat, group)
 
-		out.Meta(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

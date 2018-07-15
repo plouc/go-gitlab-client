@@ -31,7 +31,7 @@ var getProjectBranchCmd = &cobra.Command{
 
 		out.Branch(output, outputFormat, branch)
 
-		out.Meta(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

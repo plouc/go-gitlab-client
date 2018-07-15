@@ -22,20 +22,20 @@ func fetchGroupMergeRequests(groupId int) {
 	o.PerPage = perPage
 
 	loader.Start()
-	mergeRequests, meta, err := client.GroupMergeRequests(groupId, o)
+	collection, meta, err := client.GroupMergeRequests(groupId, o)
 	loader.Stop()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	if len(mergeRequests) == 0 {
+	if len(collection.Items) == 0 {
 		color.Red("No merge request found for group %d", groupId)
 	} else {
-		out.MergeRequests(output, outputFormat, mergeRequests)
+		out.MergeRequests(output, outputFormat, collection)
 	}
 
-	out.Meta(meta, true)
+	printMeta(meta, true)
 
 	handlePaginatedResult(meta, func() {
 		fetchGroupMergeRequests(groupId)

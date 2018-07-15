@@ -14,7 +14,7 @@ func TestMergeRequests(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	assert.Equal(t, 10, len(mergeRequests))
+	assert.Equal(t, 10, len(mergeRequests.Items))
 
 	assert.IsType(t, new(ResponseMeta), meta)
 	assert.Equal(t, 1, meta.Page)
@@ -29,7 +29,7 @@ func TestProjectMergeRequests(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	assert.Equal(t, 10, len(mergeRequests))
+	assert.Equal(t, 10, len(mergeRequests.Items))
 
 	assert.IsType(t, new(ResponseMeta), meta)
 	assert.Equal(t, 1, meta.Page)
@@ -44,7 +44,7 @@ func TestGroupMergeRequests(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	assert.Equal(t, 10, len(mergeRequests))
+	assert.Equal(t, 10, len(mergeRequests.Items))
 
 	assert.IsType(t, new(ResponseMeta), meta)
 	assert.Equal(t, 1, meta.Page)

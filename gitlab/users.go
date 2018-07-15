@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"encoding/json"
+	"io"
 )
 
 const (
@@ -46,6 +47,10 @@ type User struct {
 	External         bool            `json:"external,omitempty" yaml:"external,omitempty"`
 }
 
+type UserCollection struct {
+	Items []*User
+}
+
 type UsersOptions struct {
 	PaginationOptions
 
@@ -62,17 +67,33 @@ type UsersOptions struct {
 	Blocked bool `url:"blocked,omitempty"`
 }
 
-func (g *Gitlab) Users(o *UsersOptions) ([]*User, *ResponseMeta, error) {
+func (u *User) RenderJson(w io.Writer) error {
+	return renderJson(w, u)
+}
+
+func (u *User) RenderYaml(w io.Writer) error {
+	return renderYaml(w, u)
+}
+
+func (c *UserCollection) RenderJson(w io.Writer) error {
+	return renderJson(w, c.Items)
+}
+
+func (c *UserCollection) RenderYaml(w io.Writer) error {
+	return renderYaml(w, c.Items)
+}
+
+func (g *Gitlab) Users(o *UsersOptions) (*UserCollection, *ResponseMeta, error) {
 	u := g.ResourceUrlQ(UsersApiPath, nil, o)
 
-	var users []*User
+	collection := new(UserCollection)
 
 	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
-		err = json.Unmarshal(contents, &users)
+		err = json.Unmarshal(contents, &collection.Items)
 	}
 
-	return users, meta, err
+	return collection, meta, err
 }
 
 func (g *Gitlab) User(id string) (*User, *ResponseMeta, error) {

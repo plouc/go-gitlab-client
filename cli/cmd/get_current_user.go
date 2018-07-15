@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/spf13/cobra"
 )
 
@@ -26,8 +27,8 @@ var getCurrentCmd = &cobra.Command{
 			return
 		}
 
-		userOutput(user)
+		out.User(output, outputFormat, user)
 
-		metaOutput(meta, false)
+		printMeta(meta, false)
 	},
 }

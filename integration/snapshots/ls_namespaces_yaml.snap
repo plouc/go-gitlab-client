@@ -1,52 +1,11 @@
 Fetching namespaces…
 - id: 1
-  name: ""
   path: user1
   kind: user
-  fullpath: ""
-  parentid: 0
-  memberscountwithdescendants: 0
-  plan: ""
-  description: ""
-  ownerid: 0
-  createdat: ""
-  updatedat: ""
 - id: 2
-  name: ""
   path: group1
   kind: group
-  fullpath: ""
-  parentid: 0
-  memberscountwithdescendants: 0
-  plan: ""
-  description: ""
-  ownerid: 0
-  createdat: ""
-  updatedat: ""
 - id: 3
-  name: ""
   path: bar
   kind: group
-  fullpath: foo/bar
-  parentid: 0
-  memberscountwithdescendants: 0
-  plan: ""
-  description: ""
-  ownerid: 0
-  createdat: ""
-  updatedat: ""
-
-Response meta
-
-  Method          GET
-  Url             http://wiremock:8080/api/v4/namespaces?page=1&per_page=10
-  StatusCode      200
-  Request id      
-  Runtime         0.000000
-  Page            1
-  Items per page  10
-  Previous page   0
-  Next page       0
-  Total pages     0
-  Total           0
-
+  full_path: foo/bar

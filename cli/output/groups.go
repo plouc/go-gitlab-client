@@ -9,11 +9,11 @@ import (
 	"io"
 )
 
-func Groups(w io.Writer, format string, groups []*gitlab.Group) {
+func Groups(w io.Writer, format string, collection *gitlab.GroupCollection) {
 	if format == "json" {
-		Json(w, groups)
+		collection.RenderJson(w)
 	} else if format == "yaml" {
-		Yaml(w, groups)
+		collection.RenderYaml(w)
 	} else {
 		fmt.Fprintln(w, "")
 		table := tablewriter.NewWriter(w)
@@ -24,7 +24,7 @@ func Groups(w io.Writer, format string, groups []*gitlab.Group) {
 			"Visibility",
 		})
 		table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-		for _, group := range groups {
+		for _, group := range collection.Items {
 			table.Append([]string{
 				fmt.Sprintf("%d", group.Id),
 				group.Name,
@@ -39,9 +39,9 @@ func Groups(w io.Writer, format string, groups []*gitlab.Group) {
 
 func Group(w io.Writer, format string, group *gitlab.GroupWithDetails) {
 	if format == "json" {
-		Json(w, group)
+		group.RenderJson(w)
 	} else if format == "yaml" {
-		Yaml(w, group)
+		group.RenderYaml(w)
 	} else {
 		fmt.Fprintln(w, "")
 

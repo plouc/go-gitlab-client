@@ -14,7 +14,7 @@ func TestProjectMembers(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	assert.Equal(t, 10, len(members))
+	assert.Equal(t, 10, len(members.Items))
 
 	assert.IsType(t, new(ResponseMeta), meta)
 	assert.Equal(t, 1, meta.Page)
@@ -29,7 +29,7 @@ func TestGroupMembers(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	assert.Equal(t, 10, len(members))
+	assert.Equal(t, 10, len(members.Items))
 
 	assert.IsType(t, new(ResponseMeta), meta)
 	assert.Equal(t, 1, meta.Page)

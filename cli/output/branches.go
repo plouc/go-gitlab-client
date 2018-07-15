@@ -5,14 +5,45 @@ import (
 	"io"
 
 	"github.com/fatih/color"
+	"github.com/olekukonko/tablewriter"
 	"github.com/plouc/go-gitlab-client/gitlab"
 )
 
+func Branches(w io.Writer, format string, collection *gitlab.BranchCollection) {
+	if format == "json" {
+		collection.RenderJson(w)
+	} else if format == "yaml" {
+		collection.RenderYaml(w)
+	} else {
+		fmt.Fprintln(w, "")
+		table := tablewriter.NewWriter(w)
+		table.SetHeader([]string{
+			"Name",
+			"Protected",
+			"Merged",
+			"Developers Can Push",
+			"Developers Can Merge",
+		})
+		table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
+		for _, branch := range collection.Items {
+			table.Append([]string{
+				branch.Name,
+				fmt.Sprintf("%t", branch.Protected),
+				fmt.Sprintf("%t", branch.Merged),
+				fmt.Sprintf("%t", branch.DevelopersCanPush),
+				fmt.Sprintf("%t", branch.DevelopersCanMerge),
+			})
+		}
+		table.Render()
+		fmt.Fprintln(w, "")
+	}
+}
+
 func Branch(w io.Writer, format string, branch *gitlab.Branch) {
 	if format == "json" {
-		Json(w, branch)
+		branch.RenderJson(w)
 	} else if format == "yaml" {
-		Yaml(w, branch)
+		branch.RenderYaml(w)
 	} else {
 		fmt.Fprintln(w, "")
 

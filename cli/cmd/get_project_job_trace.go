@@ -2,9 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"strconv"
+
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
-	"strconv"
 )
 
 func init() {
@@ -37,7 +38,7 @@ var getProjectJobTraceCmd = &cobra.Command{
 
 		fmt.Fprintln(output, trace)
 
-		metaOutput(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

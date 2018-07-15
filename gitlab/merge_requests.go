@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"encoding/json"
+	"io"
 	"net/url"
 	"strconv"
 	"time"
@@ -107,6 +108,10 @@ type AcceptMergeRequestRequest struct {
 	MergedWhenBuildSucceeds  bool   `json:"merged_when_build_succeeds,omitempty"`
 }
 
+type MergeRequestCollection struct {
+	Items []*MergeRequest
+}
+
 type MergeRequestScope string
 
 // For versions before 11.0, use the now deprecated
@@ -177,31 +182,47 @@ type MergeRequestsOptions struct {
 	Scope MergeRequestScope `url:"scope,omitempty"`
 }
 
-func (g *Gitlab) getMergeRequests(u *url.URL) ([]*MergeRequest, *ResponseMeta, error) {
+func (mr *MergeRequest) RenderJson(w io.Writer) error {
+	return renderJson(w, mr)
+}
+
+func (mr *MergeRequest) RenderYaml(w io.Writer) error {
+	return renderYaml(w, mr)
+}
+
+func (c *MergeRequestCollection) RenderJson(w io.Writer) error {
+	return renderJson(w, c.Items)
+}
+
+func (c *MergeRequestCollection) RenderYaml(w io.Writer) error {
+	return renderYaml(w, c.Items)
+}
+
+func (g *Gitlab) getMergeRequests(u *url.URL) (*MergeRequestCollection, *ResponseMeta, error) {
+	collection := new(MergeRequestCollection)
 	var err error
-	var mergeRequests []*MergeRequest
 
 	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
-		err = json.Unmarshal(contents, &mergeRequests)
+		err = json.Unmarshal(contents, &collection.Items)
 	}
 
-	return mergeRequests, meta, err
+	return collection, meta, err
 }
 
-func (g *Gitlab) MergeRequests(o *MergeRequestsOptions) ([]*MergeRequest, *ResponseMeta, error) {
+func (g *Gitlab) MergeRequests(o *MergeRequestsOptions) (*MergeRequestCollection, *ResponseMeta, error) {
 	u := g.ResourceUrlQ(MergeRequestsApiPath, nil, o)
 
 	return g.getMergeRequests(u)
 }
 
-func (g *Gitlab) ProjectMergeRequests(projectId string, o *MergeRequestsOptions) ([]*MergeRequest, *ResponseMeta, error) {
+func (g *Gitlab) ProjectMergeRequests(projectId string, o *MergeRequestsOptions) (*MergeRequestCollection, *ResponseMeta, error) {
 	u := g.ResourceUrlQ(ProjectMergeRequestsApiPath, map[string]string{":id": projectId}, o)
 
 	return g.getMergeRequests(u)
 }
 
-func (g *Gitlab) GroupMergeRequests(groupId int, o *MergeRequestsOptions) ([]*MergeRequest, *ResponseMeta, error) {
+func (g *Gitlab) GroupMergeRequests(groupId int, o *MergeRequestsOptions) (*MergeRequestCollection, *ResponseMeta, error) {
 	u := g.ResourceUrlQ(GroupMergeRequestsApiPath, map[string]string{":id": strconv.Itoa(groupId)}, o)
 
 	return g.getMergeRequests(u)

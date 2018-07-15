@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"encoding/json"
+	"io"
 	"strconv"
 )
 
@@ -11,25 +12,48 @@ const (
 )
 
 type Badge struct {
-	Id               int    `json:"id"`
-	LinkUrl          string `json:"link_url"`
-	ImageUrl         string `json:"image_url"`
-	RenderedLinkUrl  string `json:"rendered_link_url"`
-	RenderedImageUrl string `json:"rendered_image_url"`
-	Kind             string `json:"kind"`
+	Id               int    `json:"id" yaml:"id"`
+	LinkUrl          string `json:"link_url" yaml:"link_url"`
+	ImageUrl         string `json:"image_url" yaml:"image_url"`
+	RenderedLinkUrl  string `json:"rendered_link_url" yaml:"rendered_link_url"`
+	RenderedImageUrl string `json:"rendered_image_url" yaml:"rendered_image_url"`
+	Kind             string `json:"kind" yaml:"kind"`
 }
 
-func (g *Gitlab) ProjectBadges(projectId string, o *PaginationOptions) ([]*Badge, *ResponseMeta, error) {
+type BadgeCollection struct {
+	Items []*Badge
+}
+
+func (b *Badge) RenderJson(w io.Writer) error {
+	return renderJson(w, b)
+}
+
+func (b *Badge) RenderYaml(w io.Writer) error {
+	return renderYaml(w, b)
+}
+
+func (c *BadgeCollection) RenderJson(w io.Writer) error {
+	return renderJson(w, c.Items)
+}
+
+func (c *BadgeCollection) RenderYaml(w io.Writer) error {
+	return renderYaml(w, c.Items)
+}
+
+func (g *Gitlab) ProjectBadges(projectId string, o *PaginationOptions) (*BadgeCollection, *ResponseMeta, error) {
 	u := g.ResourceUrlQ(ProjectBadgesApiPath, map[string]string{":id": projectId}, o)
 
-	var badges []*Badge
+	collection := new(BadgeCollection)
+	badges := make([]*Badge, 0)
 
 	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &badges)
 	}
 
-	return badges, meta, err
+	collection.Items = badges
+
+	return collection, meta, err
 }
 
 func (g *Gitlab) ProjectBadge(projectId string, badgeId int) (*Badge, *ResponseMeta, error) {

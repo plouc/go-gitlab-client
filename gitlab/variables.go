@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"encoding/json"
+	"io"
 )
 
 const (
@@ -16,27 +17,47 @@ type Variable struct {
 	EnvironmentScope string `json:"environment_scope,omitempty"`
 }
 
-func (g *Gitlab) getVariables(resourceType, id string, o *PaginationOptions) ([]*Variable, *ResponseMeta, error) {
+type VariableCollection struct {
+	Items []*Variable
+}
+
+func (v *Variable) RenderJson(w io.Writer) error {
+	return renderJson(w, v)
+}
+
+func (v *Variable) RenderYaml(w io.Writer) error {
+	return renderYaml(w, v)
+}
+
+func (c *VariableCollection) RenderJson(w io.Writer) error {
+	return renderJson(w, c.Items)
+}
+
+func (c *VariableCollection) RenderYaml(w io.Writer) error {
+	return renderYaml(w, c.Items)
+}
+
+func (g *Gitlab) getVariables(resourceType, id string, o *PaginationOptions) (*VariableCollection, *ResponseMeta, error) {
 	u := g.ResourceUrlQ(VariablesApiPath, map[string]string{
 		":type": resourceType,
 		":id":   id,
 	}, o)
 
-	var variables []*Variable
+	collection := new(VariableCollection)
 
 	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
-		err = json.Unmarshal(contents, &variables)
+		err = json.Unmarshal(contents, &collection.Items)
 	}
 
-	return variables, meta, err
+	return collection, meta, err
 }
 
-func (g *Gitlab) ProjectVariables(projectId string, o *PaginationOptions) ([]*Variable, *ResponseMeta, error) {
+func (g *Gitlab) ProjectVariables(projectId string, o *PaginationOptions) (*VariableCollection, *ResponseMeta, error) {
 	return g.getVariables("projects", projectId, o)
 }
 
-func (g *Gitlab) GroupVariables(groupId string, o *PaginationOptions) ([]*Variable, *ResponseMeta, error) {
+func (g *Gitlab) GroupVariables(groupId string, o *PaginationOptions) (*VariableCollection, *ResponseMeta, error) {
 	return g.getVariables("groups", groupId, o)
 }
 

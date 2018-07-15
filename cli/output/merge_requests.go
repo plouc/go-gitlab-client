@@ -8,11 +8,11 @@ import (
 	"io"
 )
 
-func MergeRequests(w io.Writer, format string, mergeRequests []*gitlab.MergeRequest) {
+func MergeRequests(w io.Writer, format string, collection *gitlab.MergeRequestCollection) {
 	if format == "json" {
-		Json(w, mergeRequests)
+		collection.RenderJson(w)
 	} else if format == "yaml" {
-		Yaml(w, mergeRequests)
+		collection.RenderYaml(w)
 	} else {
 		fmt.Fprintln(w, "")
 		table := tablewriter.NewWriter(w)
@@ -29,7 +29,7 @@ func MergeRequests(w io.Writer, format string, mergeRequests []*gitlab.MergeRequ
 			"Created at",
 		})
 		table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-		for _, mergeRequest := range mergeRequests {
+		for _, mergeRequest := range collection.Items {
 			assignee := ""
 			if mergeRequest.Assignee != nil {
 				assignee = mergeRequest.Assignee.Username

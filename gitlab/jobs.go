@@ -3,6 +3,7 @@ package gitlab
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/url"
 	"strconv"
 )
@@ -78,6 +79,10 @@ type Job struct {
 	} `json:"runner" yaml:"runner"`
 }
 
+type JobCollection struct {
+	Items []*Job
+}
+
 type JobsOptions struct {
 	PaginationOptions
 	SortOptions
@@ -88,20 +93,36 @@ type JobsOptions struct {
 	Scope []string `url:"scope,omitempty"`
 }
 
-func (g *Gitlab) getJobs(u *url.URL) ([]*Job, *ResponseMeta, error) {
-	jobs := make([]*Job, 0)
+func (j *Job) RenderJson(w io.Writer) error {
+	return renderJson(w, j)
+}
+
+func (j *Job) RenderYaml(w io.Writer) error {
+	return renderYaml(w, j)
+}
+
+func (c *JobCollection) RenderJson(w io.Writer) error {
+	return renderJson(w, c.Items)
+}
+
+func (c *JobCollection) RenderYaml(w io.Writer) error {
+	return renderYaml(w, c.Items)
+}
+
+func (g *Gitlab) getJobs(u *url.URL) (*JobCollection, *ResponseMeta, error) {
+	collection := new(JobCollection)
 
 	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err != nil {
-		return jobs, meta, err
+		return collection, meta, err
 	}
 
-	err = json.Unmarshal(contents, &jobs)
+	err = json.Unmarshal(contents, &collection.Items)
 
-	return jobs, meta, err
+	return collection, meta, err
 }
 
-func (g *Gitlab) ProjectJobs(projectId string, o *JobsOptions) ([]*Job, *ResponseMeta, error) {
+func (g *Gitlab) ProjectJobs(projectId string, o *JobsOptions) (*JobCollection, *ResponseMeta, error) {
 	u := g.ResourceUrlQ(ProjectJobsApiPath, map[string]string{
 		":id": projectId,
 	}, o)
@@ -109,7 +130,7 @@ func (g *Gitlab) ProjectJobs(projectId string, o *JobsOptions) ([]*Job, *Respons
 	return g.getJobs(u)
 }
 
-func (g *Gitlab) ProjectPipelineJobs(projectId string, pipelineId int, o *JobsOptions) ([]*Job, *ResponseMeta, error) {
+func (g *Gitlab) ProjectPipelineJobs(projectId string, pipelineId int, o *JobsOptions) (*JobCollection, *ResponseMeta, error) {
 	u := g.ResourceUrlQ(ProjectPipelineJobsApiPath, map[string]string{
 		":id":          projectId,
 		":pipeline_id": fmt.Sprintf("%d", pipelineId),

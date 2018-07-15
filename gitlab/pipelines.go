@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"encoding/json"
+	"io"
 )
 
 const (
@@ -38,6 +39,10 @@ type PipelineWithDetails struct {
 	}
 }
 
+type PipelineCollection struct {
+	Items []*Pipeline
+}
+
 type PipelinesOptions struct {
 	PaginationOptions
 	SortOptions
@@ -66,17 +71,33 @@ type PipelinesOptions struct {
 	Username string `url:"username,omitempty"`
 }
 
-func (g *Gitlab) ProjectPipelines(projectId string, o *PipelinesOptions) ([]*Pipeline, *ResponseMeta, error) {
+func (p *PipelineWithDetails) RenderJson(w io.Writer) error {
+	return renderJson(w, p)
+}
+
+func (p *PipelineWithDetails) RenderYaml(w io.Writer) error {
+	return renderYaml(w, p)
+}
+
+func (c *PipelineCollection) RenderJson(w io.Writer) error {
+	return renderJson(w, c.Items)
+}
+
+func (c *PipelineCollection) RenderYaml(w io.Writer) error {
+	return renderYaml(w, c.Items)
+}
+
+func (g *Gitlab) ProjectPipelines(projectId string, o *PipelinesOptions) (*PipelineCollection, *ResponseMeta, error) {
 	u := g.ResourceUrlQ(ProjectPipelinesApiPath, map[string]string{":id": projectId}, o)
 
-	var pipelines []*Pipeline
+	collection := new(PipelineCollection)
 
 	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
-		err = json.Unmarshal(contents, &pipelines)
+		err = json.Unmarshal(contents, &collection.Items)
 	}
 
-	return pipelines, meta, err
+	return collection, meta, err
 }
 
 func (g *Gitlab) ProjectPipeline(projectId, pipelineId string) (*PipelineWithDetails, *ResponseMeta, error) {

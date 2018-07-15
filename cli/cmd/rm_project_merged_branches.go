@@ -41,7 +41,7 @@ var rmProjectMergedBranchesCmd = &cobra.Command{
 
 		color.Green("✔ Project merged branches were successfully removed: %s", message)
 
-		metaOutput(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

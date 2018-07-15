@@ -31,7 +31,7 @@ var getNamespaceCmd = &cobra.Command{
 
 		out.Namespace(output, outputFormat, namespace)
 
-		out.Meta(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

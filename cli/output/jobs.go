@@ -31,9 +31,9 @@ func jobLabel(job *gitlab.Job) string {
 	)
 }
 
-func Jobs(w io.Writer, format string, jobs []*gitlab.Job, pretty bool) {
+func Jobs(w io.Writer, format string, collection *gitlab.JobCollection, pretty bool) {
 	if pretty {
-		agg := gitlab.AggregateJobs(jobs)
+		agg := gitlab.AggregateJobs(collection.Items)
 
 		root := textree.NewNode("PIPELINES")
 
@@ -71,9 +71,9 @@ func Jobs(w io.Writer, format string, jobs []*gitlab.Job, pretty bool) {
 		root.Render(w, o)
 
 	} else if format == "json" {
-		Json(w, jobs)
+		collection.RenderJson(w)
 	} else if format == "yaml" {
-		Yaml(w, jobs)
+		collection.RenderYaml(w)
 	} else {
 		fmt.Fprintln(w, "")
 		table := tablewriter.NewWriter(w)
@@ -88,7 +88,7 @@ func Jobs(w io.Writer, format string, jobs []*gitlab.Job, pretty bool) {
 			"Duration",
 		})
 		table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-		for _, job := range jobs {
+		for _, job := range collection.Items {
 			table.Append([]string{
 				fmt.Sprintf("%d", job.Pipeline.Id),
 				job.Stage,
@@ -107,9 +107,9 @@ func Jobs(w io.Writer, format string, jobs []*gitlab.Job, pretty bool) {
 
 func Job(w io.Writer, format string, job *gitlab.Job) {
 	if format == "json" {
-		Json(w, job)
+		job.RenderJson(w)
 	} else if format == "yaml" {
-		Yaml(w, job)
+		job.RenderYaml(w)
 	} else {
 		fmt.Fprintln(w, "")
 		fmt.Fprintf(w, "  Id          %s\n", color.YellowString("%d", job.Id))

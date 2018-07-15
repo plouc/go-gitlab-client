@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"encoding/json"
+	"io"
 	"strconv"
 )
 
@@ -38,6 +39,10 @@ type RunnerWithDetails struct {
 	MaximumTimeout int        `json:"maximum_timeout,omitempty" yaml:"maximum_timeout,omitempty"`
 }
 
+type RunnerCollection struct {
+	Items []*Runner
+}
+
 type RunnerScope string
 
 const (
@@ -61,21 +66,40 @@ type RunnersOptions struct {
 	Scope RunnerScope `url:"scope,omitempty"`
 }
 
-func (g *Gitlab) Runners(o *RunnersOptions) ([]*Runner, *ResponseMeta, error) {
+func (r *RunnerWithDetails) RenderJson(w io.Writer) error {
+	return renderJson(w, r)
+}
+
+func (r *RunnerWithDetails) RenderYaml(w io.Writer) error {
+	return renderYaml(w, r)
+}
+
+func (c *RunnerCollection) RenderJson(w io.Writer) error {
+	return renderJson(w, c.Items)
+}
+
+func (c *RunnerCollection) RenderYaml(w io.Writer) error {
+	return renderYaml(w, c.Items)
+}
+
+func (g *Gitlab) Runners(o *RunnersOptions) (*RunnerCollection, *ResponseMeta, error) {
 	p := RunnersApiPath
 	if o != nil && o.All {
 		p = AllRunnersApiPath
 	}
 	u := g.ResourceUrlQ(p, nil, o)
 
-	var runners []*Runner
+	collection := new(RunnerCollection)
+	runners := make([]*Runner, 0)
 
 	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
 		err = json.Unmarshal(contents, &runners)
 	}
 
-	return runners, meta, err
+	collection.Items = runners
+
+	return collection, meta, err
 }
 
 func (g *Gitlab) Runner(id int) (*RunnerWithDetails, *ResponseMeta, error) {

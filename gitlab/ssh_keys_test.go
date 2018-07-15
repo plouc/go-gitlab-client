@@ -14,7 +14,7 @@ func TestCurrentUserSshKeys(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	assert.Equal(t, 3, len(keys))
+	assert.Equal(t, 3, len(keys.Items))
 
 	assert.IsType(t, new(ResponseMeta), meta)
 	assert.Equal(t, 1, meta.Page)
@@ -29,7 +29,7 @@ func TestUserSshKeys(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	assert.Equal(t, 3, len(keys))
+	assert.Equal(t, 3, len(keys.Items))
 
 	assert.IsType(t, new(ResponseMeta), meta)
 	assert.Equal(t, 1, meta.Page)

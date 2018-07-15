@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/spf13/cobra"
 )
 
@@ -35,9 +36,9 @@ var getRunnerCmd = &cobra.Command{
 			return err
 		}
 
-		runnerOutput(runner)
+		out.Runner(output, outputFormat, runner)
 
-		metaOutput(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

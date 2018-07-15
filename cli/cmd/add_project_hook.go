@@ -164,7 +164,7 @@ var addProjectHookCmd = &cobra.Command{
 
 		out.Hook(output, outputFormat, createdHook)
 
-		out.Meta(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},

@@ -28,20 +28,20 @@ func fetchNamespaces() {
 	}
 
 	loader.Start()
-	namespaces, meta, err := client.Namespaces(o)
+	collection, meta, err := client.Namespaces(o)
 	loader.Stop()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	if len(namespaces) == 0 {
+	if len(collection.Items) == 0 {
 		color.Red("No namespace found")
 	} else {
-		out.Namespaces(output, outputFormat, namespaces)
+		out.Namespaces(output, outputFormat, collection)
 	}
 
-	out.Meta(meta, true)
+	printMeta(meta, true)
 
 	handlePaginatedResult(meta, fetchNamespaces)
 }

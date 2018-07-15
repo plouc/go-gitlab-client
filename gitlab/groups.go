@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"encoding/json"
+	"io"
 )
 
 const (
@@ -32,6 +33,10 @@ type GroupWithDetails struct {
 	SharedProjects []*Project `json:"shared_projects" yaml:"shared_projects"`
 }
 
+type GroupCollection struct {
+	Items []*Group
+}
+
 type GroupsOptions struct {
 	PaginationOptions
 	SortOptions
@@ -56,17 +61,33 @@ type GroupsOptions struct {
 	Owned bool `url:"owned,omitempty"`
 }
 
-func (g *Gitlab) Groups(o *GroupsOptions) ([]*Group, *ResponseMeta, error) {
+func (g *Group) RenderJson(w io.Writer) error {
+	return renderJson(w, g)
+}
+
+func (g *Group) RenderYaml(w io.Writer) error {
+	return renderYaml(w, g)
+}
+
+func (c *GroupCollection) RenderJson(w io.Writer) error {
+	return renderJson(w, c.Items)
+}
+
+func (c *GroupCollection) RenderYaml(w io.Writer) error {
+	return renderYaml(w, c.Items)
+}
+
+func (g *Gitlab) Groups(o *GroupsOptions) (*GroupCollection, *ResponseMeta, error) {
 	u := g.ResourceUrlQ(GroupsApiPath, nil, o)
 
-	var groups []*Group
+	collection := new(GroupCollection)
 
 	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
 	if err == nil {
-		err = json.Unmarshal(contents, &groups)
+		err = json.Unmarshal(contents, &collection.Items)
 	}
 
-	return groups, meta, err
+	return collection, meta, err
 }
 
 func (g *Gitlab) Group(id string, withCustomAttributes bool) (*GroupWithDetails, *ResponseMeta, error) {

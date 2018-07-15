@@ -2,6 +2,7 @@
 .idea
 /data
 /bin
+/auto
 .glc*
 cli/glc
 cli/build

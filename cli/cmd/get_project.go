@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/spf13/cobra"
 )
 
@@ -32,9 +33,9 @@ var getProjectCmd = &cobra.Command{
 			return err
 		}
 
-		projectOutput(project, projectStatistics)
+		out.Project(output, outputFormat, project, projectStatistics)
 
-		metaOutput(meta, false)
+		printMeta(meta, false)
 
 		return nil
 	},
