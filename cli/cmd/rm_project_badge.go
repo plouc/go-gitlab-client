@@ -21,8 +21,6 @@ var rmProjectBadgeCmd = &cobra.Command{
 			return err
 		}
 
-		color.Yellow("Removing project badge (project id: %s, badge id: %s)…", ids["project_id"], ids["badge_id"])
-
 		confirmed := confirmAction(
 			fmt.Sprintf("Are you sure you want to remove project %s badge %s?", ids["project_id"], ids["badge_id"]),
 			"aborted project badge removal",
@@ -31,6 +29,8 @@ var rmProjectBadgeCmd = &cobra.Command{
 		if !confirmed {
 			return nil
 		}
+
+		color.Yellow("Removing project badge (project id: %s, badge id: %s)…", ids["project_id"], ids["badge_id"])
 
 		loader.Start()
 		meta, err := client.RemoveProjectBadge(ids["project_id"], ids["badge_id"])

@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "dev",
+    "slug": "dev",
+    "external_url": "http://dev-api.fake.io"
+  },
+  {
+    "id": 2,
+    "name": "staging",
+    "slug": "staging",
+    "external_url": "http://staging-api.fake.io"
+  },
+  {
+    "id": 3,
+    "name": "prod",
+    "slug": "prod",
+    "external_url": "http://prod-api.fake.io"
+  },
+  {
+    "id": 4,
+    "name": "preprod",
+    "slug": "preprod",
+    "external_url": null
+  },
+  {
+    "id": 5,
+    "name": "prod",
+    "slug": "prod",
+    "external_url": "http://api.fake.io"
+  }
+]

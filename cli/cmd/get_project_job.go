@@ -2,9 +2,11 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/fatih/color"
-	"github.com/spf13/cobra"
 	"strconv"
+
+	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
+	"github.com/spf13/cobra"
 )
 
 func init() {
@@ -35,9 +37,9 @@ var getProjectJobCmd = &cobra.Command{
 			return err
 		}
 
-		jobOutput(job)
+		out.Job(output, outputFormat, job)
 
-		metaOutput(meta, false)
+		out.Meta(meta, false)
 
 		fmt.Println("")
 		color.Yellow("Related")

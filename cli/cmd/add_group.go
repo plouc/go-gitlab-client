@@ -5,6 +5,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
@@ -46,8 +47,8 @@ var addGroupCmd = &cobra.Command{
 		createdGroup, meta, err := client.AddGroup(&group)
 		loader.Stop()
 
-		groupOutput(createdGroup)
+		out.Group(output, outputFormat, createdGroup)
 
-		metaOutput(meta, false)
+		out.Meta(meta, false)
 	},
 }

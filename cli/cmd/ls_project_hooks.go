@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"fmt"
+
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/spf13/cobra"
 )
 
@@ -24,10 +26,10 @@ func fetchHooks(projectId string) {
 	if len(hooks) == 0 {
 		color.Red("  No hook found for project %s", projectId)
 	} else {
-		hooksOutput(hooks)
+		out.Hooks(output, outputFormat, hooks)
 	}
 
-	metaOutput(meta, true)
+	out.Meta(meta, true)
 
 	handlePaginatedResult(meta, func() {
 		fetchHooks(projectId)

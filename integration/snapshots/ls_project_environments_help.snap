@@ -1,0 +1,22 @@
+List project environments
+
+Usage:
+  glc ls project-environments PROJECT_ID [flags]
+
+Aliases:
+  project-environments, project-envs, pe
+
+Flags:
+  -h, --help   help for project-environments
+
+Global Flags:
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+  -p, --page int                    Page (default 1)
+  -l, --per-page int                Items per page (default 10)
+      --silent                      silent mode
+  -v, --verbose                     verbose output

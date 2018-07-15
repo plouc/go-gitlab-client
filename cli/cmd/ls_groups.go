@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
@@ -54,10 +55,10 @@ func fetchGroups() {
 	if len(groups) == 0 {
 		color.Red("No group found")
 	} else {
-		groupsOutput(groups)
+		out.Groups(output, outputFormat, groups)
 	}
 
-	metaOutput(meta, true)
+	out.Meta(meta, true)
 
 	handlePaginatedResult(meta, fetchGroups)
 }

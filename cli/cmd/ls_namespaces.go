@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
@@ -37,10 +38,10 @@ func fetchNamespaces() {
 	if len(namespaces) == 0 {
 		color.Red("No namespace found")
 	} else {
-		namespacesOutput(namespaces)
+		out.Namespaces(output, outputFormat, namespaces)
 	}
 
-	metaOutput(meta, true)
+	out.Meta(meta, true)
 
 	handlePaginatedResult(meta, fetchNamespaces)
 }

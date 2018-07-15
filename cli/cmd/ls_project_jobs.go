@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"fmt"
+
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
@@ -38,10 +40,10 @@ func fetchProjectJobs(projectId string) {
 	if len(jobs) == 0 {
 		color.Red("No job found for project %s", projectId)
 	} else {
-		jobsOutput(jobs, projectJobsPrettyOutput)
+		out.Jobs(output, outputFormat, jobs, projectJobsPrettyOutput)
 	}
 
-	metaOutput(meta, true)
+	out.Meta(meta, true)
 
 	handlePaginatedResult(meta, func() {
 		fetchProjectJobs(projectId)

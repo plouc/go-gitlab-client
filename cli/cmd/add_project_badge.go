@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
@@ -50,9 +51,9 @@ var addProjectBadgeCmd = &cobra.Command{
 			return err
 		}
 
-		badgeOutput(createdBadge)
+		out.Badge(output, outputFormat, createdBadge)
 
-		metaOutput(meta, false)
+		out.Meta(meta, false)
 
 		return nil
 	},

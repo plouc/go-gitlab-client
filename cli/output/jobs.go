@@ -1,4 +1,4 @@
-package cmd
+package output
 
 import (
 	"fmt"
@@ -8,6 +8,7 @@ import (
 	"github.com/olekukonko/tablewriter"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/plouc/textree"
+	"io"
 )
 
 func jobLabel(job *gitlab.Job) string {
@@ -30,9 +31,9 @@ func jobLabel(job *gitlab.Job) string {
 	)
 }
 
-func jobsOutput(jobs []*gitlab.Job, pretty bool) {
+func Jobs(w io.Writer, format string, jobs []*gitlab.Job, pretty bool) {
 	if pretty {
-		agg := client.AggregateJobs(jobs)
+		agg := gitlab.AggregateJobs(jobs)
 
 		root := textree.NewNode("PIPELINES")
 
@@ -67,15 +68,15 @@ func jobsOutput(jobs []*gitlab.Job, pretty bool) {
 			o.ChildLink = color.YellowString(o.ChildLink)
 			o.LastChildLink = color.YellowString(o.LastChildLink)
 		}
-		root.Render(output, o)
+		root.Render(w, o)
 
-	} else if outputFormat == "json" {
-		jsonOutput(jobs)
-	} else if outputFormat == "yaml" {
-		yamlOutput(jobs)
+	} else if format == "json" {
+		Json(w, jobs)
+	} else if format == "yaml" {
+		Yaml(w, jobs)
 	} else {
-		fmt.Fprintln(output, "")
-		table := tablewriter.NewWriter(output)
+		fmt.Fprintln(w, "")
+		table := tablewriter.NewWriter(w)
 		table.SetHeader([]string{
 			"Pipeline id",
 			"Stage",
@@ -100,25 +101,25 @@ func jobsOutput(jobs []*gitlab.Job, pretty bool) {
 			})
 		}
 		table.Render()
-		fmt.Fprintln(output, "")
+		fmt.Fprintln(w, "")
 	}
 }
 
-func jobOutput(job *gitlab.Job) {
-	if outputFormat == "json" {
-		jsonOutput(job)
-	} else if outputFormat == "yaml" {
-		yamlOutput(job)
+func Job(w io.Writer, format string, job *gitlab.Job) {
+	if format == "json" {
+		Json(w, job)
+	} else if format == "yaml" {
+		Yaml(w, job)
 	} else {
-		fmt.Fprintln(output, "")
-		fmt.Fprintf(output, "  Id          %s\n", color.YellowString("%d", job.Id))
-		fmt.Fprintf(output, "  PipelineId  %s\n", color.YellowString("%d", job.Pipeline.Id))
-		fmt.Fprintf(output, "  Stage       %s\n", color.YellowString(job.Stage))
-		fmt.Fprintf(output, "  Name        %s\n", color.YellowString(job.Name))
-		fmt.Fprintf(output, "  Status      %s\n", color.YellowString(job.Status))
-		fmt.Fprintf(output, "  StartedAt   %s\n", color.YellowString(job.StartedAt))
-		fmt.Fprintf(output, "  FinishedAt  %s\n", color.YellowString(job.FinishedAt))
-		fmt.Fprintf(output, "  Duration    %s\n", color.YellowString("%f", job.Duration))
-		fmt.Fprintln(output, "")
+		fmt.Fprintln(w, "")
+		fmt.Fprintf(w, "  Id          %s\n", color.YellowString("%d", job.Id))
+		fmt.Fprintf(w, "  PipelineId  %s\n", color.YellowString("%d", job.Pipeline.Id))
+		fmt.Fprintf(w, "  Stage       %s\n", color.YellowString(job.Stage))
+		fmt.Fprintf(w, "  Name        %s\n", color.YellowString(job.Name))
+		fmt.Fprintf(w, "  Status      %s\n", color.YellowString(job.Status))
+		fmt.Fprintf(w, "  StartedAt   %s\n", color.YellowString(job.StartedAt))
+		fmt.Fprintf(w, "  FinishedAt  %s\n", color.YellowString(job.FinishedAt))
+		fmt.Fprintf(w, "  Duration    %s\n", color.YellowString("%f", job.Duration))
+		fmt.Fprintln(w, "")
 	}
 }

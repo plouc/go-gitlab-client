@@ -2,10 +2,12 @@ package cmd
 
 import (
 	"fmt"
+	"strconv"
+
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
-	"strconv"
 )
 
 var projectPipelineJobsScope string
@@ -39,10 +41,10 @@ func fetchProjectPipelineJobs(projectId string, pipelineId int) {
 	if len(jobs) == 0 {
 		color.Red("No job found for project %s pipeline %d", projectId, pipelineId)
 	} else {
-		jobsOutput(jobs, projectPipelineJobsPrettyOutput)
+		out.Jobs(output, outputFormat, jobs, projectPipelineJobsPrettyOutput)
 	}
 
-	metaOutput(meta, true)
+	out.Meta(meta, true)
 
 	handlePaginatedResult(meta, func() {
 		fetchProjectPipelineJobs(projectId, pipelineId)

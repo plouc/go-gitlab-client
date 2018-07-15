@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
@@ -161,9 +162,9 @@ var addProjectHookCmd = &cobra.Command{
 			return err
 		}
 
-		hookOutput(createdHook)
+		out.Hook(output, outputFormat, createdHook)
 
-		metaOutput(meta, false)
+		out.Meta(meta, false)
 
 		return nil
 	},

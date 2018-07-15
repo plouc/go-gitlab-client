@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
@@ -30,10 +31,10 @@ func fetchProjectBadges(projectId string) {
 	if len(badges) == 0 {
 		color.Red("No badge found for project %s", projectId)
 	} else {
-		badgesOutput(badges)
+		out.Badges(output, outputFormat, badges)
 	}
 
-	metaOutput(meta, true)
+	out.Meta(meta, true)
 
 	handlePaginatedResult(meta, func() {
 		fetchProjectBadges(projectId)

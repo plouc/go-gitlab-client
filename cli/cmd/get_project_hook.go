@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/spf13/cobra"
 )
 
@@ -28,9 +29,9 @@ var getProjectHookCmd = &cobra.Command{
 			return err
 		}
 
-		hookOutput(hook)
+		out.Hook(output, outputFormat, hook)
 
-		metaOutput(meta, false)
+		out.Meta(meta, false)
 
 		return nil
 	},

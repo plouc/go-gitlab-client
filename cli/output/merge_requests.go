@@ -1,20 +1,21 @@
-package cmd
+package output
 
 import (
 	"fmt"
 
 	"github.com/olekukonko/tablewriter"
 	"github.com/plouc/go-gitlab-client/gitlab"
+	"io"
 )
 
-func mergeRequestsOutput(mergeRequests []*gitlab.MergeRequest) {
-	if outputFormat == "json" {
-		jsonOutput(mergeRequests)
-	} else if outputFormat == "yaml" {
-		yamlOutput(mergeRequests)
+func MergeRequests(w io.Writer, format string, mergeRequests []*gitlab.MergeRequest) {
+	if format == "json" {
+		Json(w, mergeRequests)
+	} else if format == "yaml" {
+		Yaml(w, mergeRequests)
 	} else {
-		fmt.Fprintln(output, "")
-		table := tablewriter.NewWriter(output)
+		fmt.Fprintln(w, "")
+		table := tablewriter.NewWriter(w)
 		table.SetHeader([]string{
 			"Project Id",
 			"Id",
@@ -48,6 +49,6 @@ func mergeRequestsOutput(mergeRequests []*gitlab.MergeRequest) {
 			})
 		}
 		table.Render()
-		fmt.Fprintln(output, "")
+		fmt.Fprintln(w, "")
 	}
 }

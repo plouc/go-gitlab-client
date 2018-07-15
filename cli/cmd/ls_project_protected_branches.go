@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"fmt"
+
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/spf13/cobra"
 )
 
@@ -33,13 +35,10 @@ var lsProtectedBranchesCmd = &cobra.Command{
 		if len(protectedBranches) == 0 {
 			color.Red("No protected branch found for project %s", ids["project_id"])
 		} else {
-			for _, protectedBranch := range protectedBranches {
-				printProtectedBranch(protectedBranch)
-				fmt.Println("")
-			}
+			out.ProtectedBranches(output, outputFormat, protectedBranches)
 		}
 
-		metaOutput(meta, true)
+		out.Meta(meta, true)
 
 		return nil
 	},

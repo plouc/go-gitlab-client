@@ -476,6 +476,41 @@ func TestCLI(t *testing.T) {
 			"ls_group_merge_requests_yaml",
 			false,
 		},
+		{
+			"ls project environments help",
+			[]string{"ls", "project-environments", "-h"},
+			configs["default"],
+			"ls_project_environments_help",
+			false,
+		},
+		{
+			"ls project environments",
+			[]string{"ls", "project-environments", "1"},
+			configs["default"],
+			"ls_project_environments",
+			false,
+		},
+		{
+			"ls project environments verbose",
+			[]string{"ls", "project-environments", "1", "-v"},
+			configs["default"],
+			"ls_project_environments_verbose",
+			false,
+		},
+		{
+			"ls project environments json",
+			[]string{"ls", "project-environments", "1", "-f", "json"},
+			configs["default"],
+			"ls_project_environments_json",
+			false,
+		},
+		{
+			"ls project environments yaml",
+			[]string{"ls", "project-environments", "1", "-f", "yaml"},
+			configs["default"],
+			"ls_project_environments_yaml",
+			false,
+		},
 	}
 
 	ctx := gosnap.NewContext(t, snapshotsDir)
@@ -495,7 +530,12 @@ func TestCLI(t *testing.T) {
 			}
 			actual := string(output)
 
-			snapshot := ctx.NewSnapshot(testCase.snapshot)
+			var snapshot *gosnap.Snapshot
+			if !ctx.Has(testCase.snapshot) {
+				snapshot = ctx.NewSnapshot(testCase.snapshot)
+			} else {
+				snapshot = ctx.Get(testCase.snapshot)
+			}
 			snapshot.AssertString(actual)
 		})
 	}

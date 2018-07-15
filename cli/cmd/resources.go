@@ -6,18 +6,19 @@ import (
 )
 
 var resources = map[string][]string{
-	"group":            {"group_id"},
-	"project":          {"project_id"},
-	"user":             {"user_id"},
-	"runner":           {"runner_id"},
-	"namespace":        {"namespace_id"},
-	"project-branch":   {"project_id", "branch_name"},
-	"project-badge":    {"project_id", "badge_id"},
-	"project-job":      {"project_id", "job_id"},
-	"project-pipeline": {"project_id", "pipeline_id"},
-	"group-var":        {"group_id", "var_key"},
-	"project-var":      {"project_id", "var_key"},
-	"project-hook":     {"project_id", "hook_id"},
+	"group":               {"group_id"},
+	"project":             {"project_id"},
+	"user":                {"user_id"},
+	"runner":              {"runner_id"},
+	"namespace":           {"namespace_id"},
+	"project-branch":      {"project_id", "branch_name"},
+	"project-badge":       {"project_id", "badge_id"},
+	"project-job":         {"project_id", "job_id"},
+	"project-pipeline":    {"project_id", "pipeline_id"},
+	"group-var":           {"group_id", "var_key"},
+	"project-var":         {"project_id", "var_key"},
+	"project-hook":        {"project_id", "hook_id"},
+	"project-environment": {"project_id", "environment_id"},
 }
 
 var resourceTypes []string

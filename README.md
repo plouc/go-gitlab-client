@@ -244,6 +244,16 @@ Visit the docs at http://godoc.org/github.com/plouc/go-gitlab-client/gitlab
 - [ ] Get time tracking stats
 - [ ] Approvals
 
+#### Environments
+
+[gitlab api doc](https://docs.gitlab.com/ee/api/environments.html)
+
+- [x] List environments
+- [x] Create a new environment
+- [ ] Edit an existing environment
+- [x] Delete an environment
+- [ ] Stop an environment
+
 ## CLI
 
 **go-gitlab-client** provides a CLI to easily interact with GitLab API, **glc**.

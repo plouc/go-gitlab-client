@@ -12,6 +12,7 @@ Available Commands:
   namespaces                 List namespaces
   project-badges             List project badges
   project-branches           List project branches
+  project-environments       List project environments
   project-hooks              List project's hooks
   project-jobs               List project jobs
   project-members            List project members

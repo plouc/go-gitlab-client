@@ -1,9 +1,11 @@
 package cmd
 
 import (
-	"github.com/fatih/color"
-	"github.com/spf13/cobra"
 	"strconv"
+
+	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
+	"github.com/spf13/cobra"
 )
 
 func init() {
@@ -34,9 +36,9 @@ var getProjectBadgeCmd = &cobra.Command{
 			return err
 		}
 
-		badgeOutput(badge)
+		out.Badge(output, outputFormat, badge)
 
-		metaOutput(meta, false)
+		out.Meta(meta, false)
 
 		return nil
 	},

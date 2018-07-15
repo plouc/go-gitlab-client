@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
@@ -30,10 +31,10 @@ func fetchMergeRequests() {
 	if len(mergeRequests) == 0 {
 		color.Red("No merge request found")
 	} else {
-		mergeRequestsOutput(mergeRequests)
+		out.MergeRequests(output, outputFormat, mergeRequests)
 	}
 
-	metaOutput(meta, true)
+	out.Meta(meta, true)
 
 	handlePaginatedResult(meta, fetchMergeRequests)
 }

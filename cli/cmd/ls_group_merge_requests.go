@@ -2,11 +2,12 @@ package cmd
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
-	"strconv"
 )
 
 func init() {
@@ -31,10 +32,10 @@ func fetchGroupMergeRequests(groupId int) {
 	if len(mergeRequests) == 0 {
 		color.Red("No merge request found for group %d", groupId)
 	} else {
-		mergeRequestsOutput(mergeRequests)
+		out.MergeRequests(output, outputFormat, mergeRequests)
 	}
 
-	metaOutput(meta, true)
+	out.Meta(meta, true)
 
 	handlePaginatedResult(meta, func() {
 		fetchGroupMergeRequests(groupId)

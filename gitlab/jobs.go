@@ -187,7 +187,7 @@ func (g *Gitlab) EraseProjectJob(projectId string, jobId int) (*Job, *ResponseMe
 //
 // The resulting aggregation can be used to built something similar as the GitLab's UI
 // used to display pipeline details.
-func (g *Gitlab) AggregateJobs(jobs []*Job) map[int]map[string]map[string][]*Job {
+func AggregateJobs(jobs []*Job) map[int]map[string]map[string][]*Job {
 	agg := map[int]map[string]map[string][]*Job{}
 
 	for _, job := range jobs {

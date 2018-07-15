@@ -1,9 +1,11 @@
 package cmd
 
 import (
-	"github.com/fatih/color"
-	"github.com/spf13/cobra"
 	"strconv"
+
+	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
+	"github.com/spf13/cobra"
 )
 
 func init() {
@@ -33,9 +35,9 @@ var getProjectJobCancelCmd = &cobra.Command{
 			return err
 		}
 
-		jobOutput(job)
+		out.Job(output, outputFormat, job)
 
-		metaOutput(meta, false)
+		out.Meta(meta, false)
 
 		return nil
 	},

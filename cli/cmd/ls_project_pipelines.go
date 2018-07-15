@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"fmt"
+
 	"github.com/fatih/color"
+	out "github.com/plouc/go-gitlab-client/cli/output"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"github.com/spf13/cobra"
 )
@@ -29,10 +31,10 @@ func fetchProjectPipelines(projectId string) {
 	if len(pipelines) == 0 {
 		color.Red("No pipeline found for project %s", projectId)
 	} else {
-		pipelinesOutput(pipelines)
+		out.Pipelines(output, outputFormat, pipelines)
 	}
 
-	metaOutput(meta, true)
+	out.Meta(meta, true)
 
 	handlePaginatedResult(meta, func() {
 		fetchProjectPipelines(projectId)

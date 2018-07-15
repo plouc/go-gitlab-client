@@ -10,6 +10,7 @@ Available Commands:
   project                  Remove project
   project-badge            Remove project badge
   project-branch           Remove project branch
+  project-environment      Remove project environment
   project-hook             Remove project hook
   project-merged-branches  Remove project merged branches
   project-protected-branch Unprotect project branch
