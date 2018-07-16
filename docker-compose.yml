@@ -21,3 +21,5 @@ services:
       - ${PWD}/integration:/go/src/${GO_PKG_SRC_PATH}/integration:consistent
       - ${PWD}/Makefile:/go/src/${GO_PKG_SRC_PATH}/Makefile:consistent
       - ${PWD}/mocks:/go/src/${GO_PKG_SRC_PATH}/mocks:cached
+      - ${PWD}/README.tpl.md:/go/src/${GO_PKG_SRC_PATH}/README.tpl.md:consistent
+      - ${PWD}/README.md:/go/src/${GO_PKG_SRC_PATH}/README.md:consistent

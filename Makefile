@@ -253,17 +253,8 @@ cli: ##@cli Run CLI from docker. eg. make cli CMD="ls groups"
 	@${MAKE} run_in_go CMD="cd cli && ./glc ${CMD}"
 
 cli_all: ##@cli Run all CLI steps
-	@${MAKE} cli_doc
 	@${MAKE} cli_build
 	@${MAKE} cli_build_all
-
-cli_doc: ##@cli Generate CLI documentation
-	@${MAKE} make_in_go TARGET=_cli_doc
-
-_cli_doc:
-	@echo "${YELLOW}Generating CLI documentation${RESET}"
-	@cd cli/doc && rm *.md && go run main.go
-	@echo "${GREEN}✔ CLI documentation were successfully generated${RESET}\n"
 
 cli_build: ##@cli Build CLI
 	@${MAKE} make_in_go TARGET=_cli_build
@@ -335,10 +326,15 @@ _fmt:
 dev: ##@misc Start watcher for development, auto run tests, fmt…
 	@./bin/modd
 
-
+readme: ##@misc Generate README with CLI documentation
+	@echo "${YELLOW}Generating ${WHITE}README.md${RESET}"
+	@rm -f README.md
+	@cat README.tpl.md >> README.md
+	@go run cli/main.go doc >> README.md
+	@echo "${GREEN}✔ successfully generated ${WHITE}README.md${RESET}\n"
 
 .PHONY: setup install_modd install_go_deps update_go_deps \
         up restart stop log ensure_wiremock_is_up clean status \
         test test_lib test_cli update_cli_snapshots vet_cli vet_lib fmt_check \
-        cli cli_all cli_doc cli_build cli_build_all cli_checksums \
-        fmt dev
+        cli cli_all cli_build cli_build_all cli_checksums \
+        fmt dev readme
