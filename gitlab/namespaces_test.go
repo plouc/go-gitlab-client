@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNamespaces(t *testing.T) {
+func TestGitlab_Namespaces(t *testing.T) {
 	ts, gitlab := mockServerFromMapping(t, "namespaces/namespaces.json")
 	defer ts.Close()
 
@@ -24,7 +24,7 @@ func TestNamespaces(t *testing.T) {
 	assert.Equal(t, 10, meta.PerPage)
 }
 
-func TestSearchNamespaces(t *testing.T) {
+func TestGitlab_SearchNamespaces(t *testing.T) {
 	ts, gitlab := mockServerFromMapping(t, "namespaces/namespaces_search.json")
 	defer ts.Close()
 

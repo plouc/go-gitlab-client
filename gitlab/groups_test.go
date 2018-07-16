@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGroups(t *testing.T) {
+func TestGitlab_Groups(t *testing.T) {
 	ts, gitlab := mockServerFromMapping(t, "groups/groups.json")
 	defer ts.Close()
 

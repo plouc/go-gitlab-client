@@ -1,0 +1,6 @@
+[
+  {"type": "branch", "name": "'test'"},
+  {"type": "branch", "name": "add-balsamiq-file"},
+  {"type": "branch", "name": "wip"},
+  {"type": "tag", "name": "v1.1.0"}
+]

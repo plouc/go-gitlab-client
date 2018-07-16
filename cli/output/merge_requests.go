@@ -3,6 +3,7 @@ package output
 import (
 	"fmt"
 
+	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"io"
@@ -19,6 +20,7 @@ func MergeRequests(w io.Writer, format string, collection *gitlab.MergeRequestCo
 		table.SetHeader([]string{
 			"Project Id",
 			"Id",
+			"Iid",
 			"Title",
 			"Source",
 			"Target",
@@ -38,6 +40,7 @@ func MergeRequests(w io.Writer, format string, collection *gitlab.MergeRequestCo
 			table.Append([]string{
 				fmt.Sprintf("%d", mergeRequest.ProjectId),
 				fmt.Sprintf("%d", mergeRequest.Id),
+				fmt.Sprintf("%d", mergeRequest.Iid),
 				mergeRequest.Title,
 				mergeRequest.SourceBranch,
 				mergeRequest.TargetBranch,
@@ -49,6 +52,25 @@ func MergeRequests(w io.Writer, format string, collection *gitlab.MergeRequestCo
 			})
 		}
 		table.Render()
+		fmt.Fprintln(w, "")
+	}
+}
+
+func MergeRequest(w io.Writer, format string, mergeRequest *gitlab.MergeRequest) {
+	if format == "json" {
+		mergeRequest.RenderJson(w)
+	} else if format == "yaml" {
+		mergeRequest.RenderYaml(w)
+	} else {
+		fmt.Fprintln(w, "")
+		fmt.Fprintf(w, "  Id            %s\n", color.YellowString("%d", mergeRequest.Id))
+		fmt.Fprintf(w, "  Iid           %s\n", color.YellowString("%d", mergeRequest.Iid))
+		fmt.Fprintf(w, "  Sha           %s\n", color.YellowString(mergeRequest.Sha))
+		fmt.Fprintf(w, "  Title         %s\n", color.YellowString(mergeRequest.Title))
+		fmt.Fprintf(w, "  SourceBranch  %s\n", color.YellowString(mergeRequest.SourceBranch))
+		fmt.Fprintf(w, "  TargetBranch  %s\n", color.YellowString(mergeRequest.TargetBranch))
+		fmt.Fprintf(w, "  State         %s\n", color.YellowString(mergeRequest.State))
+		fmt.Fprintf(w, "  MergeStatus   %s\n", color.YellowString(mergeRequest.MergeStatus))
 		fmt.Fprintln(w, "")
 	}
 }

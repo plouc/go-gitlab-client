@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCurrentUserSshKeys(t *testing.T) {
+func TestGitlab_CurrentUserSshKeys(t *testing.T) {
 	ts, gitlab := mockServerFromMapping(t, "ssh_keys/current_user_ssh_keys.json")
 	defer ts.Close()
 
@@ -21,7 +21,7 @@ func TestCurrentUserSshKeys(t *testing.T) {
 	assert.Equal(t, 10, meta.PerPage)
 }
 
-func TestUserSshKeys(t *testing.T) {
+func TestGitlab_UserSshKeys(t *testing.T) {
 	ts, gitlab := mockServerFromMapping(t, "ssh_keys/user_1_ssh_keys.json")
 	defer ts.Close()
 

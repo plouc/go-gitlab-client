@@ -2,12 +2,10 @@ package gitlab
 
 import (
 	"encoding/json"
-	"time"
 )
 
 const (
 	RepositoryTagsApiPath    = "/projects/:id/repository/tags"       // List project repository tags
-	RepositoryCommitsApiPath = "/projects/:id/repository/commits"    // List repository commits
 	RepositoryTreeApiPath    = "/projects/:id/repository/tree"       // List repository tree
 	RawRepositoryFileApiPath = "/projects/:id/repository/blobs/:sha" // Get raw file content for specific commit/branch
 )
@@ -23,17 +21,6 @@ type Tag struct {
 	Name      string        `json:"name,omitempty"`
 	Protected bool          `json:"protected,omitempty"`
 	Commit    *BranchCommit `json:"commit,omitempty"`
-}
-
-type Commit struct {
-	Id           string
-	Short_Id     string
-	Title        string
-	Author_Name  string
-	Author_Email string
-	Created_At   string
-	CreatedAt    time.Time
-	Message      string
 }
 
 /*
@@ -98,45 +85,6 @@ func (g *Gitlab) RepoTags(id string) ([]*Tag, *ResponseMeta, error) {
 	}
 
 	return tags, meta, err
-}
-
-/*
-Get a list of repository commits in a project.
-
-    GET /projects/:id/repository/commits
-
-Parameters:
-
-    id      The ID of a project
-	refName The name of a repository branch or tag or if not given the default branch
-
-Usage:
-
-	commits, err := gitlab.RepoCommits("your_projet_id")
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	for _, commit := range commits {
-		fmt.Printf("%+v\n", commit)
-	}
-*/
-func (g *Gitlab) RepoCommits(id string) ([]*Commit, *ResponseMeta, error) {
-	u := g.ResourceUrl(RepositoryCommitsApiPath, map[string]string{":id": id})
-
-	var commits []*Commit
-
-	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
-	if err == nil {
-		err = json.Unmarshal(contents, &commits)
-		if err == nil {
-			for _, commit := range commits {
-				t, _ := time.Parse(dateLayout, commit.Created_At)
-				commit.CreatedAt = t
-			}
-		}
-	}
-
-	return commits, meta, err
 }
 
 /*

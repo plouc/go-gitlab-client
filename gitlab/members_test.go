@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestProjectMembers(t *testing.T) {
+func TestGitlab_ProjectMembers(t *testing.T) {
 	ts, gitlab := mockServerFromMapping(t, "members/project_1_members.json")
 	defer ts.Close()
 
@@ -21,7 +21,7 @@ func TestProjectMembers(t *testing.T) {
 	assert.Equal(t, 10, meta.PerPage)
 }
 
-func TestGroupMembers(t *testing.T) {
+func TestGitlab_GroupMembers(t *testing.T) {
 	ts, gitlab := mockServerFromMapping(t, "members/group_1_members.json")
 	defer ts.Close()
 

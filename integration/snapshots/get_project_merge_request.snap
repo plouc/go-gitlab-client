@@ -1,0 +1,11 @@
+Fetching project merge request (project id: 1, merge request iid: 1)…
+
+  Id            1
+  Iid           1
+  Sha           8888888888888888888888888888888888888888
+  Title         test1
+  SourceBranch  test1
+  TargetBranch  master
+  State         merged
+  MergeStatus   can_be_merged
+

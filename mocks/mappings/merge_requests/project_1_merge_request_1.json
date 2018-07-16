@@ -1,0 +1,12 @@
+{
+  "request": {
+    "url": "/api/v4/projects/1/merge_requests/1",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "merge_requests/merge_request.json",
+    "headers": {
+    }
+  }
+}

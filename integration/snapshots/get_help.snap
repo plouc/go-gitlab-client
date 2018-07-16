@@ -4,20 +4,21 @@ Usage:
   glc get [command]
 
 Available Commands:
-  current-user      Get current user
-  group             Get all details of a group
-  group-var         Get the details of a group's specific variable
-  namespace         Get a single namespace
-  project           Get a specific project
-  project-badge     Get project badge info
-  project-branch    Get project branch info
-  project-hook      Get project hook info
-  project-job       Get project job info
-  project-job-trace Get project job trace
-  project-pipeline  Get project pipeline details
-  project-var       Get the details of a project's specific variable
-  runner            Get details of a runner
-  user              Get a single user
+  current-user          Get current user
+  group                 Get all details of a group
+  group-var             Get the details of a group's specific variable
+  namespace             Get a single namespace
+  project               Get a specific project
+  project-badge         Get project badge info
+  project-branch        Get project branch info
+  project-hook          Get project hook info
+  project-job           Get project job info
+  project-job-trace     Get project job trace
+  project-merge-request Get project merge request info
+  project-pipeline      Get project pipeline details
+  project-var           Get the details of a project's specific variable
+  runner                Get details of a runner
+  user                  Get a single user
 
 Flags:
   -h, --help   help for get

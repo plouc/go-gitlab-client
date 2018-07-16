@@ -48,6 +48,103 @@ Visit the docs at http://godoc.org/github.com/plouc/go-gitlab-client/gitlab
 
 ### Supported APIs
 
+#### Branches
+
+[gitlab api doc](https://docs.gitlab.com/ee/api/branches.html)
+
+- [x] List repository branches
+- [x] Get single repository branch
+- [x] Protect repository branch
+- [x] Unprotect repository branch
+- [x] Create repository branch
+- [x] Delete repository branch
+- [x] Delete merged branches
+
+#### Project-level variables
+
+[gitlab api doc](https://docs.gitlab.com/ee/api/project_level_variables.html)
+
+- [x] List project variables
+- [x] Show project variable details
+- [x] Create project variable
+- [ ] Update project variable
+- [x] Remove project variable
+
+#### Group-level variables
+
+[gitlab api doc](https://docs.gitlab.com/ee/api/group_level_variables.html)
+
+- [x] List group variables
+- [x] Show group variable details
+- [x] Create group variable
+- [ ] Update group variable
+- [x] Remove group variable
+
+#### Commits
+
+[gitlab api doc](http://doc.gitlab.com/ce/api/commits.html)
+
+- [x] List repository commits
+- [ ] Create a commit with multiple files and actions
+- [x] Get a single commit
+- [x] Get references a commit is pushed to
+- [ ] Cherry pick a commit
+- [ ] Get the diff of a commit
+- [ ] Get the comments of a commit
+- [ ] Post comment to commit
+- [x] List the statuses of a commit
+- [ ] Post the build status to a commit
+- [ ] List Merge Requests associated with a commit
+
+#### Deploy Keys
+
+[gitlab api doc](http://doc.gitlab.com/ce/api/deploy_keys.html)
+
+- list project deploy keys
+- add/get/rm project deploy key
+
+#### Environments
+
+[gitlab api doc](https://docs.gitlab.com/ee/api/environments.html)
+
+- [x] List environments
+- [x] Create a new environment
+- [ ] Edit an existing environment
+- [x] Delete an environment
+- [ ] Stop an environment
+
+#### Groups
+
+[gitlab api doc](https://docs.gitlab.com/ce/api/groups.html)
+
+- [x] List groups
+- [ ] List a groups's subgroups
+- [ ] List a group's projects
+- [x] Details of a group
+- [x] New group
+- [ ] Transfer project to group
+- [ ] Update group
+- [x] Remove group
+- [x] Search for group
+- [x] Group members
+
+#### Jobs
+
+[gitlab api doc](http://doc.gitlab.com/ce/api/jobs.html)
+
+- [x] List project jobs
+- [x] List pipeline jobs
+- [x] Get a single job
+- [ ] Get job artifacts
+- [ ] Download the artifacts archive
+- [ ] Download a single artifact file
+- [x] Get a trace file
+- [x] Cancel a job
+- [x] Retry a job
+- [x] Erase a job
+- [ ] Keep artifacts
+- [ ] Play a job
+
 #### Projects
 
 [gitlab api doc](http://doc.gitlab.com/ce/api/projects.html)
@@ -88,45 +185,6 @@ Visit the docs at http://godoc.org/github.com/plouc/go-gitlab-client/gitlab
 - [x] Delete SSH key for current user
 - [x] Delete SSH key for given user
 
-#### Groups
-
-[gitlab api doc](https://docs.gitlab.com/ce/api/groups.html)
-
-- [x] List groups
-- [ ] List a groups's subgroups
-- [ ] List a group's projects
-- [x] Details of a group
-- [x] New group
-- [ ] Transfer project to group
-- [ ] Update group
-- [x] Remove group
-- [x] Search for group
-- [x] Group members
-
-#### Deploy Keys
-
-[gitlab api doc](http://doc.gitlab.com/ce/api/deploy_keys.html)
-
-- list project deploy keys
-- add/get/rm project deploy key
-
-#### Jobs
-
-[gitlab api doc](http://doc.gitlab.com/ce/api/jobs.html)
-
-- [x] List project jobs
-- [x] List pipeline jobs
-- [x] Get a single job
-- [ ] Get job artifacts
-- [ ] Download the artifacts archive
-- [ ] Download a single artifact file
-- [x] Get a trace file
-- [x] Cancel a job
-- [x] Retry a job
-- [x] Erase a job
-- [ ] Keep artifacts
-- [ ] Play a job 
-
 #### Runners
 
 [gitlab api doc](https://docs.gitlab.com/ee/api/runners.html)
@@ -144,18 +202,6 @@ Visit the docs at http://godoc.org/github.com/plouc/go-gitlab-client/gitlab
 - [ ] Delete a registered Runner
 - [ ] Verify authentication for a registered Runner
 
-#### Branches
-
-[gitlab api doc](https://docs.gitlab.com/ee/api/branches.html)
-
-- [x] List repository branches
-- [x] Get single repository branch
-- [x] Protect repository branch
-- [x] Unprotect repository branch
-- [x] Create repository branch
-- [x] Delete repository branch
-- [x] Delete merged branches
-
 #### Project hooks
 
 [gitlab api doc](https://docs.gitlab.com/ee/api/projects.html#hooks)
@@ -165,24 +211,6 @@ Visit the docs at http://godoc.org/github.com/plouc/go-gitlab-client/gitlab
 - [x] Add project hook
 - [ ] Edit project hook
 - [x] Delete project hook
-
-#### Project-level variables [gitlab api doc](https://docs.gitlab.com/ee/api/project_level_variables.html)
-
-- [x] List project variables
-- [x] Show project variable details
-- [x] Create project variable
-- [ ] Update project variable
-- [x] Remove project variable
-
-#### Group-level variables
-
-[gitlab api doc](https://docs.gitlab.com/ee/api/group_level_variables.html)
-
-- [x] List group variables
-- [x] Show group variable details
-- [x] Create group variable
-- [ ] Update group variable
-- [x] Remove group variable
 
 #### Pipelines
 
@@ -220,7 +248,7 @@ Visit the docs at http://godoc.org/github.com/plouc/go-gitlab-client/gitlab
 - [x] List merge requests
 - [x] List project merge requests
 - [x] List group merge requests
-- [ ] Get single MR
+- [x] Get single MR
 - [ ] Get single MR participants
 - [ ] Get single MR commits
 - [ ] Get single MR changes
@@ -243,16 +271,6 @@ Visit the docs at http://godoc.org/github.com/plouc/go-gitlab-client/gitlab
 - [ ] Reset spent time for a merge request
 - [ ] Get time tracking stats
 - [ ] Approvals
-
-#### Environments
-
-[gitlab api doc](https://docs.gitlab.com/ee/api/environments.html)
-
-- [x] List environments
-- [x] Create a new environment
-- [ ] Edit an existing environment
-- [x] Delete an environment
-- [ ] Stop an environment
 
 ## CLI
 

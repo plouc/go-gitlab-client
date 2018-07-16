@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestResourceUrl(t *testing.T) {
+func TestGitlab_ResourceUrl(t *testing.T) {
 	gitlab := NewGitlab("http://base_url/", "api_path", "token")
 
 	assert.Equal(

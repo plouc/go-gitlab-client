@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestMergeRequests(t *testing.T) {
+func TestGitlab_MergeRequests(t *testing.T) {
 	ts, gitlab := mockServerFromMapping(t, "merge_requests/merge_requests.json")
 	defer ts.Close()
 
@@ -21,7 +21,7 @@ func TestMergeRequests(t *testing.T) {
 	assert.Equal(t, 10, meta.PerPage)
 }
 
-func TestProjectMergeRequests(t *testing.T) {
+func TestGitlab_ProjectMergeRequests(t *testing.T) {
 	ts, gitlab := mockServerFromMapping(t, "merge_requests/project_merge_requests.json")
 	defer ts.Close()
 
@@ -36,7 +36,7 @@ func TestProjectMergeRequests(t *testing.T) {
 	assert.Equal(t, 10, meta.PerPage)
 }
 
-func TestGroupMergeRequests(t *testing.T) {
+func TestGitlab_GroupMergeRequests(t *testing.T) {
 	ts, gitlab := mockServerFromMapping(t, "merge_requests/group_merge_requests.json")
 	defer ts.Close()
 

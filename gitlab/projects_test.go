@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestProjects(t *testing.T) {
+func TestGitlab_Projects(t *testing.T) {
 	ts, gitlab := mockServerFromMapping(t, "projects/projects.json")
 	defer ts.Close()
 

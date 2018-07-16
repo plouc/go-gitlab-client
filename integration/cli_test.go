@@ -511,6 +511,55 @@ func TestCLI(t *testing.T) {
 			"ls_project_environments_yaml",
 			false,
 		},
+		{
+			"get project merge request help",
+			[]string{"get", "project-merge-request", "-h"},
+			configs["default"],
+			"get_project_merge_request_help",
+			false,
+		},
+		{
+			"get project merge request no arg",
+			[]string{"get", "project-mr"},
+			configs["default"],
+			"get_project_merge_request_no_arg",
+			true,
+		},
+		{
+			"get project merge request no merge request iid",
+			[]string{"get", "project-mr", "1"},
+			configs["default"],
+			"get_project_merge_request_no_merge_request_iid",
+			true,
+		},
+		{
+			"get project merge request",
+			[]string{"get", "project-mr", "1", "1"},
+			configs["default"],
+			"get_project_merge_request",
+			false,
+		},
+		{
+			"get project merge request verbose",
+			[]string{"get", "project-mr", "1", "1", "-v"},
+			configs["default"],
+			"get_project_merge_request_verbose",
+			false,
+		},
+		{
+			"get project merge request json",
+			[]string{"get", "project-mr", "1", "1", "-f", "json"},
+			configs["default"],
+			"get_project_merge_request_json",
+			false,
+		},
+		{
+			"get project merge request yaml",
+			[]string{"get", "project-mr", "1", "1", "-f", "yaml"},
+			configs["default"],
+			"get_project_merge_request_yaml",
+			false,
+		},
 	}
 
 	ctx := gosnap.NewContext(t, snapshotsDir)

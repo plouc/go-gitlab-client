@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestProjectEnvironments(t *testing.T) {
+func TestGitlab_ProjectEnvironments(t *testing.T) {
 	ts, gitlab := mockServerFromMapping(t, "environments/project_1_environments.json")
 	defer ts.Close()
 

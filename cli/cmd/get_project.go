@@ -62,6 +62,9 @@ var getProjectCmd = &cobra.Command{
 			newRelatedCommand(lsProjectMergeRequestsCmd, map[string]string{
 				"project_id": ids["project_id"],
 			}),
+			newRelatedCommand(lsProjectCommitsCmd, map[string]string{
+				"project_id": ids["project_id"],
+			}),
 			newRelatedCommand(lsProjectEnvironmentsCmd, map[string]string{
 				"project_id": ids["project_id"],
 			}),

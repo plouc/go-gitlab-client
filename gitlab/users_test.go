@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestUsers(t *testing.T) {
+func TestGitlab_Users(t *testing.T) {
 	ts, gitlab := mockServerFromMapping(t, "users/users.json")
 	defer ts.Close()
 
@@ -20,7 +20,7 @@ func TestUsers(t *testing.T) {
 	assert.Equal(t, 10, meta.PerPage)
 }
 
-func TestUser(t *testing.T) {
+func TestGitlab_User(t *testing.T) {
 	ts, gitlab := mockServerFromMapping(t, "users/user_1.json")
 	defer ts.Close()
 

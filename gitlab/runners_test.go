@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestRunners(t *testing.T) {
+func TestGitlab_Runners(t *testing.T) {
 	ts, gitlab := mockServerFromMapping(t, "runners/runners.json")
 	defer ts.Close()
 

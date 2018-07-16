@@ -12,8 +12,7 @@ const (
 	MergeRequestsApiPath                  = "/merge_requests"
 	ProjectMergeRequestsApiPath           = "/projects/:id/merge_requests"
 	GroupMergeRequestsApiPath             = "/groups/:id/merge_requests"
-	ProjectMergeRequestApiPath            = "/projects/:id/merge_requests/:merge_request_id"                                  // Get information about a single merge request
-	ProjectMergeRequestCommitsApiPath     = "/projects/:id/merge_requests/:merge_request_id/commits"                          // Get a list of merge request commits
+	ProjectMergeRequestApiPath            = "/projects/:id/merge_requests/:merge_request_iid"                                 // Get information about a single merge request
 	ProjectMergeRequestChangesApiPath     = "/projects/:id/merge_requests/:merge_request_id/changes"                          // Shows information about the merge request including its files and changes
 	ProjectMergeRequestMergeApiPath       = "/projects/:id/merge_requests/:merge_request_id/merge"                            // Merge changes submitted with MR
 	ProjectMergeRequestCancelMergeApiPath = "/projects/:id/merge_requests/:merge_request_id/cancel_merge_when_build_succeeds" // Cancel Merge When Build Succeeds
@@ -228,10 +227,10 @@ func (g *Gitlab) GroupMergeRequests(groupId int, o *MergeRequestsOptions) (*Merg
 	return g.getMergeRequests(u)
 }
 
-func (g *Gitlab) ProjectMergeRequest(projectId string, mergeRequestId int) (*MergeRequest, *ResponseMeta, error) {
+func (g *Gitlab) ProjectMergeRequest(projectId string, mergeRequestIid int) (*MergeRequest, *ResponseMeta, error) {
 	u := g.ResourceUrl(ProjectMergeRequestApiPath, map[string]string{
-		":id":               projectId,
-		":merge_request_id": strconv.Itoa(mergeRequestId),
+		":id":                projectId,
+		":merge_request_iid": strconv.Itoa(mergeRequestIid),
 	})
 
 	var err error
@@ -243,40 +242,6 @@ func (g *Gitlab) ProjectMergeRequest(projectId string, mergeRequestId int) (*Mer
 	}
 
 	return mr, meta, err
-}
-
-/*
-Get a list of merge request commits.
-
-    GET /projects/:id/merge_request/:merge_request_id/commits
-
-Parameters:
-
-    id               The ID of a project
-    merge_request_id The ID of a merge request
-
-*/
-func (g *Gitlab) ProjectMergeRequestCommits(id, merge_request_id string) ([]*Commit, *ResponseMeta, error) {
-	u := g.ResourceUrl(ProjectMergeRequestCommitsApiPath, map[string]string{
-		":id":               id,
-		":merge_request_id": merge_request_id,
-	})
-
-	var err error
-	var commits []*Commit
-
-	contents, meta, err := g.buildAndExecRequest("GET", u.String(), nil)
-	if err == nil {
-		err = json.Unmarshal(contents, &commits)
-		if err == nil {
-			for _, commit := range commits {
-				t, _ := time.Parse(dateLayout, commit.Created_At)
-				commit.CreatedAt = t
-			}
-		}
-	}
-
-	return commits, meta, err
 }
 
 /*
@@ -352,8 +317,8 @@ Parameters:
 */
 func (g *Gitlab) EditMergeRequest(mr *MergeRequest) error {
 	u := g.ResourceUrl(ProjectMergeRequestApiPath, map[string]string{
-		":id":               string(mr.ProjectId),
-		":merge_request_id": string(mr.Id),
+		":id":                string(mr.ProjectId),
+		":merge_request_idd": string(mr.Iid),
 	})
 
 	encodedRequest, err := json.Marshal(mr)

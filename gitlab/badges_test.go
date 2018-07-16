@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestProjectBadges(t *testing.T) {
+func TestGitlab_ProjectBadges(t *testing.T) {
 	ts, gitlab := mockServerFromMapping(t, "badges/project_1_badges.json")
 	defer ts.Close()
 
@@ -21,7 +21,7 @@ func TestProjectBadges(t *testing.T) {
 	assert.Equal(t, 10, meta.PerPage)
 }
 
-func TestProjectBadge(t *testing.T) {
+func TestGitlab_ProjectBadge(t *testing.T) {
 	ts, gitlab := mockServerFromMapping(t, "badges/project_1_badge_1.json")
 	defer ts.Close()
 
