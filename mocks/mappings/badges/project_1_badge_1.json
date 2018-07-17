@@ -1,6 +1,6 @@
 {
   "request": {
-    "url": "/api/v4/projects/1/badges/1",
+    "path": "/api/v4/projects/1/badges/1",
     "method": "GET"
   },
   "response": {

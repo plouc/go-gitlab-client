@@ -3,12 +3,16 @@ package gitlab
 import (
 	"testing"
 
+	"github.com/plouc/go-gitlab-client/test"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGitlab_Namespaces(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "namespaces/namespaces.json")
+	ts := test.CreateMockServer(t, []string{
+		"namespaces/namespaces",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	namespaces, meta, err := gitlab.Namespaces(nil)
 
@@ -25,8 +29,11 @@ func TestGitlab_Namespaces(t *testing.T) {
 }
 
 func TestGitlab_SearchNamespaces(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "namespaces/namespaces_search.json")
+	ts := test.CreateMockServer(t, []string{
+		"namespaces/namespaces_search",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	namespaces, meta, err := gitlab.Namespaces(&NamespacesOptions{
 		Search: "twitter",

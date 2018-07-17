@@ -1,13 +1,17 @@
 package gitlab
 
 import (
+	"github.com/plouc/go-gitlab-client/test"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestGitlab_Projects(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "projects/projects.json")
+	ts := test.CreateMockServer(t, []string{
+		"projects/projects",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	projects, meta, err := gitlab.Projects(nil)
 

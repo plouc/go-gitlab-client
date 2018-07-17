@@ -80,6 +80,10 @@ func NewGitlab(baseUrl, apiPath, token string) *Gitlab {
 	}
 	client := &http.Client{Transport: tr}
 
+	if apiPath == "" {
+		apiPath = "/api/v4"
+	}
+
 	return &Gitlab{
 		BaseUrl: baseUrl,
 		ApiPath: apiPath,

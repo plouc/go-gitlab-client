@@ -3,12 +3,16 @@ package gitlab
 import (
 	"testing"
 
+	"github.com/plouc/go-gitlab-client/test"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGitlab_ProjectBadges(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "badges/project_1_badges.json")
+	ts := test.CreateMockServer(t, []string{
+		"badges/project_1_badges",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	badges, meta, err := gitlab.ProjectBadges("1", nil)
 
@@ -22,8 +26,11 @@ func TestGitlab_ProjectBadges(t *testing.T) {
 }
 
 func TestGitlab_ProjectBadge(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "badges/project_1_badge_1.json")
+	ts := test.CreateMockServer(t, []string{
+		"badges/project_1_badge_1",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	badge, meta, err := gitlab.ProjectBadge("1", 1)
 

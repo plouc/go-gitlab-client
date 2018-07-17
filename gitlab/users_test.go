@@ -1,13 +1,17 @@
 package gitlab
 
 import (
+	"github.com/plouc/go-gitlab-client/test"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestGitlab_Users(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "users/users.json")
+	ts := test.CreateMockServer(t, []string{
+		"users/users",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	users, meta, err := gitlab.Users(nil)
 
@@ -21,10 +25,13 @@ func TestGitlab_Users(t *testing.T) {
 }
 
 func TestGitlab_User(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "users/user_1.json")
+	ts := test.CreateMockServer(t, []string{
+		"users/user_1",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
-	user, _, err := gitlab.User("plouc")
+	user, _, err := gitlab.User("1")
 
 	assert.NoError(t, err)
 

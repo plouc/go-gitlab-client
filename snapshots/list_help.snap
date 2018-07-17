@@ -1,0 +1,51 @@
+List resource
+
+Usage:
+  glc list [command]
+
+Aliases:
+  list, ls
+
+Available Commands:
+  aliases                       List resource aliases
+  group-merge-requests          List group merge requests
+  group-variables               Get list of a group's variables
+  groups                        List groups
+  merge-requests                List merge requests
+  namespaces                    List namespaces
+  project-badges                List project badges
+  project-branches              List project branches
+  project-commits               List project repository commits
+  project-environments          List project environments
+  project-hooks                 List project's hooks
+  project-jobs                  List project jobs
+  project-members               List project members
+  project-merge-request-commits List project merge request commits
+  project-merge-requests        List project merge requests
+  project-pipeline-jobs         List project pipeline jobs
+  project-pipelines             List project pipelines
+  project-protected-branches    List project protected branches
+  project-variables             Get list of a project's variables
+  projects                      List projects
+  runners                       List runners
+  ssh-keys                      List current user ssh keys
+  user-ssh-keys                 List specific user ssh keys
+  users                         List users
+
+Flags:
+  -h, --help           help for list
+  -p, --page int       Page (default 1)
+  -l, --per-page int   Items per page (default 10)
+
+Global Flags:
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+
+Use "glc list [command] --help" for more information about a command.

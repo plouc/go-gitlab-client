@@ -3,12 +3,16 @@ package gitlab
 import (
 	"testing"
 
+	"github.com/plouc/go-gitlab-client/test"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGitlab_Groups(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "groups/groups.json")
+	ts := test.CreateMockServer(t, []string{
+		"groups/groups",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	groups, meta, err := gitlab.Groups(nil)
 

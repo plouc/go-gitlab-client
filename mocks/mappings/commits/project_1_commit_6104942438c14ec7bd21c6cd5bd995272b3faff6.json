@@ -1,6 +1,6 @@
 {
   "request": {
-    "url": "/api/v4/projects/1/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6",
+    "path": "/api/v4/projects/1/repository/commits/6104942438c14ec7bd21c6cd5bd995272b3faff6",
     "method": "GET"
   },
   "response": {

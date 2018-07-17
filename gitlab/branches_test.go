@@ -3,18 +3,22 @@ package gitlab
 import (
 	"testing"
 
+	"github.com/plouc/go-gitlab-client/test"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGitlab_ProjectBranches(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "branches/project_1_branches.json")
+	ts := test.CreateMockServer(t, []string{
+		"branches/project_1_branches",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
-	branches, meta, err := gitlab.ProtectedBranches("1", nil)
+	c, meta, err := gitlab.ProjectBranches("1", nil)
 
 	assert.NoError(t, err)
 
-	assert.Equal(t, 10, len(branches))
+	assert.Equal(t, 10, len(c.Items))
 
 	assert.IsType(t, new(ResponseMeta), meta)
 	assert.Equal(t, 1, meta.Page)

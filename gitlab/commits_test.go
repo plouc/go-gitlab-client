@@ -3,12 +3,16 @@ package gitlab
 import (
 	"testing"
 
+	"github.com/plouc/go-gitlab-client/test"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGitlab_ProjectCommits(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "commits/project_1_commits.json")
+	ts := test.CreateMockServer(t, []string{
+		"commits/project_1_commits",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	c, meta, err := gitlab.ProjectCommits("1", nil)
 
@@ -24,8 +28,11 @@ func TestGitlab_ProjectCommits(t *testing.T) {
 }
 
 func TestGitlab_ProjectCommit(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "commits/project_1_commit_6104942438c14ec7bd21c6cd5bd995272b3faff6.json")
+	ts := test.CreateMockServer(t, []string{
+		"commits/project_1_commit_6104942438c14ec7bd21c6cd5bd995272b3faff6",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	c, meta, err := gitlab.ProjectCommit("1", "6104942438c14ec7bd21c6cd5bd995272b3faff6")
 
@@ -38,8 +45,11 @@ func TestGitlab_ProjectCommit(t *testing.T) {
 }
 
 func TestGitlab_ProjectMergeRequestCommits(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "commits/project_1_merge_request_1_commits.json")
+	ts := test.CreateMockServer(t, []string{
+		"commits/project_1_merge_request_1_commits",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	c, meta, err := gitlab.ProjectMergeRequestCommits("1", 1, nil)
 

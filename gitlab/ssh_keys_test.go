@@ -3,12 +3,16 @@ package gitlab
 import (
 	"testing"
 
+	"github.com/plouc/go-gitlab-client/test"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGitlab_CurrentUserSshKeys(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "ssh_keys/current_user_ssh_keys.json")
+	ts := test.CreateMockServer(t, []string{
+		"ssh_keys/current_user_ssh_keys",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	keys, meta, err := gitlab.CurrentUserSshKeys(nil)
 
@@ -22,8 +26,11 @@ func TestGitlab_CurrentUserSshKeys(t *testing.T) {
 }
 
 func TestGitlab_UserSshKeys(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "ssh_keys/user_1_ssh_keys.json")
+	ts := test.CreateMockServer(t, []string{
+		"ssh_keys/user_1_ssh_keys",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	keys, meta, err := gitlab.UserSshKeys(1, nil)
 

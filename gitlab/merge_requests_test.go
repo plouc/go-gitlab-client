@@ -3,12 +3,16 @@ package gitlab
 import (
 	"testing"
 
+	"github.com/plouc/go-gitlab-client/test"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGitlab_MergeRequests(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "merge_requests/merge_requests.json")
+	ts := test.CreateMockServer(t, []string{
+		"merge_requests/merge_requests",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	mergeRequests, meta, err := gitlab.MergeRequests(nil)
 
@@ -22,8 +26,11 @@ func TestGitlab_MergeRequests(t *testing.T) {
 }
 
 func TestGitlab_ProjectMergeRequests(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "merge_requests/project_merge_requests.json")
+	ts := test.CreateMockServer(t, []string{
+		"merge_requests/project_merge_requests",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	mergeRequests, meta, err := gitlab.ProjectMergeRequests("1", nil)
 
@@ -37,8 +44,11 @@ func TestGitlab_ProjectMergeRequests(t *testing.T) {
 }
 
 func TestGitlab_GroupMergeRequests(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "merge_requests/group_merge_requests.json")
+	ts := test.CreateMockServer(t, []string{
+		"merge_requests/group_merge_requests",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	mergeRequests, meta, err := gitlab.GroupMergeRequests(1, nil)
 

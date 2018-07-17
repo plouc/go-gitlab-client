@@ -3,12 +3,16 @@ package gitlab
 import (
 	"testing"
 
+	"github.com/plouc/go-gitlab-client/test"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGitlab_ProjectMembers(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "members/project_1_members.json")
+	ts := test.CreateMockServer(t, []string{
+		"members/project_1_members",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	members, meta, err := gitlab.ProjectMembers("1", nil)
 
@@ -22,8 +26,11 @@ func TestGitlab_ProjectMembers(t *testing.T) {
 }
 
 func TestGitlab_GroupMembers(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "members/group_1_members.json")
+	ts := test.CreateMockServer(t, []string{
+		"members/group_1_members",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	members, meta, err := gitlab.GroupMembers("1", nil)
 

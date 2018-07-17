@@ -3,12 +3,16 @@ package gitlab
 import (
 	"testing"
 
+	"github.com/plouc/go-gitlab-client/test"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGitlab_Runners(t *testing.T) {
-	ts, gitlab := mockServerFromMapping(t, "runners/runners.json")
+	ts := test.CreateMockServer(t, []string{
+		"runners/runners",
+	})
 	defer ts.Close()
+	gitlab := NewGitlab(ts.URL, "", "")
 
 	runners, meta, err := gitlab.Runners(nil)
 
