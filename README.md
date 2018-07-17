@@ -331,31 +331,31 @@ for more info.
 - [glc get runner](#glc-get-runner)	*Get details of a runner*
 - [glc get user](#glc-get-user)	*Get a single user*
 - [glc init](#glc-init)	*Init glc config*
-- [glc ls](#glc-ls)	*List resource*
-- [glc ls aliases](#glc-ls-aliases)	*List resource aliases*
-- [glc ls group-merge-requests](#glc-ls-group-merge-requests)	*List group merge requests*
-- [glc ls group-variables](#glc-ls-group-variables)	*Get list of a group's variables*
-- [glc ls groups](#glc-ls-groups)	*List groups*
-- [glc ls merge-requests](#glc-ls-merge-requests)	*List merge requests*
-- [glc ls namespaces](#glc-ls-namespaces)	*List namespaces*
-- [glc ls project-badges](#glc-ls-project-badges)	*List project badges*
-- [glc ls project-branches](#glc-ls-project-branches)	*List project branches*
-- [glc ls project-commits](#glc-ls-project-commits)	*List project repository commits*
-- [glc ls project-environments](#glc-ls-project-environments)	*List project environments*
-- [glc ls project-hooks](#glc-ls-project-hooks)	*List project's hooks*
-- [glc ls project-jobs](#glc-ls-project-jobs)	*List project jobs*
-- [glc ls project-members](#glc-ls-project-members)	*List project members*
-- [glc ls project-merge-request-commits](#glc-ls-project-merge-request-commits)	*List project merge request commits*
-- [glc ls project-merge-requests](#glc-ls-project-merge-requests)	*List project merge requests*
-- [glc ls project-pipeline-jobs](#glc-ls-project-pipeline-jobs)	*List project pipeline jobs*
-- [glc ls project-pipelines](#glc-ls-project-pipelines)	*List project pipelines*
-- [glc ls project-protected-branches](#glc-ls-project-protected-branches)	*List project protected branches*
-- [glc ls project-variables](#glc-ls-project-variables)	*Get list of a project's variables*
-- [glc ls projects](#glc-ls-projects)	*List projects*
-- [glc ls runners](#glc-ls-runners)	*List runners*
-- [glc ls ssh-keys](#glc-ls-ssh-keys)	*List current user ssh keys*
-- [glc ls user-ssh-keys](#glc-ls-user-ssh-keys)	*List specific user ssh keys*
-- [glc ls users](#glc-ls-users)	*List users*
+- [glc list](#glc-list)	*List resource*
+- [glc list aliases](#glc-list-aliases)	*List resource aliases*
+- [glc list group-merge-requests](#glc-list-group-merge-requests)	*List group merge requests*
+- [glc list group-variables](#glc-list-group-variables)	*Get list of a group's variables*
+- [glc list groups](#glc-list-groups)	*List groups*
+- [glc list merge-requests](#glc-list-merge-requests)	*List merge requests*
+- [glc list namespaces](#glc-list-namespaces)	*List namespaces*
+- [glc list project-badges](#glc-list-project-badges)	*List project badges*
+- [glc list project-branches](#glc-list-project-branches)	*List project branches*
+- [glc list project-commits](#glc-list-project-commits)	*List project repository commits*
+- [glc list project-environments](#glc-list-project-environments)	*List project environments*
+- [glc list project-hooks](#glc-list-project-hooks)	*List project's hooks*
+- [glc list project-jobs](#glc-list-project-jobs)	*List project jobs*
+- [glc list project-members](#glc-list-project-members)	*List project members*
+- [glc list project-merge-request-commits](#glc-list-project-merge-request-commits)	*List project merge request commits*
+- [glc list project-merge-requests](#glc-list-project-merge-requests)	*List project merge requests*
+- [glc list project-pipeline-jobs](#glc-list-project-pipeline-jobs)	*List project pipeline jobs*
+- [glc list project-pipelines](#glc-list-project-pipelines)	*List project pipelines*
+- [glc list project-protected-branches](#glc-list-project-protected-branches)	*List project protected branches*
+- [glc list project-variables](#glc-list-project-variables)	*Get list of a project's variables*
+- [glc list projects](#glc-list-projects)	*List projects*
+- [glc list runners](#glc-list-runners)	*List runners*
+- [glc list ssh-keys](#glc-list-ssh-keys)	*List current user ssh keys*
+- [glc list user-ssh-keys](#glc-list-user-ssh-keys)	*List specific user ssh keys*
+- [glc list users](#glc-list-users)	*List users*
 - [glc rm](#glc-rm)	*Remove resource*
 - [glc rm alias](#glc-rm-alias)	*Remove resource alias*
 - [glc rm group](#glc-rm-group)	*Remove group*
@@ -392,6 +392,7 @@ Add resource
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -439,6 +440,7 @@ glc add alias ALIAS RESOURCE_TYPE [...resource ids] [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -476,6 +478,7 @@ glc add group [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -513,6 +516,7 @@ glc add group-var GROUP_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -550,6 +554,7 @@ glc add project [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -587,6 +592,7 @@ glc add project-badge PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -626,6 +632,7 @@ glc add project-branch PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -663,6 +670,7 @@ glc add project-environment PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -700,6 +708,7 @@ glc add project-hook PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -737,6 +746,7 @@ glc add project-protected-branch PROJECT_ID BRANCH_NAME [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -774,6 +784,7 @@ glc add project-star PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -811,6 +822,7 @@ glc add project-var PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -855,6 +867,7 @@ glc completion [shell] [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -888,6 +901,7 @@ glc doc [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -917,6 +931,7 @@ Get resource details
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -968,6 +983,7 @@ glc get current-user [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1006,6 +1022,7 @@ glc get group GROUP_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1043,6 +1060,7 @@ glc get group-var GROUP_ID VAR_KEY [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1080,6 +1098,7 @@ glc get namespace NAMESPACE_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1118,6 +1137,7 @@ glc get project PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1155,6 +1175,7 @@ glc get project-badge PROJECT_ID BADGE_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1192,6 +1213,7 @@ glc get project-branch PROJECT_ID BRANCH_NAME [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1229,6 +1251,7 @@ glc get project-hook PROJECT_ID HOOK_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1266,6 +1289,7 @@ glc get project-job PROJECT_ID JOB_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1305,6 +1329,7 @@ glc get project-job cancel PROJECT_ID JOB_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1342,6 +1367,7 @@ glc get project-job retry PROJECT_ID JOB_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1379,6 +1405,7 @@ glc get project-job-trace PROJECT_ID JOB_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1416,6 +1443,7 @@ glc get project-merge-request PROJECT_ID MERGE_REQUEST_IID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1453,6 +1481,7 @@ glc get project-pipeline PROJECT_ID PIPELINE_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1490,6 +1519,7 @@ glc get project-var PROJECT_ID VAR_KEY [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1527,6 +1557,7 @@ glc get runner RUNNER_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1564,6 +1595,7 @@ glc get user USER_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1601,6 +1633,7 @@ glc init [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1611,7 +1644,7 @@ glc init [flags]
 
 
 
-#### glc ls
+#### glc list
 
 List resource
 
@@ -1622,7 +1655,7 @@ List resource
 ##### Options
 
 ```
-  -h, --help           help for ls
+  -h, --help           help for list
   -p, --page int       Page (default 1)
   -l, --per-page int   Items per page (default 10)
 ```
@@ -1632,6 +1665,7 @@ List resource
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1642,34 +1676,34 @@ List resource
 
 ##### See also
 
-- [glc ls aliases](#glc-ls-aliases)	*List resource aliases*
-- [glc ls group-merge-requests](#glc-ls-group-merge-requests)	*List group merge requests*
-- [glc ls group-variables](#glc-ls-group-variables)	*Get list of a group's variables*
-- [glc ls groups](#glc-ls-groups)	*List groups*
-- [glc ls merge-requests](#glc-ls-merge-requests)	*List merge requests*
-- [glc ls namespaces](#glc-ls-namespaces)	*List namespaces*
-- [glc ls project-badges](#glc-ls-project-badges)	*List project badges*
-- [glc ls project-branches](#glc-ls-project-branches)	*List project branches*
-- [glc ls project-commits](#glc-ls-project-commits)	*List project repository commits*
-- [glc ls project-environments](#glc-ls-project-environments)	*List project environments*
-- [glc ls project-hooks](#glc-ls-project-hooks)	*List project's hooks*
-- [glc ls project-jobs](#glc-ls-project-jobs)	*List project jobs*
-- [glc ls project-members](#glc-ls-project-members)	*List project members*
-- [glc ls project-merge-request-commits](#glc-ls-project-merge-request-commits)	*List project merge request commits*
-- [glc ls project-merge-requests](#glc-ls-project-merge-requests)	*List project merge requests*
-- [glc ls project-pipeline-jobs](#glc-ls-project-pipeline-jobs)	*List project pipeline jobs*
-- [glc ls project-pipelines](#glc-ls-project-pipelines)	*List project pipelines*
-- [glc ls project-protected-branches](#glc-ls-project-protected-branches)	*List project protected branches*
-- [glc ls project-variables](#glc-ls-project-variables)	*Get list of a project's variables*
-- [glc ls projects](#glc-ls-projects)	*List projects*
-- [glc ls runners](#glc-ls-runners)	*List runners*
-- [glc ls ssh-keys](#glc-ls-ssh-keys)	*List current user ssh keys*
-- [glc ls user-ssh-keys](#glc-ls-user-ssh-keys)	*List specific user ssh keys*
-- [glc ls users](#glc-ls-users)	*List users*
+- [glc list aliases](#glc-list-aliases)	*List resource aliases*
+- [glc list group-merge-requests](#glc-list-group-merge-requests)	*List group merge requests*
+- [glc list group-variables](#glc-list-group-variables)	*Get list of a group's variables*
+- [glc list groups](#glc-list-groups)	*List groups*
+- [glc list merge-requests](#glc-list-merge-requests)	*List merge requests*
+- [glc list namespaces](#glc-list-namespaces)	*List namespaces*
+- [glc list project-badges](#glc-list-project-badges)	*List project badges*
+- [glc list project-branches](#glc-list-project-branches)	*List project branches*
+- [glc list project-commits](#glc-list-project-commits)	*List project repository commits*
+- [glc list project-environments](#glc-list-project-environments)	*List project environments*
+- [glc list project-hooks](#glc-list-project-hooks)	*List project's hooks*
+- [glc list project-jobs](#glc-list-project-jobs)	*List project jobs*
+- [glc list project-members](#glc-list-project-members)	*List project members*
+- [glc list project-merge-request-commits](#glc-list-project-merge-request-commits)	*List project merge request commits*
+- [glc list project-merge-requests](#glc-list-project-merge-requests)	*List project merge requests*
+- [glc list project-pipeline-jobs](#glc-list-project-pipeline-jobs)	*List project pipeline jobs*
+- [glc list project-pipelines](#glc-list-project-pipelines)	*List project pipelines*
+- [glc list project-protected-branches](#glc-list-project-protected-branches)	*List project protected branches*
+- [glc list project-variables](#glc-list-project-variables)	*Get list of a project's variables*
+- [glc list projects](#glc-list-projects)	*List projects*
+- [glc list runners](#glc-list-runners)	*List runners*
+- [glc list ssh-keys](#glc-list-ssh-keys)	*List current user ssh keys*
+- [glc list user-ssh-keys](#glc-list-user-ssh-keys)	*List specific user ssh keys*
+- [glc list users](#glc-list-users)	*List users*
 
 
 
-#### glc ls aliases
+#### glc list aliases
 
 List resource aliases
 
@@ -1678,7 +1712,7 @@ List resource aliases
 List resource aliases
 
 ```
-glc ls aliases [flags]
+glc list aliases [flags]
 ```
 
 ##### Options
@@ -1692,6 +1726,7 @@ glc ls aliases [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1704,11 +1739,11 @@ glc ls aliases [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls group-merge-requests
+#### glc list group-merge-requests
 
 List group merge requests
 
@@ -1717,7 +1752,7 @@ List group merge requests
 List group merge requests
 
 ```
-glc ls group-merge-requests GROUP_ID [flags]
+glc list group-merge-requests GROUP_ID [flags]
 ```
 
 ##### Options
@@ -1731,6 +1766,7 @@ glc ls group-merge-requests GROUP_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1743,11 +1779,11 @@ glc ls group-merge-requests GROUP_ID [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls group-variables
+#### glc list group-variables
 
 Get list of a group's variables
 
@@ -1756,7 +1792,7 @@ Get list of a group's variables
 Get list of a group's variables
 
 ```
-glc ls group-variables GROUP_ID [flags]
+glc list group-variables GROUP_ID [flags]
 ```
 
 ##### Options
@@ -1770,6 +1806,7 @@ glc ls group-variables GROUP_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1782,11 +1819,11 @@ glc ls group-variables GROUP_ID [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls groups
+#### glc list groups
 
 List groups
 
@@ -1795,7 +1832,7 @@ List groups
 List groups
 
 ```
-glc ls groups [flags]
+glc list groups [flags]
 ```
 
 ##### Options
@@ -1814,6 +1851,7 @@ glc ls groups [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1826,11 +1864,11 @@ glc ls groups [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls merge-requests
+#### glc list merge-requests
 
 List merge requests
 
@@ -1839,7 +1877,7 @@ List merge requests
 List merge requests
 
 ```
-glc ls merge-requests [flags]
+glc list merge-requests [flags]
 ```
 
 ##### Options
@@ -1853,6 +1891,7 @@ glc ls merge-requests [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1865,11 +1904,11 @@ glc ls merge-requests [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls namespaces
+#### glc list namespaces
 
 List namespaces
 
@@ -1878,7 +1917,7 @@ List namespaces
 List namespaces
 
 ```
-glc ls namespaces [flags]
+glc list namespaces [flags]
 ```
 
 ##### Options
@@ -1893,6 +1932,7 @@ glc ls namespaces [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1905,11 +1945,11 @@ glc ls namespaces [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls project-badges
+#### glc list project-badges
 
 List project badges
 
@@ -1918,7 +1958,7 @@ List project badges
 List project badges
 
 ```
-glc ls project-badges PROJECT_ID [flags]
+glc list project-badges PROJECT_ID [flags]
 ```
 
 ##### Options
@@ -1932,6 +1972,7 @@ glc ls project-badges PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1944,11 +1985,11 @@ glc ls project-badges PROJECT_ID [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls project-branches
+#### glc list project-branches
 
 List project branches
 
@@ -1957,7 +1998,7 @@ List project branches
 List project branches
 
 ```
-glc ls project-branches PROJECT_ID [flags]
+glc list project-branches PROJECT_ID [flags]
 ```
 
 ##### Options
@@ -1972,6 +2013,7 @@ glc ls project-branches PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -1984,11 +2026,11 @@ glc ls project-branches PROJECT_ID [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls project-commits
+#### glc list project-commits
 
 List project repository commits
 
@@ -1997,7 +2039,7 @@ List project repository commits
 List project repository commits
 
 ```
-glc ls project-commits PROJECT_ID [flags]
+glc list project-commits PROJECT_ID [flags]
 ```
 
 ##### Options
@@ -2011,6 +2053,7 @@ glc ls project-commits PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2023,11 +2066,11 @@ glc ls project-commits PROJECT_ID [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls project-environments
+#### glc list project-environments
 
 List project environments
 
@@ -2036,7 +2079,7 @@ List project environments
 List project environments
 
 ```
-glc ls project-environments PROJECT_ID [flags]
+glc list project-environments PROJECT_ID [flags]
 ```
 
 ##### Options
@@ -2050,6 +2093,7 @@ glc ls project-environments PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2062,11 +2106,11 @@ glc ls project-environments PROJECT_ID [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls project-hooks
+#### glc list project-hooks
 
 List project's hooks
 
@@ -2075,7 +2119,7 @@ List project's hooks
 List project's hooks
 
 ```
-glc ls project-hooks PROJECT_ID [flags]
+glc list project-hooks PROJECT_ID [flags]
 ```
 
 ##### Options
@@ -2089,6 +2133,7 @@ glc ls project-hooks PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2101,11 +2146,11 @@ glc ls project-hooks PROJECT_ID [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls project-jobs
+#### glc list project-jobs
 
 List project jobs
 
@@ -2114,7 +2159,7 @@ List project jobs
 List project jobs
 
 ```
-glc ls project-jobs PROJECT_ID [flags]
+glc list project-jobs PROJECT_ID [flags]
 ```
 
 ##### Options
@@ -2130,6 +2175,7 @@ glc ls project-jobs PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2142,11 +2188,11 @@ glc ls project-jobs PROJECT_ID [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls project-members
+#### glc list project-members
 
 List project members
 
@@ -2155,7 +2201,7 @@ List project members
 List project members
 
 ```
-glc ls project-members PROJECT_ID [flags]
+glc list project-members PROJECT_ID [flags]
 ```
 
 ##### Options
@@ -2170,6 +2216,7 @@ glc ls project-members PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2182,11 +2229,11 @@ glc ls project-members PROJECT_ID [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls project-merge-request-commits
+#### glc list project-merge-request-commits
 
 List project merge request commits
 
@@ -2195,7 +2242,7 @@ List project merge request commits
 List project merge request commits
 
 ```
-glc ls project-merge-request-commits PROJECT_ID MERGE_REQUEST_IID [flags]
+glc list project-merge-request-commits PROJECT_ID MERGE_REQUEST_IID [flags]
 ```
 
 ##### Options
@@ -2209,6 +2256,7 @@ glc ls project-merge-request-commits PROJECT_ID MERGE_REQUEST_IID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2221,11 +2269,11 @@ glc ls project-merge-request-commits PROJECT_ID MERGE_REQUEST_IID [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls project-merge-requests
+#### glc list project-merge-requests
 
 List project merge requests
 
@@ -2234,7 +2282,7 @@ List project merge requests
 List project merge requests
 
 ```
-glc ls project-merge-requests PROJECT_ID [flags]
+glc list project-merge-requests PROJECT_ID [flags]
 ```
 
 ##### Options
@@ -2248,6 +2296,7 @@ glc ls project-merge-requests PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2260,11 +2309,11 @@ glc ls project-merge-requests PROJECT_ID [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls project-pipeline-jobs
+#### glc list project-pipeline-jobs
 
 List project pipeline jobs
 
@@ -2273,7 +2322,7 @@ List project pipeline jobs
 List project pipeline jobs
 
 ```
-glc ls project-pipeline-jobs PROJECT_ID PIPELINE_ID [flags]
+glc list project-pipeline-jobs PROJECT_ID PIPELINE_ID [flags]
 ```
 
 ##### Options
@@ -2289,6 +2338,7 @@ glc ls project-pipeline-jobs PROJECT_ID PIPELINE_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2301,11 +2351,11 @@ glc ls project-pipeline-jobs PROJECT_ID PIPELINE_ID [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls project-pipelines
+#### glc list project-pipelines
 
 List project pipelines
 
@@ -2314,7 +2364,7 @@ List project pipelines
 List project pipelines
 
 ```
-glc ls project-pipelines PROJECT_ID [flags]
+glc list project-pipelines PROJECT_ID [flags]
 ```
 
 ##### Options
@@ -2328,6 +2378,7 @@ glc ls project-pipelines PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2340,11 +2391,11 @@ glc ls project-pipelines PROJECT_ID [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls project-protected-branches
+#### glc list project-protected-branches
 
 List project protected branches
 
@@ -2353,7 +2404,7 @@ List project protected branches
 List project protected branches
 
 ```
-glc ls project-protected-branches PROJECT_ID [flags]
+glc list project-protected-branches PROJECT_ID [flags]
 ```
 
 ##### Options
@@ -2367,6 +2418,7 @@ glc ls project-protected-branches PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2379,11 +2431,11 @@ glc ls project-protected-branches PROJECT_ID [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls project-variables
+#### glc list project-variables
 
 Get list of a project's variables
 
@@ -2392,7 +2444,7 @@ Get list of a project's variables
 Get list of a project's variables
 
 ```
-glc ls project-variables PROJECT_ID [flags]
+glc list project-variables PROJECT_ID [flags]
 ```
 
 ##### Options
@@ -2406,6 +2458,7 @@ glc ls project-variables PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2418,11 +2471,11 @@ glc ls project-variables PROJECT_ID [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls projects
+#### glc list projects
 
 List projects
 
@@ -2431,7 +2484,7 @@ List projects
 List projects
 
 ```
-glc ls projects [flags]
+glc list projects [flags]
 ```
 
 ##### Options
@@ -2450,6 +2503,7 @@ glc ls projects [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2462,11 +2516,11 @@ glc ls projects [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls runners
+#### glc list runners
 
 List runners
 
@@ -2475,7 +2529,7 @@ List runners
 List runners
 
 ```
-glc ls runners [flags]
+glc list runners [flags]
 ```
 
 ##### Options
@@ -2491,6 +2545,7 @@ glc ls runners [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2503,11 +2558,11 @@ glc ls runners [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls ssh-keys
+#### glc list ssh-keys
 
 List current user ssh keys
 
@@ -2516,7 +2571,7 @@ List current user ssh keys
 List current user ssh keys
 
 ```
-glc ls ssh-keys [flags]
+glc list ssh-keys [flags]
 ```
 
 ##### Options
@@ -2530,6 +2585,7 @@ glc ls ssh-keys [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2542,11 +2598,11 @@ glc ls ssh-keys [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls user-ssh-keys
+#### glc list user-ssh-keys
 
 List specific user ssh keys
 
@@ -2555,7 +2611,7 @@ List specific user ssh keys
 List specific user ssh keys
 
 ```
-glc ls user-ssh-keys USER_ID [flags]
+glc list user-ssh-keys USER_ID [flags]
 ```
 
 ##### Options
@@ -2569,6 +2625,7 @@ glc ls user-ssh-keys USER_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2581,11 +2638,11 @@ glc ls user-ssh-keys USER_ID [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
-#### glc ls users
+#### glc list users
 
 List users
 
@@ -2594,7 +2651,7 @@ List users
 List users
 
 ```
-glc ls users [flags]
+glc list users [flags]
 ```
 
 ##### Options
@@ -2612,6 +2669,7 @@ glc ls users [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2624,7 +2682,7 @@ glc ls users [flags]
 
 ##### See also
 
-- [glc ls](#glc-ls)	*List resource*
+- [glc list](#glc-list)	*List resource*
 
 
 
@@ -2648,6 +2706,7 @@ Remove resource
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2696,6 +2755,7 @@ glc rm alias [alias] [resource type] [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2734,6 +2794,7 @@ glc rm group GROUP_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2772,6 +2833,7 @@ glc rm group-var GROUP_ID VAR_KEY [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2810,6 +2872,7 @@ glc rm project PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2848,6 +2911,7 @@ glc rm project-badge PROJECT_ID BADGE_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2886,6 +2950,7 @@ glc rm project-branch PROJECT_ID BRANCH_NAME [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2924,6 +2989,7 @@ glc rm project-environment PROJECT_ID ENVIRONMENT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -2962,6 +3028,7 @@ glc rm project-hook PROJECT_ID HOOK_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -3000,6 +3067,7 @@ glc rm project-merged-branches PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -3038,6 +3106,7 @@ glc rm project-protected-branch PROJECT_ID BRANCH_NAME [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -3076,6 +3145,7 @@ glc rm project-star PROJECT_ID [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -3114,6 +3184,7 @@ glc rm project-var PROJECT_ID VAR_KEY [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
@@ -3152,6 +3223,7 @@ glc version [flags]
 ```
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified

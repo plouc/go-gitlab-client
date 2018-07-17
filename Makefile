@@ -178,8 +178,7 @@ readme: ##@misc Generate README with CLI documentation
 	@go run cli/main.go doc >> README.md
 	@echo "${GREEN}✔ successfully generated ${WHITE}README.md${RESET}\n"
 
-.PHONY: setup install_go_deps update_go_deps \
-        up restart stop log ensure_wiremock_is_up clean status \
+.PHONY: install update \
         test test_lib test_cli update_cli_snapshots vet_cli vet_lib fmt_check \
         cli cli_all cli_build cli_build_all cli_checksums \
-        fmt dev readme
+        fmt readme

@@ -20,10 +20,6 @@ make cli_build_all
 ```
 
 You'll find generated files in `cli/build`.
-
-Please note that because this project use docker as a working environment,
-the generated binary used for integration tests (`cli/glc`) might not work
-on your host as it's generated for the golang docker image.
 You can use one of the generated build in `cli/build` according to your platform.
 
 You can also generate checksums for the binaries:
