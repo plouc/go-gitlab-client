@@ -310,6 +310,7 @@ for more info.
 - [glc add project-protected-branch](#glc-add-project-protected-branch)	*Protect project branch*
 - [glc add project-star](#glc-add-project-star)	*Stars a given project*
 - [glc add project-var](#glc-add-project-var)	*Create a new project variable*
+- [glc ci-info](#glc-ci-info)	*Print information about CI environment*
 - [glc completion](#glc-completion)	*Output shell completion code for the specified shell (bash or zsh)*
 - [glc doc](#glc-doc)	*Generate CLI documentation in markdown format*
 - [glc get](#glc-get)	*Get resource details*
@@ -834,6 +835,40 @@ glc add project-var PROJECT_ID [flags]
 ##### See also
 
 - [glc add](#glc-add)	*Add resource*
+
+
+
+#### glc ci-info
+
+Print information about CI environment
+
+##### Synopsis
+
+Print information about CI environment
+
+```
+glc ci-info [flags]
+```
+
+##### Options
+
+```
+  -h, --help   help for ci-info
+```
+
+##### Options inherited from parent commands
+
+```
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+```
 
 
 
