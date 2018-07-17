@@ -5,12 +5,13 @@ Usage:
 
 Available Commands:
   add         Add resource
+  ci-info     Print information about CI environment
   completion  Output shell completion code for the specified shell (bash or zsh)
   doc         Generate CLI documentation in markdown format
   get         Get resource details
   help        Help about any command
   init        Init glc config
-  ls          List resource
+  list        List resource
   rm          Remove resource
   version     Print the version number of glc
 
@@ -18,6 +19,7 @@ Flags:
   -a, --alias string                Use resource alias
   -c, --config string               Path to configuration file (default ".glc.yml")
   -h, --help                        help for glc
+      --host string                 GitLab host
   -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
       --no-color                    disable color output
   -o, --output-destination string   Output result to file if specified
