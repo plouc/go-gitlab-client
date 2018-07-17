@@ -1,0 +1,14 @@
+{
+  "request": {
+    "path": "/api/v4/projects/1/snippets/7/notes",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "notes/snippet_notes.json",
+    "headers": {
+      "X-Page": "1",
+      "X-Per-Page": "10"
+    }
+  }
+}

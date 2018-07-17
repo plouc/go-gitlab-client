@@ -1,0 +1,107 @@
+[
+  {
+    "id": 529462,
+    "type": null,
+    "body": "another one",
+    "attachment": null,
+    "author": {
+      "id": 173,
+      "name": "Raoul Marcel",
+      "username": "raoul.marcel",
+      "state": "active",
+      "avatar_url": "https://gitlab.fake.com/uploads/-/system/user/avatar/173/avatar.png",
+      "web_url": "https://gitlab.fake.com/raoul.marcel"
+    },
+    "created_at": "2018-07-17T16:05:26.049Z",
+    "updated_at": "2018-07-17T16:05:26.049Z",
+    "system": false,
+    "noteable_id": 171,
+    "noteable_type": "Snippet",
+    "resolvable": false,
+    "noteable_iid": null
+  },
+  {
+    "id": 529460,
+    "type": null,
+    "body": "or note to be",
+    "attachment": null,
+    "author": {
+      "id": 173,
+      "name": "Raoul Marcel",
+      "username": "raoul.marcel",
+      "state": "active",
+      "avatar_url": "https://gitlab.fake.com/uploads/-/system/user/avatar/173/avatar.png",
+      "web_url": "https://gitlab.fake.com/raoul.marcel"
+    },
+    "created_at": "2018-07-17T16:05:05.343Z",
+    "updated_at": "2018-07-17T16:05:05.343Z",
+    "system": false,
+    "noteable_id": 171,
+    "noteable_type": "Snippet",
+    "resolvable": false,
+    "noteable_iid": null
+  },
+  {
+    "id": 529459,
+    "type": null,
+    "body": "note?",
+    "attachment": null,
+    "author": {
+      "id": 173,
+      "name": "Raoul Marcel",
+      "username": "raoul.marcel",
+      "state": "active",
+      "avatar_url": "https://gitlab.fake.com/uploads/-/system/user/avatar/173/avatar.png",
+      "web_url": "https://gitlab.fake.com/raoul.marcel"
+    },
+    "created_at": "2018-07-17T16:04:56.484Z",
+    "updated_at": "2018-07-17T16:05:16.570Z",
+    "system": false,
+    "noteable_id": 171,
+    "noteable_type": "Snippet",
+    "resolvable": false,
+    "noteable_iid": null
+  },
+  {
+    "id": 529458,
+    "type": null,
+    "body": "other",
+    "attachment": null,
+    "author": {
+      "id": 173,
+      "name": "Raoul Marcel",
+      "username": "raoul.marcel",
+      "state": "active",
+      "avatar_url": "https://gitlab.fake.com/uploads/-/system/user/avatar/173/avatar.png",
+      "web_url": "https://gitlab.fake.com/raoul.marcel"
+    },
+    "created_at": "2018-07-17T16:04:46.838Z",
+    "updated_at": "2018-07-17T16:04:46.838Z",
+    "system": false,
+    "noteable_id": 171,
+    "noteable_type": "Snippet",
+    "resolvable": false,
+    "noteable_iid": null
+  },
+  {
+    "id": 529457,
+    "type": null,
+    "body": "test",
+    "attachment": null,
+    "author": {
+      "id": 173,
+      "name": "Raoul Marcel",
+      "username": "raoul.marcel",
+      "state": "active",
+      "avatar_url": "https://gitlab.fake.com/uploads/-/system/user/avatar/173/avatar.png",
+      "web_url": "https://gitlab.fake.com/raoul.marcel"
+    },
+    "created_at": "2018-07-17T16:03:59.721Z",
+    "updated_at": "2018-07-17T16:03:59.721Z",
+    "system": false,
+    "noteable_id": 171,
+    "noteable_type": "Snippet",
+    "resolvable": false,
+    "noteable_iid": null
+  }
+]

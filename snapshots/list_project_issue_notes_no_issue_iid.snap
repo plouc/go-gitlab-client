@@ -1,0 +1,30 @@
+Error: ✘ 2 argument(s) required for project-issue resource but got 1:
+  - project_id
+  - issue_iid
+
+Usage:
+  glc list project-issue-notes PROJECT_ID ISSUE_IID [flags]
+
+Aliases:
+  project-issue-notes, issue-notes
+
+Flags:
+  -h, --help   help for project-issue-notes
+
+Global Flags:
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+  -p, --page int                    Page (default 1)
+  -l, --per-page int                Items per page (default 10)
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+
+✘ 2 argument(s) required for project-issue resource but got 1:
+  - project_id
+  - issue_iid
+

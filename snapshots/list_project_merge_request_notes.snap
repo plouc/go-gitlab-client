@@ -1,0 +1,12 @@
+Fetching project merge request notes (project id: 1, merge request iid: 3)…
+
+|   ID   |              BODY              |     AUTHOR     | RESOLVABLE |
++--------+--------------------------------+----------------+------------+
+| 157765 | assigned to @estelle.claude    | Raoul Marcel   | false      |
+| 157764 | added ~45 and removed ~43      | Raoul Marcel   | false      |
+|        | labels                         |                |            |
+| 157731 | removed ~422 label             | Raoul Marcel   | false      |
+| 157730 | removed assignee               | Estelle Claude | false      |
+| 157728 | assigned to @raoul.marcel      | Estelle Claude | false      |
+| 157688 | changed milestone to %10       | Estelle Claude | false      |
+

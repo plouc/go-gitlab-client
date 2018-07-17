@@ -1,0 +1,128 @@
+[
+  {
+    "id": 157765,
+    "type": null,
+    "body": "assigned to @estelle.claude",
+    "attachment": null,
+    "author": {
+      "id": 2,
+      "name": "Raoul Marcel",
+      "username": "raoul.marcel",
+      "state": "active",
+      "avatar_url": "https://fake.io/uploads/-/system/user/avatar/2/avatar.png",
+      "web_url": "https://fake.io/raoul.marcel"
+    },
+    "created_at": "2018-07-17T16:32:52.286+02:00",
+    "updated_at": "2018-07-17T16:32:52.286+02:00",
+    "system": true,
+    "noteable_id": 13527,
+    "noteable_type": "MergeRequest",
+    "resolvable": false,
+    "noteable_iid": 1561
+  },
+  {
+    "id": 157764,
+    "type": null,
+    "body": "added ~45 and removed ~43 labels",
+    "attachment": null,
+    "author": {
+      "id": 2,
+      "name": "Raoul Marcel",
+      "username": "raoul.marcel",
+      "state": "active",
+      "avatar_url": "https://fake.io/uploads/-/system/user/avatar/2/avatar.png",
+      "web_url": "https://fake.io/raoul.marcel"
+    },
+    "created_at": "2018-07-17T16:32:47.362+02:00",
+    "updated_at": "2018-07-17T16:32:47.362+02:00",
+    "system": true,
+    "noteable_id": 13527,
+    "noteable_type": "MergeRequest",
+    "resolvable": false,
+    "noteable_iid": 1561
+  },
+  {
+    "id": 157731,
+    "type": null,
+    "body": "removed ~422 label",
+    "attachment": null,
+    "author": {
+      "id": 2,
+      "name": "Raoul Marcel",
+      "username": "raoul.marcel",
+      "state": "active",
+      "avatar_url": "https://fake.io/uploads/-/system/user/avatar/2/avatar.png",
+      "web_url": "https://fake.io/raoul.marcel"
+    },
+    "created_at": "2018-07-17T16:21:31.315+02:00",
+    "updated_at": "2018-07-17T16:21:31.315+02:00",
+    "system": true,
+    "noteable_id": 13527,
+    "noteable_type": "MergeRequest",
+    "resolvable": false,
+    "noteable_iid": 1561
+  },
+  {
+    "id": 157730,
+    "type": null,
+    "body": "removed assignee",
+    "attachment": null,
+    "author": {
+      "id": 3,
+      "name": "Estelle Claude",
+      "username": "estelle.claude",
+      "state": "active",
+      "avatar_url": "https://fake.io/uploads/-/system/user/avatar/3/avatar.png",
+      "web_url": "https://fake.io/estelle.claude"
+    },
+    "created_at": "2018-07-17T16:20:47.780+02:00",
+    "updated_at": "2018-07-17T16:20:47.780+02:00",
+    "system": true,
+    "noteable_id": 13527,
+    "noteable_type": "MergeRequest",
+    "resolvable": false,
+    "noteable_iid": 1561
+  },
+  {
+    "id": 157728,
+    "type": null,
+    "body": "assigned to @raoul.marcel",
+    "attachment": null,
+    "author": {
+      "id": 3,
+      "name": "Estelle Claude",
+      "username": "estelle.claude",
+      "state": "active",
+      "avatar_url": "https://fake.io/uploads/-/system/user/avatar/3/avatar.png",
+      "web_url": "https://fake.io/estelle.claude"
+    },
+    "created_at": "2018-07-17T16:19:06.593+02:00",
+    "updated_at": "2018-07-17T16:19:06.593+02:00",
+    "system": true,
+    "noteable_id": 13527,
+    "noteable_type": "MergeRequest",
+    "resolvable": false,
+    "noteable_iid": 1561
+  },
+  {
+    "id": 157688,
+    "type": null,
+    "body": "changed milestone to %10",
+    "attachment": null,
+    "author": {
+      "id": 3,
+      "name": "Estelle Claude",
+      "username": "estelle.claude",
+      "state": "active",
+      "avatar_url": "https://fake.io/uploads/-/system/user/avatar/3/avatar.png",
+      "web_url": "https://fake.io/estelle.claude"
+    },
+    "created_at": "2018-07-17T15:55:24.529+02:00",
+    "updated_at": "2018-07-17T15:55:24.529+02:00",
+    "system": true,
+    "noteable_id": 13527,
+    "noteable_type": "MergeRequest",
+    "resolvable": false,
+    "noteable_iid": 1561
+  }
+]

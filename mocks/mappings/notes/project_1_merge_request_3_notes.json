@@ -1,0 +1,14 @@
+{
+  "request": {
+    "path": "/api/v4/projects/1/merge_requests/3/notes",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "notes/merge_request_notes.json",
+    "headers": {
+      "X-Page": "1",
+      "X-Per-Page": "10"
+    }
+  }
+}

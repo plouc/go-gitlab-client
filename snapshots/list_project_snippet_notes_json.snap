@@ -1,0 +1,128 @@
+Fetching project snippet notes (project id: 1, snippet id: 7)…
+[
+  {
+    "id": 529462,
+    "body": "another one",
+    "attachment": "",
+    "title": "",
+    "file_name": "",
+    "created_at": "2018-07-17T16:05:26.049Z",
+    "updated_at": "2018-07-17T16:05:26.049Z",
+    "expires_at": "",
+    "system": false,
+    "resolvable": false,
+    "noteable_id": 171,
+    "noteable_iid": 0,
+    "noteable_type": "Snippet",
+    "author": {
+      "id": 173,
+      "username": "raoul.marcel",
+      "email": "",
+      "name": "Raoul Marcel",
+      "state": "active",
+      "created_at": "",
+      "avatar_url": "https://gitlab.fake.com/uploads/-/system/user/avatar/173/avatar.png",
+      "web_url": "https://gitlab.fake.com/raoul.marcel"
+    }
+  },
+  {
+    "id": 529460,
+    "body": "or note to be",
+    "attachment": "",
+    "title": "",
+    "file_name": "",
+    "created_at": "2018-07-17T16:05:05.343Z",
+    "updated_at": "2018-07-17T16:05:05.343Z",
+    "expires_at": "",
+    "system": false,
+    "resolvable": false,
+    "noteable_id": 171,
+    "noteable_iid": 0,
+    "noteable_type": "Snippet",
+    "author": {
+      "id": 173,
+      "username": "raoul.marcel",
+      "email": "",
+      "name": "Raoul Marcel",
+      "state": "active",
+      "created_at": "",
+      "avatar_url": "https://gitlab.fake.com/uploads/-/system/user/avatar/173/avatar.png",
+      "web_url": "https://gitlab.fake.com/raoul.marcel"
+    }
+  },
+  {
+    "id": 529459,
+    "body": "note?",
+    "attachment": "",
+    "title": "",
+    "file_name": "",
+    "created_at": "2018-07-17T16:04:56.484Z",
+    "updated_at": "2018-07-17T16:05:16.570Z",
+    "expires_at": "",
+    "system": false,
+    "resolvable": false,
+    "noteable_id": 171,
+    "noteable_iid": 0,
+    "noteable_type": "Snippet",
+    "author": {
+      "id": 173,
+      "username": "raoul.marcel",
+      "email": "",
+      "name": "Raoul Marcel",
+      "state": "active",
+      "created_at": "",
+      "avatar_url": "https://gitlab.fake.com/uploads/-/system/user/avatar/173/avatar.png",
+      "web_url": "https://gitlab.fake.com/raoul.marcel"
+    }
+  },
+  {
+    "id": 529458,
+    "body": "other",
+    "attachment": "",
+    "title": "",
+    "file_name": "",
+    "created_at": "2018-07-17T16:04:46.838Z",
+    "updated_at": "2018-07-17T16:04:46.838Z",
+    "expires_at": "",
+    "system": false,
+    "resolvable": false,
+    "noteable_id": 171,
+    "noteable_iid": 0,
+    "noteable_type": "Snippet",
+    "author": {
+      "id": 173,
+      "username": "raoul.marcel",
+      "email": "",
+      "name": "Raoul Marcel",
+      "state": "active",
+      "created_at": "",
+      "avatar_url": "https://gitlab.fake.com/uploads/-/system/user/avatar/173/avatar.png",
+      "web_url": "https://gitlab.fake.com/raoul.marcel"
+    }
+  },
+  {
+    "id": 529457,
+    "body": "test",
+    "attachment": "",
+    "title": "",
+    "file_name": "",
+    "created_at": "2018-07-17T16:03:59.721Z",
+    "updated_at": "2018-07-17T16:03:59.721Z",
+    "expires_at": "",
+    "system": false,
+    "resolvable": false,
+    "noteable_id": 171,
+    "noteable_iid": 0,
+    "noteable_type": "Snippet",
+    "author": {
+      "id": 173,
+      "username": "raoul.marcel",
+      "email": "",
+      "name": "Raoul Marcel",
+      "state": "active",
+      "created_at": "",
+      "avatar_url": "https://gitlab.fake.com/uploads/-/system/user/avatar/173/avatar.png",
+      "web_url": "https://gitlab.fake.com/raoul.marcel"
+    }
+  }
+]

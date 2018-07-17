@@ -1,0 +1,30 @@
+Error: ✘ 2 argument(s) required for project-snippet resource but got 0:
+  - project_id
+  - snippet_id
+
+Usage:
+  glc list project-snippet-notes PROJECT_ID SNIPPET_ID [flags]
+
+Aliases:
+  project-snippet-notes, snippet-notes
+
+Flags:
+  -h, --help   help for project-snippet-notes
+
+Global Flags:
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+  -p, --page int                    Page (default 1)
+  -l, --per-page int                Items per page (default 10)
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+
+✘ 2 argument(s) required for project-snippet resource but got 0:
+  - project_id
+  - snippet_id
+

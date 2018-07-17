@@ -327,6 +327,7 @@ for more info.
 - [glc get project-job retry](#glc-get-project-job-retry)	*Retry project job*
 - [glc get project-job-trace](#glc-get-project-job-trace)	*Get project job trace*
 - [glc get project-merge-request](#glc-get-project-merge-request)	*Get project merge request info*
+- [glc get project-merge-request-note](#glc-get-project-merge-request-note)	*Get project merge request note*
 - [glc get project-pipeline](#glc-get-project-pipeline)	*Get project pipeline details*
 - [glc get project-var](#glc-get-project-var)	*Get the details of a project's specific variable*
 - [glc get runner](#glc-get-runner)	*Get details of a runner*
@@ -334,6 +335,7 @@ for more info.
 - [glc init](#glc-init)	*Init glc config*
 - [glc list](#glc-list)	*List resource*
 - [glc list aliases](#glc-list-aliases)	*List resource aliases*
+- [glc list group-epic-notes](#glc-list-group-epic-notes)	*List group epic notes*
 - [glc list group-merge-requests](#glc-list-group-merge-requests)	*List group merge requests*
 - [glc list group-variables](#glc-list-group-variables)	*Get list of a group's variables*
 - [glc list groups](#glc-list-groups)	*List groups*
@@ -344,13 +346,16 @@ for more info.
 - [glc list project-commits](#glc-list-project-commits)	*List project repository commits*
 - [glc list project-environments](#glc-list-project-environments)	*List project environments*
 - [glc list project-hooks](#glc-list-project-hooks)	*List project's hooks*
+- [glc list project-issue-notes](#glc-list-project-issue-notes)	*List project issue notes*
 - [glc list project-jobs](#glc-list-project-jobs)	*List project jobs*
 - [glc list project-members](#glc-list-project-members)	*List project members*
 - [glc list project-merge-request-commits](#glc-list-project-merge-request-commits)	*List project merge request commits*
+- [glc list project-merge-request-notes](#glc-list-project-merge-request-notes)	*List project merge request notes*
 - [glc list project-merge-requests](#glc-list-project-merge-requests)	*List project merge requests*
 - [glc list project-pipeline-jobs](#glc-list-project-pipeline-jobs)	*List project pipeline jobs*
 - [glc list project-pipelines](#glc-list-project-pipelines)	*List project pipelines*
 - [glc list project-protected-branches](#glc-list-project-protected-branches)	*List project protected branches*
+- [glc list project-snippet-notes](#glc-list-project-snippet-notes)	*List project snippet notes*
 - [glc list project-variables](#glc-list-project-variables)	*Get list of a project's variables*
 - [glc list projects](#glc-list-projects)	*List projects*
 - [glc list runners](#glc-list-runners)	*List runners*
@@ -988,6 +993,7 @@ Get resource details
 - [glc get project-job](#glc-get-project-job)	*Get project job info*
 - [glc get project-job-trace](#glc-get-project-job-trace)	*Get project job trace*
 - [glc get project-merge-request](#glc-get-project-merge-request)	*Get project merge request info*
+- [glc get project-merge-request-note](#glc-get-project-merge-request-note)	*Get project merge request note*
 - [glc get project-pipeline](#glc-get-project-pipeline)	*Get project pipeline details*
 - [glc get project-var](#glc-get-project-var)	*Get the details of a project's specific variable*
 - [glc get runner](#glc-get-runner)	*Get details of a runner*
@@ -1493,6 +1499,44 @@ glc get project-merge-request PROJECT_ID MERGE_REQUEST_IID [flags]
 
 
 
+#### glc get project-merge-request-note
+
+Get project merge request note
+
+##### Synopsis
+
+Get project merge request note
+
+```
+glc get project-merge-request-note PROJECT_ID MERGE_REQUEST_IID NOTE_ID [flags]
+```
+
+##### Options
+
+```
+  -h, --help   help for project-merge-request-note
+```
+
+##### Options inherited from parent commands
+
+```
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+```
+
+##### See also
+
+- [glc get](#glc-get)	*Get resource details*
+
+
+
 #### glc get project-pipeline
 
 Get project pipeline details
@@ -1712,6 +1756,7 @@ List resource
 ##### See also
 
 - [glc list aliases](#glc-list-aliases)	*List resource aliases*
+- [glc list group-epic-notes](#glc-list-group-epic-notes)	*List group epic notes*
 - [glc list group-merge-requests](#glc-list-group-merge-requests)	*List group merge requests*
 - [glc list group-variables](#glc-list-group-variables)	*Get list of a group's variables*
 - [glc list groups](#glc-list-groups)	*List groups*
@@ -1722,13 +1767,16 @@ List resource
 - [glc list project-commits](#glc-list-project-commits)	*List project repository commits*
 - [glc list project-environments](#glc-list-project-environments)	*List project environments*
 - [glc list project-hooks](#glc-list-project-hooks)	*List project's hooks*
+- [glc list project-issue-notes](#glc-list-project-issue-notes)	*List project issue notes*
 - [glc list project-jobs](#glc-list-project-jobs)	*List project jobs*
 - [glc list project-members](#glc-list-project-members)	*List project members*
 - [glc list project-merge-request-commits](#glc-list-project-merge-request-commits)	*List project merge request commits*
+- [glc list project-merge-request-notes](#glc-list-project-merge-request-notes)	*List project merge request notes*
 - [glc list project-merge-requests](#glc-list-project-merge-requests)	*List project merge requests*
 - [glc list project-pipeline-jobs](#glc-list-project-pipeline-jobs)	*List project pipeline jobs*
 - [glc list project-pipelines](#glc-list-project-pipelines)	*List project pipelines*
 - [glc list project-protected-branches](#glc-list-project-protected-branches)	*List project protected branches*
+- [glc list project-snippet-notes](#glc-list-project-snippet-notes)	*List project snippet notes*
 - [glc list project-variables](#glc-list-project-variables)	*Get list of a project's variables*
 - [glc list projects](#glc-list-projects)	*List projects*
 - [glc list runners](#glc-list-runners)	*List runners*
@@ -1754,6 +1802,46 @@ glc list aliases [flags]
 
 ```
   -h, --help   help for aliases
+```
+
+##### Options inherited from parent commands
+
+```
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+  -p, --page int                    Page (default 1)
+  -l, --per-page int                Items per page (default 10)
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+```
+
+##### See also
+
+- [glc list](#glc-list)	*List resource*
+
+
+
+#### glc list group-epic-notes
+
+List group epic notes
+
+##### Synopsis
+
+List group epic notes
+
+```
+glc list group-epic-notes GROUP_ID EPIC_ID [flags]
+```
+
+##### Options
+
+```
+  -h, --help   help for group-epic-notes
 ```
 
 ##### Options inherited from parent commands
@@ -2185,6 +2273,46 @@ glc list project-hooks PROJECT_ID [flags]
 
 
 
+#### glc list project-issue-notes
+
+List project issue notes
+
+##### Synopsis
+
+List project issue notes
+
+```
+glc list project-issue-notes PROJECT_ID ISSUE_IID [flags]
+```
+
+##### Options
+
+```
+  -h, --help   help for project-issue-notes
+```
+
+##### Options inherited from parent commands
+
+```
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+  -p, --page int                    Page (default 1)
+  -l, --per-page int                Items per page (default 10)
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+```
+
+##### See also
+
+- [glc list](#glc-list)	*List resource*
+
+
+
 #### glc list project-jobs
 
 List project jobs
@@ -2284,6 +2412,46 @@ glc list project-merge-request-commits PROJECT_ID MERGE_REQUEST_IID [flags]
 
 ```
   -h, --help   help for project-merge-request-commits
+```
+
+##### Options inherited from parent commands
+
+```
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+  -p, --page int                    Page (default 1)
+  -l, --per-page int                Items per page (default 10)
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+```
+
+##### See also
+
+- [glc list](#glc-list)	*List resource*
+
+
+
+#### glc list project-merge-request-notes
+
+List project merge request notes
+
+##### Synopsis
+
+List project merge request notes
+
+```
+glc list project-merge-request-notes PROJECT_ID MERGE_REQUEST_IID [flags]
+```
+
+##### Options
+
+```
+  -h, --help   help for project-merge-request-notes
 ```
 
 ##### Options inherited from parent commands
@@ -2446,6 +2614,46 @@ glc list project-protected-branches PROJECT_ID [flags]
 
 ```
   -h, --help   help for project-protected-branches
+```
+
+##### Options inherited from parent commands
+
+```
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+  -p, --page int                    Page (default 1)
+  -l, --per-page int                Items per page (default 10)
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+```
+
+##### See also
+
+- [glc list](#glc-list)	*List resource*
+
+
+
+#### glc list project-snippet-notes
+
+List project snippet notes
+
+##### Synopsis
+
+List project snippet notes
+
+```
+glc list project-snippet-notes PROJECT_ID SNIPPET_ID [flags]
+```
+
+##### Options
+
+```
+  -h, --help   help for project-snippet-notes
 ```
 
 ##### Options inherited from parent commands

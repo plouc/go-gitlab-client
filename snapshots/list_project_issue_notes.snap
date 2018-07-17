@@ -1,0 +1,8 @@
+Fetching project issue notes (project id: 1, issue iid: 5)…
+
+| ID  |        BODY         | AUTHOR | RESOLVABLE |
++-----+---------------------+--------+------------+
+| 302 | closed              | Pip    | false      |
+| 305 | Text of the comment | Pip    | false      |
+|     |                     |        |            |
+

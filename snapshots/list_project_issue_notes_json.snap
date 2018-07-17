@@ -1,0 +1,53 @@
+Fetching project issue notes (project id: 1, issue iid: 5)…
+[
+  {
+    "id": 302,
+    "body": "closed",
+    "attachment": "",
+    "title": "",
+    "file_name": "",
+    "created_at": "2013-10-02T09:22:45Z",
+    "updated_at": "2013-10-02T10:22:45Z",
+    "expires_at": "",
+    "system": true,
+    "resolvable": false,
+    "noteable_id": 377,
+    "noteable_iid": 377,
+    "noteable_type": "Issue",
+    "author": {
+      "id": 1,
+      "username": "pipin",
+      "email": "admin@example.com",
+      "name": "Pip",
+      "state": "active",
+      "created_at": "2013-09-30T13:46:01Z",
+      "avatar_url": "",
+      "web_url": ""
+    }
+  },
+  {
+    "id": 305,
+    "body": "Text of the comment\r\n",
+    "attachment": "",
+    "title": "",
+    "file_name": "",
+    "created_at": "2013-10-02T09:56:03Z",
+    "updated_at": "2013-10-02T09:56:03Z",
+    "expires_at": "",
+    "system": true,
+    "resolvable": false,
+    "noteable_id": 121,
+    "noteable_iid": 121,
+    "noteable_type": "Issue",
+    "author": {
+      "id": 1,
+      "username": "pipin",
+      "email": "admin@example.com",
+      "name": "Pip",
+      "state": "active",
+      "created_at": "2013-09-30T13:46:01Z",
+      "avatar_url": "",
+      "web_url": ""
+    }
+  }
+]

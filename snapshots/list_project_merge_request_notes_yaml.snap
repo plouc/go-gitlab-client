@@ -1,0 +1,133 @@
+Fetching project merge request notes (project id: 1, merge request iid: 3)…
+- id: 157765
+  body: assigned to @estelle.claude
+  attachment: ""
+  title: ""
+  file_name: ""
+  created_at: "2018-07-17T16:32:52.286+02:00"
+  updated_at: "2018-07-17T16:32:52.286+02:00"
+  expires_at: ""
+  system: true
+  resolvable: false
+  noteable_id: 13527
+  noteable_iid: 1561
+  noteable_type: MergeRequest
+  author:
+    id: 2
+    username: raoul.marcel
+    email: ""
+    name: Raoul Marcel
+    state: active
+    created_at: ""
+    avatar_url: https://fake.io/uploads/-/system/user/avatar/2/avatar.png
+    web_url: https://fake.io/raoul.marcel
+- id: 157764
+  body: added ~45 and removed ~43 labels
+  attachment: ""
+  title: ""
+  file_name: ""
+  created_at: "2018-07-17T16:32:47.362+02:00"
+  updated_at: "2018-07-17T16:32:47.362+02:00"
+  expires_at: ""
+  system: true
+  resolvable: false
+  noteable_id: 13527
+  noteable_iid: 1561
+  noteable_type: MergeRequest
+  author:
+    id: 2
+    username: raoul.marcel
+    email: ""
+    name: Raoul Marcel
+    state: active
+    created_at: ""
+    avatar_url: https://fake.io/uploads/-/system/user/avatar/2/avatar.png
+    web_url: https://fake.io/raoul.marcel
+- id: 157731
+  body: removed ~422 label
+  attachment: ""
+  title: ""
+  file_name: ""
+  created_at: "2018-07-17T16:21:31.315+02:00"
+  updated_at: "2018-07-17T16:21:31.315+02:00"
+  expires_at: ""
+  system: true
+  resolvable: false
+  noteable_id: 13527
+  noteable_iid: 1561
+  noteable_type: MergeRequest
+  author:
+    id: 2
+    username: raoul.marcel
+    email: ""
+    name: Raoul Marcel
+    state: active
+    created_at: ""
+    avatar_url: https://fake.io/uploads/-/system/user/avatar/2/avatar.png
+    web_url: https://fake.io/raoul.marcel
+- id: 157730
+  body: removed assignee
+  attachment: ""
+  title: ""
+  file_name: ""
+  created_at: "2018-07-17T16:20:47.780+02:00"
+  updated_at: "2018-07-17T16:20:47.780+02:00"
+  expires_at: ""
+  system: true
+  resolvable: false
+  noteable_id: 13527
+  noteable_iid: 1561
+  noteable_type: MergeRequest
+  author:
+    id: 3
+    username: estelle.claude
+    email: ""
+    name: Estelle Claude
+    state: active
+    created_at: ""
+    avatar_url: https://fake.io/uploads/-/system/user/avatar/3/avatar.png
+    web_url: https://fake.io/estelle.claude
+- id: 157728
+  body: assigned to @raoul.marcel
+  attachment: ""
+  title: ""
+  file_name: ""
+  created_at: "2018-07-17T16:19:06.593+02:00"
+  updated_at: "2018-07-17T16:19:06.593+02:00"
+  expires_at: ""
+  system: true
+  resolvable: false
+  noteable_id: 13527
+  noteable_iid: 1561
+  noteable_type: MergeRequest
+  author:
+    id: 3
+    username: estelle.claude
+    email: ""
+    name: Estelle Claude
+    state: active
+    created_at: ""
+    avatar_url: https://fake.io/uploads/-/system/user/avatar/3/avatar.png
+    web_url: https://fake.io/estelle.claude
+- id: 157688
+  body: changed milestone to %10
+  attachment: ""
+  title: ""
+  file_name: ""
+  created_at: "2018-07-17T15:55:24.529+02:00"
+  updated_at: "2018-07-17T15:55:24.529+02:00"
+  expires_at: ""
+  system: true
+  resolvable: false
+  noteable_id: 13527
+  noteable_iid: 1561
+  noteable_type: MergeRequest
+  author:
+    id: 3
+    username: estelle.claude
+    email: ""
+    name: Estelle Claude
+    state: active
+    created_at: ""
+    avatar_url: https://fake.io/uploads/-/system/user/avatar/3/avatar.png
+    web_url: https://fake.io/estelle.claude

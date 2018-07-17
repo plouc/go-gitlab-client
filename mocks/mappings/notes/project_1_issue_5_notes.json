@@ -1,0 +1,14 @@
+{
+  "request": {
+    "path": "/api/v4/projects/1/issues/5/notes",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "notes/issue_notes.json",
+    "headers": {
+      "X-Page": "1",
+      "X-Per-Page": "10"
+    }
+  }
+}

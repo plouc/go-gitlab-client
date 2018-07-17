@@ -8,6 +8,7 @@ Aliases:
 
 Available Commands:
   aliases                       List resource aliases
+  group-epic-notes              List group epic notes
   group-merge-requests          List group merge requests
   group-variables               Get list of a group's variables
   groups                        List groups
@@ -18,13 +19,16 @@ Available Commands:
   project-commits               List project repository commits
   project-environments          List project environments
   project-hooks                 List project's hooks
+  project-issue-notes           List project issue notes
   project-jobs                  List project jobs
   project-members               List project members
   project-merge-request-commits List project merge request commits
+  project-merge-request-notes   List project merge request notes
   project-merge-requests        List project merge requests
   project-pipeline-jobs         List project pipeline jobs
   project-pipelines             List project pipelines
   project-protected-branches    List project protected branches
+  project-snippet-notes         List project snippet notes
   project-variables             Get list of a project's variables
   projects                      List projects
   runners                       List runners
