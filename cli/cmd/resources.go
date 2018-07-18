@@ -24,6 +24,7 @@ var resources = map[string][]string{
 	"project-issue":              {"project_id", "issue_iid"},
 	"project-issue-note":         {"project_id", "issue_iid", "note_id"},
 	"project-snippet":            {"project_id", "snippet_id"},
+	"project-snippet-note":       {"project_id", "snippet_id", "note_id"},
 	"group-epic":                 {"group_id", "epic_id"},
 	"group-epic-note":            {"group_id", "epic_id", "note_id"},
 }

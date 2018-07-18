@@ -166,3 +166,49 @@ func (g *Gitlab) GroupEpicNote(groupId string, epicId, noteId int) (*Note, *Resp
 
 	return g.getNote(u)
 }
+
+func (g *Gitlab) removeNote(u *url.URL) (*ResponseMeta, error) {
+	_, meta, err := g.buildAndExecRequest("DELETE", u.String(), nil)
+
+	return meta, err
+}
+
+func (g *Gitlab) RemoveProjectIssueNote(projectId string, issueIid, noteId int) (*ResponseMeta, error) {
+	u := g.ResourceUrl(ProjectIssueNoteApiPath, map[string]string{
+		":id":        projectId,
+		":issue_iid": strconv.Itoa(issueIid),
+		":note_id":   strconv.Itoa(noteId),
+	})
+
+	return g.removeNote(u)
+}
+
+func (g *Gitlab) RemoveProjectSnippetNote(projectId string, snippetId, noteId int) (*ResponseMeta, error) {
+	u := g.ResourceUrl(ProjectSnippetNoteApiPath, map[string]string{
+		":id":         projectId,
+		":snippet_id": strconv.Itoa(snippetId),
+		":note_id":    strconv.Itoa(noteId),
+	})
+
+	return g.removeNote(u)
+}
+
+func (g *Gitlab) RemoveProjectMergeRequestNote(projectId string, mergeRequestIid, noteId int) (*ResponseMeta, error) {
+	u := g.ResourceUrl(ProjectMergeRequestNoteApiPath, map[string]string{
+		":id":                projectId,
+		":merge_request_iid": strconv.Itoa(mergeRequestIid),
+		":note_id":           strconv.Itoa(noteId),
+	})
+
+	return g.removeNote(u)
+}
+
+func (g *Gitlab) RemoveGroupEpicNote(groupId string, epicId, noteId int) (*ResponseMeta, error) {
+	u := g.ResourceUrl(GroupEpicNoteApiPath, map[string]string{
+		":id":      groupId,
+		":epic_id": strconv.Itoa(epicId),
+		":note_id": strconv.Itoa(noteId),
+	})
+
+	return g.removeNote(u)
+}

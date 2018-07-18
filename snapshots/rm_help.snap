@@ -4,18 +4,22 @@ Usage:
   glc rm [command]
 
 Available Commands:
-  alias                    Remove resource alias
-  group                    Remove group
-  group-var                Remove a group's variable
-  project                  Remove project
-  project-badge            Remove project badge
-  project-branch           Remove project branch
-  project-environment      Remove project environment
-  project-hook             Remove project hook
-  project-merged-branches  Remove project merged branches
-  project-protected-branch Unprotect project branch
-  project-star             Unstars a given project
-  project-var              Remove a project's variable
+  alias                      Remove resource alias
+  group                      Remove group
+  group-epic-note            Remove group epic note
+  group-var                  Remove a group's variable
+  project                    Remove project
+  project-badge              Remove project badge
+  project-branch             Remove project branch
+  project-environment        Remove project environment
+  project-hook               Remove project hook
+  project-issue-note         Remove project issue note
+  project-merge-request-note Remove project merge request note
+  project-merged-branches    Remove project merged branches
+  project-protected-branch   Unprotect project branch
+  project-snippet-note       Remove project snippet note
+  project-star               Unstars a given project
+  project-var                Remove a project's variable
 
 Flags:
   -h, --help   help for rm

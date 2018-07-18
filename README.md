@@ -365,14 +365,18 @@ for more info.
 - [glc rm](#glc-rm)	*Remove resource*
 - [glc rm alias](#glc-rm-alias)	*Remove resource alias*
 - [glc rm group](#glc-rm-group)	*Remove group*
+- [glc rm group-epic-note](#glc-rm-group-epic-note)	*Remove group epic note*
 - [glc rm group-var](#glc-rm-group-var)	*Remove a group's variable*
 - [glc rm project](#glc-rm-project)	*Remove project*
 - [glc rm project-badge](#glc-rm-project-badge)	*Remove project badge*
 - [glc rm project-branch](#glc-rm-project-branch)	*Remove project branch*
 - [glc rm project-environment](#glc-rm-project-environment)	*Remove project environment*
 - [glc rm project-hook](#glc-rm-project-hook)	*Remove project hook*
+- [glc rm project-issue-note](#glc-rm-project-issue-note)	*Remove project issue note*
+- [glc rm project-merge-request-note](#glc-rm-project-merge-request-note)	*Remove project merge request note*
 - [glc rm project-merged-branches](#glc-rm-project-merged-branches)	*Remove project merged branches*
 - [glc rm project-protected-branch](#glc-rm-project-protected-branch)	*Unprotect project branch*
+- [glc rm project-snippet-note](#glc-rm-project-snippet-note)	*Remove project snippet note*
 - [glc rm project-star](#glc-rm-project-star)	*Unstars a given project*
 - [glc rm project-var](#glc-rm-project-var)	*Remove a project's variable*
 - [glc version](#glc-version)	*Print the version number of glc*
@@ -2962,14 +2966,18 @@ Remove resource
 
 - [glc rm alias](#glc-rm-alias)	*Remove resource alias*
 - [glc rm group](#glc-rm-group)	*Remove group*
+- [glc rm group-epic-note](#glc-rm-group-epic-note)	*Remove group epic note*
 - [glc rm group-var](#glc-rm-group-var)	*Remove a group's variable*
 - [glc rm project](#glc-rm-project)	*Remove project*
 - [glc rm project-badge](#glc-rm-project-badge)	*Remove project badge*
 - [glc rm project-branch](#glc-rm-project-branch)	*Remove project branch*
 - [glc rm project-environment](#glc-rm-project-environment)	*Remove project environment*
 - [glc rm project-hook](#glc-rm-project-hook)	*Remove project hook*
+- [glc rm project-issue-note](#glc-rm-project-issue-note)	*Remove project issue note*
+- [glc rm project-merge-request-note](#glc-rm-project-merge-request-note)	*Remove project merge request note*
 - [glc rm project-merged-branches](#glc-rm-project-merged-branches)	*Remove project merged branches*
 - [glc rm project-protected-branch](#glc-rm-project-protected-branch)	*Unprotect project branch*
+- [glc rm project-snippet-note](#glc-rm-project-snippet-note)	*Remove project snippet note*
 - [glc rm project-star](#glc-rm-project-star)	*Unstars a given project*
 - [glc rm project-var](#glc-rm-project-var)	*Remove a project's variable*
 
@@ -3030,6 +3038,45 @@ glc rm group GROUP_ID [flags]
 
 ```
   -h, --help   help for group
+```
+
+##### Options inherited from parent commands
+
+```
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+  -y, --yes                         Do not ask for confirmation
+```
+
+##### See also
+
+- [glc rm](#glc-rm)	*Remove resource*
+
+
+
+#### glc rm group-epic-note
+
+Remove group epic note
+
+##### Synopsis
+
+Remove group epic note
+
+```
+glc rm group-epic-note GROUP_ID EPIC_ID NOTE_ID [flags]
+```
+
+##### Options
+
+```
+  -h, --help   help for group-epic-note
 ```
 
 ##### Options inherited from parent commands
@@ -3287,6 +3334,84 @@ glc rm project-hook PROJECT_ID HOOK_ID [flags]
 
 
 
+#### glc rm project-issue-note
+
+Remove project issue note
+
+##### Synopsis
+
+Remove project issue note
+
+```
+glc rm project-issue-note PROJECT_ID ISSUE_IID NOTE_ID [flags]
+```
+
+##### Options
+
+```
+  -h, --help   help for project-issue-note
+```
+
+##### Options inherited from parent commands
+
+```
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+  -y, --yes                         Do not ask for confirmation
+```
+
+##### See also
+
+- [glc rm](#glc-rm)	*Remove resource*
+
+
+
+#### glc rm project-merge-request-note
+
+Remove project merge request note
+
+##### Synopsis
+
+Remove project merge request note
+
+```
+glc rm project-merge-request-note PROJECT_ID MERGE_REQUEST_IID NOTE_ID [flags]
+```
+
+##### Options
+
+```
+  -h, --help   help for project-merge-request-note
+```
+
+##### Options inherited from parent commands
+
+```
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+  -y, --yes                         Do not ask for confirmation
+```
+
+##### See also
+
+- [glc rm](#glc-rm)	*Remove resource*
+
+
+
 #### glc rm project-merged-branches
 
 Remove project merged branches
@@ -3342,6 +3467,45 @@ glc rm project-protected-branch PROJECT_ID BRANCH_NAME [flags]
 
 ```
   -h, --help   help for project-protected-branch
+```
+
+##### Options inherited from parent commands
+
+```
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+  -y, --yes                         Do not ask for confirmation
+```
+
+##### See also
+
+- [glc rm](#glc-rm)	*Remove resource*
+
+
+
+#### glc rm project-snippet-note
+
+Remove project snippet note
+
+##### Synopsis
+
+Remove project snippet note
+
+```
+glc rm project-snippet-note PROJECT_ID SNIPPET_ID NOTE_ID [flags]
+```
+
+##### Options
+
+```
+  -h, --help   help for project-snippet-note
 ```
 
 ##### Options inherited from parent commands
