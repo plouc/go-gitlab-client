@@ -33,15 +33,19 @@ type Note struct {
 	NoteableIid  int    `json:"noteable_iid"  yaml:"noteable_iid"`
 	NoteableType string `json:"noteable_type" yaml:"noteable_type"`
 	Author       struct {
-		ID           int    `json:"id"         yaml:"id"`
+		Id           int    `json:"id"         yaml:"id"`
 		Username     string `json:"username"   yaml:"username"`
 		Email        string `json:"email"      yaml:"email"`
 		Name         string `json:"name"       yaml:"name"`
 		State        string `json:"state"      yaml:"state"`
 		CreatedAtRaw string `json:"created_at" yaml:"created_at"`
-		AvatarURL    string `json:"avatar_url" yaml:"avatar_url"`
-		WebURL       string `json:"web_url"    yaml:"web_url"`
+		AvatarUrm    string `json:"avatar_url" yaml:"avatar_url"`
+		WebUrl       string `json:"web_url"    yaml:"web_url"`
 	} `json:"author" yaml:"author"`
+}
+
+type NoteAddPayload struct {
+	Body string `json:"body"`
 }
 
 func (n *Note) RenderJson(w io.Writer) error {
@@ -211,4 +215,55 @@ func (g *Gitlab) RemoveGroupEpicNote(groupId string, epicId, noteId int) (*Respo
 	})
 
 	return g.removeNote(u)
+}
+
+func (g *Gitlab) addNote(u *url.URL, note *NoteAddPayload) (*Note, *ResponseMeta, error) {
+	noteJson, err := json.Marshal(note)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var createdNote *Note
+	contents, meta, err := g.buildAndExecRequest("POST", u.String(), noteJson)
+	if err == nil {
+		err = json.Unmarshal(contents, &createdNote)
+	}
+
+	return createdNote, meta, err
+}
+
+func (g *Gitlab) AddProjectIssueNote(projectId string, issueIid int, note *NoteAddPayload) (*Note, *ResponseMeta, error) {
+	u := g.ResourceUrl(ProjectIssueNotesApiPath, map[string]string{
+		":id":        projectId,
+		":issue_iid": strconv.Itoa(issueIid),
+	})
+
+	return g.addNote(u, note)
+}
+
+func (g *Gitlab) AddProjectSnippetNote(projectId string, snippetId int, note *NoteAddPayload) (*Note, *ResponseMeta, error) {
+	u := g.ResourceUrl(ProjectSnippetNotesApiPath, map[string]string{
+		":id":         projectId,
+		":snippet_id": strconv.Itoa(snippetId),
+	})
+
+	return g.addNote(u, note)
+}
+
+func (g *Gitlab) AddProjectMergeRequestNote(projectId string, mergeRequestIid int, note *NoteAddPayload) (*Note, *ResponseMeta, error) {
+	u := g.ResourceUrl(ProjectMergeRequestNotesApiPath, map[string]string{
+		":id":                projectId,
+		":merge_request_iid": strconv.Itoa(mergeRequestIid),
+	})
+
+	return g.addNote(u, note)
+}
+
+func (g *Gitlab) AddGroupEpicNote(groupId string, epicId int, note *NoteAddPayload) (*Note, *ResponseMeta, error) {
+	u := g.ResourceUrl(GroupEpicNotesApiPath, map[string]string{
+		":id":      groupId,
+		":epic_id": strconv.Itoa(epicId),
+	})
+
+	return g.addNote(u, note)
 }

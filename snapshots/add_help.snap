@@ -4,17 +4,21 @@ Usage:
   glc add [command]
 
 Available Commands:
-  alias                    Create resource alias
-  group                    Create a new group
-  group-var                Create a new group variable
-  project                  Create a new project
-  project-badge            Create project badge
-  project-branch           Create project branch
-  project-environment      Create project environment
-  project-hook             Create a new hook for given project
-  project-protected-branch Protect project branch
-  project-star             Stars a given project
-  project-var              Create a new project variable
+  alias                      Create resource alias
+  group                      Create a new group
+  group-epic-note            Add group epic note
+  group-var                  Create a new group variable
+  project                    Create a new project
+  project-badge              Create project badge
+  project-branch             Create project branch
+  project-environment        Create project environment
+  project-hook               Create a new hook for given project
+  project-issue-note         Add project issue note
+  project-merge-request-note Add project issue note
+  project-protected-branch   Protect project branch
+  project-snippet-note       Add project snippet note
+  project-star               Stars a given project
+  project-var                Create a new project variable
 
 Flags:
   -h, --help   help for add

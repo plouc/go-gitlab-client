@@ -3,6 +3,7 @@ package output
 import (
 	"fmt"
 
+	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
 	"github.com/plouc/go-gitlab-client/gitlab"
 	"io"
@@ -43,12 +44,13 @@ func Note(w io.Writer, format string, note *gitlab.Note) {
 		note.RenderYaml(w)
 	} else {
 		fmt.Fprintln(w, "")
-		/*
-			fmt.Fprintf(w, "  Id            %s\n", color.YellowString("%d", environment.Id))
-			fmt.Fprintf(w, "  Name          %s\n", color.YellowString(environment.Name))
-			fmt.Fprintf(w, "  Slug          %s\n", color.YellowString(environment.Slug))
-			fmt.Fprintf(w, "  External URL  %s\n", color.YellowString(environment.ExternalUrl))
-		*/
+		fmt.Fprintf(w, "  Id              %s\n", color.YellowString("%d", note.Id))
+		fmt.Fprintf(w, "  Body            %s\n", color.YellowString(note.Body))
+		fmt.Fprintf(w, "  Attachment      %s\n", color.YellowString(note.Attachment))
+		fmt.Fprintf(w, "  CreatedAt       %s\n", color.YellowString(note.CreatedAtRaw))
+		fmt.Fprintf(w, "  AuthorId        %s\n", color.YellowString("%d", note.Author.Id))
+		fmt.Fprintf(w, "  AuthorUsername  %s\n", color.YellowString(note.Author.Username))
+		fmt.Fprintf(w, "  AuthorName      %s\n", color.YellowString(note.Author.Name))
 		fmt.Fprintln(w, "")
 	}
 }

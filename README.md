@@ -301,13 +301,17 @@ for more info.
 - [glc add](#glc-add)	*Add resource*
 - [glc add alias](#glc-add-alias)	*Create resource alias*
 - [glc add group](#glc-add-group)	*Create a new group*
+- [glc add group-epic-note](#glc-add-group-epic-note)	*Add group epic note*
 - [glc add group-var](#glc-add-group-var)	*Create a new group variable*
 - [glc add project](#glc-add-project)	*Create a new project*
 - [glc add project-badge](#glc-add-project-badge)	*Create project badge*
 - [glc add project-branch](#glc-add-project-branch)	*Create project branch*
 - [glc add project-environment](#glc-add-project-environment)	*Create project environment*
 - [glc add project-hook](#glc-add-project-hook)	*Create a new hook for given project*
+- [glc add project-issue-note](#glc-add-project-issue-note)	*Add project issue note*
+- [glc add project-merge-request-note](#glc-add-project-merge-request-note)	*Add project issue note*
 - [glc add project-protected-branch](#glc-add-project-protected-branch)	*Protect project branch*
+- [glc add project-snippet-note](#glc-add-project-snippet-note)	*Add project snippet note*
 - [glc add project-star](#glc-add-project-star)	*Stars a given project*
 - [glc add project-var](#glc-add-project-var)	*Create a new project variable*
 - [glc ci-info](#glc-ci-info)	*Print information about CI environment*
@@ -415,13 +419,17 @@ Add resource
 
 - [glc add alias](#glc-add-alias)	*Create resource alias*
 - [glc add group](#glc-add-group)	*Create a new group*
+- [glc add group-epic-note](#glc-add-group-epic-note)	*Add group epic note*
 - [glc add group-var](#glc-add-group-var)	*Create a new group variable*
 - [glc add project](#glc-add-project)	*Create a new project*
 - [glc add project-badge](#glc-add-project-badge)	*Create project badge*
 - [glc add project-branch](#glc-add-project-branch)	*Create project branch*
 - [glc add project-environment](#glc-add-project-environment)	*Create project environment*
 - [glc add project-hook](#glc-add-project-hook)	*Create a new hook for given project*
+- [glc add project-issue-note](#glc-add-project-issue-note)	*Add project issue note*
+- [glc add project-merge-request-note](#glc-add-project-merge-request-note)	*Add project issue note*
 - [glc add project-protected-branch](#glc-add-project-protected-branch)	*Protect project branch*
+- [glc add project-snippet-note](#glc-add-project-snippet-note)	*Add project snippet note*
 - [glc add project-star](#glc-add-project-star)	*Stars a given project*
 - [glc add project-var](#glc-add-project-var)	*Create a new project variable*
 
@@ -481,6 +489,44 @@ glc add group [flags]
 
 ```
   -h, --help   help for group
+```
+
+##### Options inherited from parent commands
+
+```
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+```
+
+##### See also
+
+- [glc add](#glc-add)	*Add resource*
+
+
+
+#### glc add group-epic-note
+
+Add group epic note
+
+##### Synopsis
+
+Add group epic note
+
+```
+glc add group-epic-note GROUP_ID EPIC_ID [flags]
+```
+
+##### Options
+
+```
+  -h, --help   help for group-epic-note
 ```
 
 ##### Options inherited from parent commands
@@ -733,6 +779,82 @@ glc add project-hook PROJECT_ID [flags]
 
 
 
+#### glc add project-issue-note
+
+Add project issue note
+
+##### Synopsis
+
+Add project issue note
+
+```
+glc add project-issue-note PROJECT_ID ISSUE_IID [flags]
+```
+
+##### Options
+
+```
+  -h, --help   help for project-issue-note
+```
+
+##### Options inherited from parent commands
+
+```
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+```
+
+##### See also
+
+- [glc add](#glc-add)	*Add resource*
+
+
+
+#### glc add project-merge-request-note
+
+Add project issue note
+
+##### Synopsis
+
+Add project issue note
+
+```
+glc add project-merge-request-note PROJECT_ID MERGE_REQUEST_IID [flags]
+```
+
+##### Options
+
+```
+  -h, --help   help for project-merge-request-note
+```
+
+##### Options inherited from parent commands
+
+```
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+```
+
+##### See also
+
+- [glc add](#glc-add)	*Add resource*
+
+
+
 #### glc add project-protected-branch
 
 Protect project branch
@@ -749,6 +871,44 @@ glc add project-protected-branch PROJECT_ID BRANCH_NAME [flags]
 
 ```
   -h, --help   help for project-protected-branch
+```
+
+##### Options inherited from parent commands
+
+```
+  -a, --alias string                Use resource alias
+  -c, --config string               Path to configuration file (default ".glc.yml")
+      --host string                 GitLab host
+  -i, --interactive                 enable interactive mode when applicable (eg. creation, pagination)
+      --no-color                    disable color output
+  -o, --output-destination string   Output result to file if specified
+  -f, --output-format string        Output format, must be one of 'text', 'json', 'yaml'
+      --silent                      silent mode
+  -v, --verbose                     verbose output
+```
+
+##### See also
+
+- [glc add](#glc-add)	*Add resource*
+
+
+
+#### glc add project-snippet-note
+
+Add project snippet note
+
+##### Synopsis
+
+Add project snippet note
+
+```
+glc add project-snippet-note PROJECT_ID SNIPPET_ID [flags]
+```
+
+##### Options
+
+```
+  -h, --help   help for project-snippet-note
 ```
 
 ##### Options inherited from parent commands
