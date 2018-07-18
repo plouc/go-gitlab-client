@@ -272,6 +272,35 @@ Visit the docs at http://godoc.org/github.com/plouc/go-gitlab-client/gitlab
 - [ ] Get time tracking stats
 - [ ] Approvals
 
+#### Notes
+
+[gitlab api doc](https://docs.gitlab.com/ee/api/notes.html)
+
+- Issues
+  - [x] List project issue notes
+  - [x] Get single issue note
+  - [x] Create new issue note
+  - [ ] Modify existing issue note
+  - [ ] Delete an issue note
+- Snippets
+  - [x] List all snippet notes
+  - [x] Get single snippet note
+  - [x] Create new snippet note
+  - [ ] Modify existing snippet note
+  - [ ] Delete a snippet note
+- Merge Requests
+  - [x] List all merge request notes
+  - [x] Get single merge request note
+  - [x] Create new merge request note
+  - [ ] Modify existing merge request note
+  - [ ] Delete a merge request note
+- Epics
+  - [x] List all epic notes
+  - [x] Get single epic note
+  - [x] Create new epic note
+  - [ ] Modify existing epic note
+  - [ ] Delete an epic note
+
 ## CLI
 
 **go-gitlab-client** provides a CLI to easily interact with GitLab API, **glc**.
