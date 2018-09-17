@@ -86,20 +86,18 @@ func ParseHook(payload []byte) (*HookPayload, error) {
 	}
 
 	// Basic sanity check
-	switch {
-	case len(hp.ObjectKind) == 0:
-		// Assume this is a post-receive within repository
-		if len(hp.After) == 0 {
-			return nil, fmt.Errorf("Invalid hook received, commit hash not found.")
-		}
-	case hp.ObjectKind == "pipeline":
-		fallthrough
-	case hp.ObjectKind == "issue":
-		fallthrough
-	case hp.ObjectKind == "merge_request":
+	switch hp.ObjectKind {
+	case "push":
+		break
+	case "pipeline":
+		break
+	case "issue":
+		break
+	case "merge_request":
 		if hp.ObjectAttributes == nil {
 			return nil, fmt.Errorf("Invalid hook received, attributes not found.")
 		}
+		break
 	default:
 		return nil, fmt.Errorf("Invalid hook received, payload format not recognized.")
 	}
