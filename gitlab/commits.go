@@ -153,8 +153,7 @@ func (g *Gitlab) ProjectCommit(projectId, commitSha string) (*Commit, *ResponseM
 }
 
 type CommitRef struct {
-	Id   string `json:"id" yaml:"id"`
-	Sha  string `json:"sha" yaml:"sha"`
+	Name   string `json:"name" yaml:"name"`
 	Type string `json:"type" yaml:"type"`
 }
 
