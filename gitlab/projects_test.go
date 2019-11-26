@@ -1,7 +1,7 @@
 package gitlab
 
 import (
-	"github.com/plouc/go-gitlab-client/test"
+	"github.com/edison-moreland/go-gitlab-client/test"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
