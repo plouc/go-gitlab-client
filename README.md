@@ -94,7 +94,7 @@ Visit the docs at http://godoc.org/github.com/plouc/go-gitlab-client/gitlab
 - [ ] Post comment to commit
 - [x] List the statuses of a commit
 - [ ] Post the build status to a commit
-- [ ] List Merge Requests associated with a commit
+- [x] List Merge Requests associated with a commit
 
 #### Deploy Keys
 
