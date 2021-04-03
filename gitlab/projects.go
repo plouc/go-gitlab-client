@@ -165,6 +165,7 @@ func (g *Gitlab) Projects(o *ProjectsOptions) (*ProjectCollection, *ResponseMeta
 type ProjectAddPayload struct {
 	Name string `json:"name"` // The name of the new project. Equals path if not provided
 	Path string `json:"path"` // Repository name for new project. Generated based on name if not provided (generated lowercased with dashes)
+	NamespaceId string `json:namespace_id` //Namespace under which the new project should be created
 }
 
 func (g *Gitlab) AddProject(project *ProjectAddPayload) (*Project, *ResponseMeta, error) {
